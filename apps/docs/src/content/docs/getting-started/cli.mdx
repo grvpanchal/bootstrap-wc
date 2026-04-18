@@ -1,0 +1,63 @@
+---
+title: CLI (bwc)
+description: The bwc CLI copies component source directly into your project — shadcn-style distribution for web components.
+---
+
+The `bwc` CLI lets you install components as **source files** rather than an npm dependency. This mirrors shadcn/ui's philosophy: you own the code, you can modify it, and there's no magic upstream to break.
+
+## Install
+
+```sh
+npm install -D @bootstrap-wc/cli
+# or call directly
+npx @bootstrap-wc/cli --help
+```
+
+## Commands
+
+### `bwc init`
+
+Creates `bwc.json` in the current directory:
+
+```sh
+npx bwc init
+```
+
+Prompts for:
+- **componentsDir** — where source files are copied (default `src/components/ui`).
+- **alias** — import alias that resolves to the components directory (default `@/components/ui`).
+- **typescript** — whether to use TypeScript sources (default yes).
+
+### `bwc add [components...]`
+
+Copies components and their registry dependencies. Omit arguments for an interactive picker.
+
+```sh
+npx bwc add button
+npx bwc add modal input form-check
+npx bwc add     # interactive picker
+```
+
+Each component brings its required `core/` files the first time.
+
+### `bwc list`
+
+Prints every available component grouped by category.
+
+### `bwc diff <component>`
+
+Reports drift between your local copy and the upstream registry. Useful after you've edited a component and want to know what's changed.
+
+## `bwc.json` reference
+
+```json
+{
+  "$schema": "https://bootstrap-wc.dev/schema.json",
+  "componentsDir": "src/components/ui",
+  "alias": "@/components/ui",
+  "typescript": true,
+  "registryUrl": "https://bootstrap-wc.dev/r"
+}
+```
+
+Set `BWC_REGISTRY_URL` to point the CLI at a local dev registry.

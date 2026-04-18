@@ -1,0 +1,43 @@
+---
+title: TypeScript
+description: Full typings for every component's attributes, properties, slots, and events.
+---
+
+Every component is authored in TypeScript and ships `.d.ts` files. When you import from `@bootstrap-wc/components`, your tag-name lookups are typed via `HTMLElementTagNameMap`:
+
+```ts
+import '@bootstrap-wc/components/button';
+
+const btn = document.querySelector('bs-button')!; // BsButton, not Element
+btn.variant = 'danger';   // ✅ typed
+btn.variant = 'purple';   // ❌ type error
+```
+
+## Property vs. attribute
+
+Most properties are reflected to attributes. To set complex types (arrays, objects), use the property, not the attribute:
+
+```html
+<!-- attribute — string only -->
+<bs-pagination total="20" current="5"></bs-pagination>
+```
+
+```ts
+// property — any type
+document.querySelector('bs-breadcrumb')!.items = [
+  { label: 'Home', href: '/' },
+  { label: 'Docs', active: true },
+];
+```
+
+## Events
+
+All custom events are prefixed `bs-` (e.g. `bs-click`, `bs-change`, `bs-show`, `bs-hidden`). They bubble and composed-cross shadow roots:
+
+```ts
+document.querySelector('bs-modal')!.addEventListener('bs-hide', (ev) => {
+  console.log('Closing…');
+});
+```
+
+See each component's page for its full event list.

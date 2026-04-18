@@ -1,0 +1,41 @@
+---
+title: bs-tabs
+description: Tabbed interface with panels.
+---
+
+import Example from '../../../components/Example.astro';
+
+Tabbed interface with panels.
+
+## Example
+
+<Example code={`<bs-tabs active="home">
+  <bs-tab-panel name="home" label="Home">Home panel</bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">Profile panel</bs-tab-panel>
+</bs-tabs>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add tabs
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/tabs';
+```
+
+```html
+<bs-tabs active="home">
+  <bs-tab-panel name="home" label="Home">Home panel</bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">Profile panel</bs-tab-panel>
+</bs-tabs>
+```
+
+See `packages/components/src/tabs/` in the source for the complete property / event list.

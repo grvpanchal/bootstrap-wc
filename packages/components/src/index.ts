@@ -1,0 +1,65 @@
+// Side-effect import registers every component's custom element.
+// For tree-shakeable usage, import specific components from their subpaths or
+// use `@bootstrap-wc/components/define`.
+
+import './accordion/index.js';
+import './alert/index.js';
+import './badge/index.js';
+import './breadcrumb/index.js';
+import './button/index.js';
+import './button-group/index.js';
+import './card/index.js';
+import './close-button/index.js';
+import './collapse/index.js';
+import './dropdown/index.js';
+import './form-check/index.js';
+import './form-label/index.js';
+import './form-text/index.js';
+import './input/index.js';
+import './input-group/index.js';
+import './list-group/index.js';
+import './modal/index.js';
+import './nav/index.js';
+import './navbar/index.js';
+import './offcanvas/index.js';
+import './pagination/index.js';
+import './popover/index.js';
+import './progress/index.js';
+import './range/index.js';
+import './select/index.js';
+import './spinner/index.js';
+import './tabs/index.js';
+import './textarea/index.js';
+import './toast/index.js';
+import './tooltip/index.js';
+
+export * from './accordion/index.js';
+export * from './alert/index.js';
+export * from './badge/index.js';
+export * from './breadcrumb/index.js';
+export * from './button/index.js';
+export * from './button-group/index.js';
+export * from './card/index.js';
+export * from './close-button/index.js';
+export * from './collapse/index.js';
+export * from './dropdown/index.js';
+export * from './form-check/index.js';
+export * from './form-label/index.js';
+export * from './form-text/index.js';
+export * from './input/index.js';
+export * from './input-group/index.js';
+export * from './list-group/index.js';
+export * from './modal/index.js';
+export * from './nav/index.js';
+export * from './navbar/index.js';
+export * from './offcanvas/index.js';
+export * from './pagination/index.js';
+export * from './popover/index.js';
+export * from './progress/index.js';
+export * from './range/index.js';
+export * from './select/index.js';
+export * from './spinner/index.js';
+export * from './tabs/index.js';
+export * from './textarea/index.js';
+export * from './toast/index.js';
+export * from './tooltip/index.js';

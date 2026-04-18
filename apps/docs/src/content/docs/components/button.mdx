@@ -1,0 +1,77 @@
+---
+title: Button
+description: The bs-button element renders Bootstrap buttons as either a native button or an anchor.
+---
+{/* handwritten */}
+
+import Example from '../../../components/Example.astro';
+
+The `<bs-button>` element renders a Bootstrap button as a native `<button>` or — when an `href` is provided — an anchor styled as a button.
+
+## Variants
+
+<Example code={`<bs-button variant="primary">Primary</bs-button>
+<bs-button variant="secondary">Secondary</bs-button>
+<bs-button variant="success">Success</bs-button>
+<bs-button variant="danger">Danger</bs-button>
+<bs-button variant="warning">Warning</bs-button>
+<bs-button variant="info">Info</bs-button>
+<bs-button variant="light">Light</bs-button>
+<bs-button variant="dark">Dark</bs-button>`} />
+
+## Outline and link styles
+
+<Example code={`<bs-button button-style="outline" variant="primary">Outline</bs-button>
+<bs-button button-style="link" variant="primary">Link</bs-button>`} />
+
+## Sizes
+
+<Example code={`<bs-button size="sm">Small</bs-button>
+<bs-button>Default</bs-button>
+<bs-button size="lg">Large</bs-button>`} />
+
+## Disabled & active
+
+<Example code={`<bs-button disabled>Disabled</bs-button>
+<bs-button active>Active</bs-button>`} />
+
+## As a link
+
+<Example code={`<bs-button href="https://bootstrap-wc.dev" target="_blank" rel="noopener">Visit site</bs-button>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `variant` | `primary` \| `secondary` \| `success` \| `danger` \| `warning` \| `info` \| `light` \| `dark` | `primary` | Bootstrap color variant. |
+| `button-style` | `solid` \| `outline` \| `link` | `solid` | Visual style. |
+| `size` | `sm` \| `md` \| `lg` | `md` | Size modifier. |
+| `type` | `button` \| `submit` \| `reset` | `button` | Native button type. Ignored when `href` is set. |
+| `disabled` | `boolean` | `false` | Disables interaction. |
+| `active` | `boolean` | `false` | Applies the `.active` state. |
+| `href` | `string` | — | When set, renders as `<a role="button">`. |
+| `target` | `string` | — | Anchor target (when `href` is set). |
+| `rel` | `string` | — | Anchor rel (when `href` is set). |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-click` | `{ originalEvent }` | Fired on user activation. Suppressed when disabled. |
+
+### Shadow parts
+
+| Part | Description |
+|---|---|
+| `button` | The inner `<button>` or `<a>` element. |
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add button
+```

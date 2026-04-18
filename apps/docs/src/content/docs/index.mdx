@@ -1,0 +1,60 @@
+---
+title: Bootstrap Web Components
+description: Bootstrap 5 as framework-agnostic Web Components. Own the code. Ship anywhere.
+template: splash
+hero:
+  tagline: "Bootstrap 5 as framework-agnostic Web Components. Install with npm, or copy the source with a single CLI command — you own the code."
+  actions:
+    - text: Get started
+      link: /getting-started/introduction/
+      icon: right-arrow
+      variant: primary
+    - text: Browse components
+      link: /components/button/
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why?
+
+<CardGrid>
+<Card title="Framework-agnostic" icon="rocket">
+  Works in React, Vue, Angular, Svelte, or plain HTML. Web components are the platform.
+</Card>
+<Card title="Own your code" icon="open-book">
+  The `bwc` CLI copies the component source into your project — no hidden magic, no lock-in.
+</Card>
+<Card title="Bootstrap 5 native" icon="star">
+  Every component renders standard Bootstrap markup, so your existing CSS overrides and themes just work.
+</Card>
+<Card title="Composable behavior" icon="puzzle">
+  Reimplemented in Lit with `@floating-ui/dom` and `focus-trap` — smaller, cleaner, and works across shadow roots.
+</Card>
+</CardGrid>
+
+## Two ways to use
+
+### 1. As an npm package (like `react-bootstrap`)
+
+```sh
+npm install @bootstrap-wc/components lit
+```
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css">
+<script type="module">
+  import '@bootstrap-wc/components';
+</script>
+
+<bs-button variant="primary">Click me</bs-button>
+```
+
+### 2. As copy-paste source (like `shadcn/ui`)
+
+```sh
+npx @bootstrap-wc/cli init
+npx @bootstrap-wc/cli add button modal input
+```
+
+The CLI copies the TypeScript source into `src/components/ui/` — you own every line, ready to customize.

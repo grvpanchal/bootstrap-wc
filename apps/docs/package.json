@@ -1,0 +1,25 @@
+{
+  "name": "@bootstrap-wc/docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "npm run build:registry && astro build",
+    "build:registry": "npm run build --workspace @bootstrap-wc/registry",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.0",
+    "@astrojs/mdx": "^3.1.0",
+    "@astrojs/starlight": "^0.28.0",
+    "@bootstrap-wc/components": "*",
+    "@bootstrap-wc/core": "*",
+    "astro": "^4.15.0",
+    "bootstrap": "^5.3.3",
+    "sharp": "^0.33.0",
+    "typescript": "^5.4.0"
+  }
+}

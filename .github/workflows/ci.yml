@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npx tsc -b
+      - name: Build every package
+        run: npm run build
+      - name: CLI smoke test
+        run: |
+          mkdir -p /tmp/bwc-test
+          cd /tmp/bwc-test
+          BWC_REGISTRY_URL=file://$GITHUB_WORKSPACE/apps/docs/public/r node $GITHUB_WORKSPACE/packages/cli/bin/bwc.js init -y
+          BWC_REGISTRY_URL=file://$GITHUB_WORKSPACE/apps/docs/public/r node $GITHUB_WORKSPACE/packages/cli/bin/bwc.js add button alert modal -y
+          test -f src/components/ui/button/button.ts
+          test -f src/components/ui/core/bootstrap-element.ts
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace @bootstrap-wc/core
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run component tests
+        run: npm run test --workspace @bootstrap-wc/components

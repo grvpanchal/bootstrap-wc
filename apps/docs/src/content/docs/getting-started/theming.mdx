@@ -1,0 +1,56 @@
+---
+title: Theming
+description: Theme Bootstrap Web Components with CSS custom properties, Sass, or Bootstrap's dark mode.
+---
+
+Our components render standard Bootstrap markup, so **every existing Bootstrap theming technique works unchanged**.
+
+## 1. Bootstrap CSS variables
+
+Override any `--bs-*` variable globally:
+
+```css
+:root {
+  --bs-primary: #7c3aed;
+  --bs-primary-rgb: 124, 58, 237;
+  --bs-border-radius: 0.75rem;
+}
+```
+
+Or target a specific host:
+
+```css
+bs-button[variant="primary"] {
+  --bs-btn-bg: #7c3aed;
+}
+```
+
+## 2. Dark mode
+
+Bootstrap 5.3 ships with color-scheme support:
+
+```html
+<html data-bs-theme="dark">
+```
+
+Every component picks up dark mode automatically because it uses Bootstrap's variables.
+
+## 3. Sass customization
+
+If you want deeper changes (color maps, spacing scale), fork Bootstrap's SCSS and ship your own compiled CSS. The components don't care where the `.btn`, `.modal`, etc. classes come from.
+
+## 4. `::part()` hooks
+
+Every internal element is exposed as a shadow part:
+
+```css
+bs-button::part(button) {
+  border-width: 2px;
+}
+
+bs-modal::part(dialog) {
+  max-width: 40rem;
+}
+```
+
+See each component's docs for its exposed parts.

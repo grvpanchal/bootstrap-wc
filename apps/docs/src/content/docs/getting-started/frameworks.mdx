@@ -1,0 +1,92 @@
+---
+title: Framework integration
+description: Use Bootstrap Web Components from React, Vue, Angular, Svelte, and Astro.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Web components are the platform — they work in every framework. A few small notes per ecosystem:
+
+<Tabs>
+
+<TabItem label="React">
+Import the components once and use them like any element. For ergonomic prop binding and typed event handlers, use `@bootstrap-wc/react`:
+
+```tsx
+import { BsButton, BsModal } from '@bootstrap-wc/react';
+
+export default function Demo() {
+  return <BsButton variant="primary" onBsClick={() => console.log('click')}>Click</BsButton>;
+}
+```
+
+Or use the bare tags directly (React 19+ supports custom elements natively):
+
+```tsx
+import '@bootstrap-wc/components';
+<bs-button variant="primary">Click</bs-button>
+```
+</TabItem>
+
+<TabItem label="Vue">
+Register Vue's custom-element handling by configuring `compilerOptions.isCustomElement` (Vue 3):
+
+```js
+// vite.config.js
+import vue from '@vitejs/plugin-vue';
+export default {
+  plugins: [vue({
+    template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith('bs-') } }
+  })]
+};
+```
+
+```vue
+<template>
+  <bs-button variant="primary" @bs-click="onClick">Click</bs-button>
+</template>
+```
+</TabItem>
+
+<TabItem label="Angular">
+Add `CUSTOM_ELEMENTS_SCHEMA` to your module / component:
+
+```ts
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+@NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
+export class AppModule {}
+```
+
+```html
+<bs-button variant="primary" (bs-click)="onClick($event)">Click</bs-button>
+```
+</TabItem>
+
+<TabItem label="Svelte">
+Svelte handles custom elements out of the box:
+
+```svelte
+<script>
+  import '@bootstrap-wc/components';
+</script>
+<bs-button variant="primary" on:bs-click={() => console.log('click')}>Click</bs-button>
+```
+</TabItem>
+
+<TabItem label="Astro">
+Works in `.astro` files directly. Use a `<script>` tag to hydrate:
+
+```astro
+---
+---
+<bs-button variant="primary">Click</bs-button>
+<script>
+  import '@bootstrap-wc/components';
+</script>
+```
+</TabItem>
+
+</Tabs>

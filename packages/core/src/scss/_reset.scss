@@ -1,0 +1,12 @@
+// Minimal shadow-DOM reset applied by every component.
+// The host page is expected to load Bootstrap's reboot at the document level.
+
+:host {
+  box-sizing: border-box;
+}
+
+:host *,
+:host *::before,
+:host *::after {
+  box-sizing: border-box;
+}

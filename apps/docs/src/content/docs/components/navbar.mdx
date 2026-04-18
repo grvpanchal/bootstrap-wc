@@ -1,0 +1,41 @@
+---
+title: bs-navbar
+description: Responsive navigation bar with collapse toggler.
+---
+
+import Example from '../../../components/Example.astro';
+
+Responsive navigation bar with collapse toggler.
+
+## Example
+
+<Example code={`<bs-navbar background="body-tertiary">
+  <span slot="brand">Brand</span>
+  <bs-nav><bs-nav-item href="#" active>Home</bs-nav-item><bs-nav-item href="#">Features</bs-nav-item></bs-nav>
+</bs-navbar>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add navbar
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/navbar';
+```
+
+```html
+<bs-navbar background="body-tertiary">
+  <span slot="brand">Brand</span>
+  <bs-nav><bs-nav-item href="#" active>Home</bs-nav-item><bs-nav-item href="#">Features</bs-nav-item></bs-nav>
+</bs-navbar>
+```
+
+See `packages/components/src/navbar/` in the source for the complete property / event list.

@@ -1,0 +1,41 @@
+---
+title: bs-input-group
+description: Wraps inputs with addons.
+---
+
+import Example from '../../../components/Example.astro';
+
+Wraps inputs with addons.
+
+## Example
+
+<Example code={`<bs-input-group>
+  <bs-input-text>$</bs-input-text>
+  <bs-input placeholder="Amount"></bs-input>
+</bs-input-group>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add input-group
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/input-group';
+```
+
+```html
+<bs-input-group>
+  <bs-input-text>$</bs-input-text>
+  <bs-input placeholder="Amount"></bs-input>
+</bs-input-group>
+```
+
+See `packages/components/src/input-group/` in the source for the complete property / event list.
