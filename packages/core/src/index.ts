@@ -1,6 +1,12 @@
 export { BootstrapElement, defineElement } from './bootstrap-element.js';
 export type { Direction } from './bootstrap-element.js';
 
+export {
+  getBootstrapSheet,
+  getSharedSheets,
+  addGlobalStylesheet,
+} from './bootstrap-styles.js';
+
 export { TransitionController } from './controllers/transition.js';
 export type { TransitionOptions } from './controllers/transition.js';
 

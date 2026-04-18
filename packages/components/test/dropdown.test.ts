@@ -8,7 +8,7 @@ describe('bs-dropdown', () => {
       <bs-dropdown-item slot="menu">One</bs-dropdown-item>
     </bs-dropdown>`);
     expect(el.open).to.equal(false);
-    (el.querySelector('.dropdown-toggle') as HTMLElement).click();
+    (el.shadowRoot!.querySelector('.dropdown-toggle') as HTMLElement).click();
     await el.updateComplete;
     expect(el.open).to.equal(true);
   });

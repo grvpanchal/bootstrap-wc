@@ -25,7 +25,8 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -b && cp -r src/scss dist/scss",
+    "build": "node scripts/generate-bootstrap-css.mjs && tsc -b && cp -r src/scss dist/scss",
+    "prepublishOnly": "node scripts/generate-bootstrap-css.mjs",
     "build:watch": "tsc -b --watch",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -38,6 +39,7 @@
     "focus-trap": "^7.5.4"
   },
   "devDependencies": {
+    "bootstrap": "^5.3.3",
     "lit": "^3.1.0",
     "typescript": "^5.4.0"
   },

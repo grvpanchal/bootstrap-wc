@@ -1,24 +1,42 @@
 import { LitElement } from 'lit';
+import {
+  getSharedSheets,
+  getBootstrapCssText,
+  getBootstrapSheet,
+} from './bootstrap-styles.js';
 
 export type Direction = 'ltr' | 'rtl';
 
 /**
  * Base class for every Bootstrap Web Component.
  *
- * Renders into **light DOM** so Bootstrap's document-level CSS applies directly
- * (this mirrors react-bootstrap's model — components are behavior wrappers around
- * standard Bootstrap markup, not style-in-a-box shadow components).
+ * Each instance renders into a **shadow root** and adopts the shared Bootstrap
+ * stylesheet via `adoptedStyleSheets`, so `<slot>`s, `::part`s, and style
+ * encapsulation all behave the way the Web Components spec intends. The
+ * stylesheet is constructed once in the document and shared across every
+ * component — there is no per-instance CSS cost.
  *
  * Responsibilities:
- * - Light-DOM render root (no shadow DOM encapsulation).
- * - Observe `document.dir` and reflect it to the host for RTL support.
- * - Provide a safe `defineElement` helper that survives double-registration.
+ * - Open shadow-DOM render root with Bootstrap styles adopted.
+ * - Observe `document.dir` so RTL utilities resolve correctly inside the root.
  */
 export class BootstrapElement extends LitElement {
   private _dirObserver?: MutationObserver;
 
-  protected override createRenderRoot(): HTMLElement | DocumentFragment {
-    return this;
+  protected override createRenderRoot(): ShadowRoot {
+    const root = super.createRenderRoot() as ShadowRoot;
+    const shared = getSharedSheets();
+    if (getBootstrapSheet()) {
+      // Adopt shared sheets *before* Lit's own `static styles` so component
+      // overrides win specificity ties.
+      root.adoptedStyleSheets = [...shared, ...root.adoptedStyleSheets];
+    } else {
+      // Legacy browsers without constructable stylesheets: inline once.
+      const style = document.createElement('style');
+      style.textContent = getBootstrapCssText();
+      root.prepend(style);
+    }
+    return root;
   }
 
   override connectedCallback(): void {
@@ -44,9 +62,9 @@ export class BootstrapElement extends LitElement {
 }
 
 /**
- * Defines a custom element idempotently.
- * Logs a warning instead of throwing when the tag is already registered
- * (common when multiple consumers import the same component bundle).
+ * Defines a custom element idempotently. Logs a warning instead of throwing
+ * when the tag is already registered by a different constructor (common when
+ * multiple consumers import the same component bundle).
  */
 export function defineElement(tag: string, ctor: CustomElementConstructor): void {
   if (typeof customElements === 'undefined') return;

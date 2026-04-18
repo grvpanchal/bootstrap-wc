@@ -53,21 +53,21 @@ describe('smoke: selected components reflect attributes', () => {
   it('bs-button reflects disabled', async () => {
     const el = await fixture<HTMLElement>(html`<bs-button disabled>Hi</bs-button>`);
     expect(el.hasAttribute('disabled')).to.equal(true);
-    const inner = el.querySelector('button')!;
+    const inner = el.shadowRoot!.querySelector('button')!;
     expect(inner.disabled).to.equal(true);
   });
 
   it('bs-badge applies text-bg-{variant}', async () => {
     const el = await fixture<HTMLElement>(html`<bs-badge variant="success">2</bs-badge>`);
     await new Promise((r) => requestAnimationFrame(r));
-    const span = el.querySelector('span')!;
+    const span = el.shadowRoot!.querySelector('span')!;
     expect(span.classList.contains('text-bg-success')).to.equal(true);
   });
 
   it('bs-progress computes percentage', async () => {
     const el = await fixture<HTMLElement>(html`<bs-progress value="25"></bs-progress>`);
     await new Promise((r) => requestAnimationFrame(r));
-    const bar = el.querySelector('.progress-bar') as HTMLElement;
+    const bar = el.shadowRoot!.querySelector('.progress-bar') as HTMLElement;
     expect(bar.style.width).to.equal('25%');
   });
 });

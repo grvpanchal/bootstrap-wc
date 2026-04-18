@@ -32,6 +32,10 @@ export class BsSelect extends FormAssociated(BootstrapElement) {
     this._select?.focus();
   }
 
+  override willUpdate(changed: Map<string, unknown>) {
+    if (changed.has('value')) this._setValue(this.value);
+  }
+
   private _onChange = (ev: Event) => {
     const target = ev.target as HTMLSelectElement;
     this.value = target.value;
