@@ -7,7 +7,7 @@
   "homepage": "https://bootstrap-wc.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grvpanchal/bootstrap-web-components.git"
+    "url": "https://github.com/grvpanchal/bootstrap-wc.git"
   },
   "workspaces": [
     "packages/*",

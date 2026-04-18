@@ -5,7 +5,7 @@
   "fixed": [],
   "linked": [["@bootstrap-wc/core", "@bootstrap-wc/components"]],
   "access": "public",
-  "baseBranch": "main",
+  "baseBranch": "master",
   "updateInternalDependencies": "patch",
   "ignore": ["@bootstrap-wc/docs"]
 }
