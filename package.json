@@ -40,6 +40,9 @@
     "prettier": "^3.2.0",
     "typescript": "^5.4.0"
   },
+  "overrides": {
+    "@astrojs/sitemap": "3.2.1"
+  },
   "engines": {
     "node": ">=18.0.0"
   }

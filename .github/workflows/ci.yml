@@ -38,5 +38,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build --workspace @bootstrap-wc/core
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
       - name: Run component tests
         run: npm run test --workspace @bootstrap-wc/components
