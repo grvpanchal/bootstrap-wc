@@ -1,5 +1,5 @@
 {
-  "name": "bootstrap-web-components",
+  "name": "bootstrap-wc",
   "version": "0.1.0",
   "private": true,
   "description": "Bootstrap as Web Components. Own your components. Ship anywhere.",
@@ -7,7 +7,7 @@
   "homepage": "https://bootstrap-wc.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grvpanchal/bootstrap-web-components.git"
+    "url": "https://github.com/grvpanchal/bootstrap-wc.git"
   },
   "workspaces": [
     "packages/*",

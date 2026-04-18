@@ -9,10 +9,10 @@ export default defineConfig({
       description: 'Bootstrap 5 as framework-agnostic Web Components. Own the code. Ship anywhere.',
       logo: { src: './src/assets/logo.svg', replacesTitle: false },
       social: {
-        github: 'https://github.com/grvpanchal/bootstrap-web-components',
+        github: 'https://github.com/grvpanchal/bootstrap-wc',
       },
       editLink: {
-        baseUrl: 'https://github.com/grvpanchal/bootstrap-web-components/edit/main/apps/docs/',
+        baseUrl: 'https://github.com/grvpanchal/bootstrap-wc/edit/main/apps/docs/',
       },
       customCss: [
         // Bootstrap CSS is loaded globally so examples render correctly.
