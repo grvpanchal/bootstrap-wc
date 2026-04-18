@@ -1,0 +1,43 @@
+---
+title: bs-list-group
+description: List of items, optionally actionable.
+---
+
+import Example from '../../../components/Example.astro';
+
+List of items, optionally actionable.
+
+## Example
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item active>Active</bs-list-group-item>
+  <bs-list-group-item>Second</bs-list-group-item>
+  <bs-list-group-item disabled>Disabled</bs-list-group-item>
+</bs-list-group>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add list-group
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/list-group';
+```
+
+```html
+<bs-list-group>
+  <bs-list-group-item active>Active</bs-list-group-item>
+  <bs-list-group-item>Second</bs-list-group-item>
+  <bs-list-group-item disabled>Disabled</bs-list-group-item>
+</bs-list-group>
+```
+
+See `packages/components/src/list-group/` in the source for the complete property / event list.

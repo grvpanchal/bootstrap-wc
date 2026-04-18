@@ -1,0 +1,37 @@
+---
+title: bs-collapse
+description: Animated show/hide container.
+---
+
+import Example from '../../../components/Example.astro';
+
+Animated show/hide container.
+
+## Example
+
+<Example code={`<bs-button onclick="this.nextElementSibling.toggle()">Toggle</bs-button>
+<bs-collapse>Hidden content revealed on click.</bs-collapse>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add collapse
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/collapse';
+```
+
+```html
+<bs-button onclick="this.nextElementSibling.toggle()">Toggle</bs-button>
+<bs-collapse>Hidden content revealed on click.</bs-collapse>
+```
+
+See `packages/components/src/collapse/` in the source for the complete property / event list.

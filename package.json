@@ -1,47 +1,46 @@
 {
   "name": "bootstrap-web-components",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -s ./public -p 6006",
-    "build-storybook": "build-storybook",
-    "build": "rollup -c",
-    "start": "serve -C dist",
-    "build:start": "npm run build && npm start"
-  },
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bootstrap as Web Components. Own your components. Ship anywhere.",
+  "license": "MIT",
+  "homepage": "https://bootstrap-wc.dev",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/grvpanchal/bootstrap-web-components.git"
+    "url": "https://github.com/grvpanchal/bootstrap-web-components.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/grvpanchal/bootstrap-web-components/issues"
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "registry"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "build:core": "npm run build --workspace @bootstrap-wc/core",
+    "build:components": "npm run build --workspace @bootstrap-wc/components",
+    "build:cli": "npm run build --workspace @bootstrap-wc/cli",
+    "build:react": "npm run build --workspace @bootstrap-wc/react",
+    "build:registry": "npm run build --workspace @bootstrap-wc/registry",
+    "build:docs": "npm run build --workspace @bootstrap-wc/docs",
+    "dev:docs": "npm run dev --workspace @bootstrap-wc/docs",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "tsc -b",
+    "lint": "eslint . --ext .ts,.js",
+    "format": "prettier --write \"**/*.{ts,js,json,md,mdx,scss,astro}\"",
+    "clean": "rm -rf packages/*/dist apps/*/dist apps/*/.astro registry/dist **/*.tsbuildinfo",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && changeset publish"
   },
-  "homepage": "https://github.com/grvpanchal/bootstrap-web-components#readme",
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@rollup/plugin-multi-entry": "^4.1.0",
-    "@storybook/addon-actions": "^6.3.12",
-    "@storybook/addon-essentials": "^6.3.12",
-    "@storybook/addon-links": "^6.3.12",
-    "@storybook/web-components": "^6.3.12",
-    "babel-loader": "^8.2.3",
-    "css-loader": "^3.6.0",
-    "extract-loader": "^5.1.0",
-    "lit-scss-loader": "^1.1.0",
-    "rollup": "^2.58.0",
-    "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-lit-css": "^3.2.1",
-    "sass": "^1.43.3",
-    "sass-loader": "^10.2.0",
-    "serve": "^12.0.1"
+    "@changesets/cli": "^2.27.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0"
   },
-  "dependencies": {
-    "bootstrap": "^5.1.3",
-    "lit": "^2.0.2"
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

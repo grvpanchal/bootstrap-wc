@@ -1,0 +1,35 @@
+---
+title: bs-pagination
+description: Pagination controls with windowing.
+---
+
+import Example from '../../../components/Example.astro';
+
+Pagination controls with windowing.
+
+## Example
+
+<Example code={`<bs-pagination total="10" current="3"></bs-pagination>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add pagination
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/pagination';
+```
+
+```html
+<bs-pagination total="10" current="3"></bs-pagination>
+```
+
+See `packages/components/src/pagination/` in the source for the complete property / event list.

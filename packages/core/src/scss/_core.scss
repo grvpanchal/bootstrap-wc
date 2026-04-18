@@ -1,0 +1,19 @@
+// Shared Bootstrap foundation imported by every component's SCSS.
+//
+// Order matters: functions → variables → variables-dark → maps → mixins → utilities.
+// This mirrors `bootstrap/scss/bootstrap.scss`'s preamble exactly, minus the layout
+// and reboot imports which don't belong in component shadow roots.
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Expose Bootstrap's custom properties at `:host` so components inherit the
+// document-level theme (users can override any `--bs-*` variable globally
+// or per-host, matching shadcn's CSS-variable theming pattern).
+:host {
+  display: contents;
+}

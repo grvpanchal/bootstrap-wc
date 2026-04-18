@@ -1,0 +1,91 @@
+---
+title: Modal
+description: Modal dialog with backdrop, focus trap, and ESC-to-close.
+---
+{/* handwritten */}
+
+import Example from '../../../components/Example.astro';
+
+A modal dialog with backdrop, focus trap, and keyboard dismissal — implemented with [`focus-trap`](https://github.com/focus-trap/focus-trap).
+
+## Basic example
+
+<Example code={`<bs-button onclick="document.getElementById('ex-modal').show()">Launch modal</bs-button>
+<bs-modal id="ex-modal" heading="Modal title">
+  <p>Some modal body content.</p>
+  <div slot="footer">
+    <bs-button button-style="outline" variant="secondary" onclick="document.getElementById('ex-modal').hide()">Cancel</bs-button>
+    <bs-button variant="primary">Save</bs-button>
+  </div>
+</bs-modal>`} />
+
+## Sizes
+
+```html
+<bs-modal size="sm">...</bs-modal>
+<bs-modal size="lg">...</bs-modal>
+<bs-modal size="xl">...</bs-modal>
+<bs-modal fullscreen>...</bs-modal>
+```
+
+## Centered + scrollable
+
+```html
+<bs-modal centered scrollable>…</bs-modal>
+```
+
+## Static backdrop
+
+```html
+<bs-modal static-backdrop>...</bs-modal>
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | `false` | Controls visibility. Reflected. |
+| `heading` | `string` | — | Title text (slot `title` available for rich content). |
+| `size` | `sm` \| `md` \| `lg` \| `xl` | `md` | Dialog width. |
+| `centered` | `boolean` | `false` | Vertically center the dialog. |
+| `scrollable` | `boolean` | `false` | Scrollable body. |
+| `static-backdrop` | `boolean` | `false` | Clicking the backdrop doesn't close the modal. |
+| `no-backdrop` | `boolean` | `false` | Hide the backdrop entirely. |
+| `no-close-on-escape` | `boolean` | `false` | Disable ESC-to-close. |
+| `no-close-button` | `boolean` | `false` | Hide the header close button. |
+| `fullscreen` | `boolean` | `false` | Apply `.modal-fullscreen`. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `show()` | Open the modal. |
+| `hide()` | Close the modal. |
+| `toggle()` | Toggle open state. |
+
+### Events
+
+| Event | Description |
+|---|---|
+| `bs-show` | Before the modal opens. Cancelable. |
+| `bs-shown` | After open animation completes. |
+| `bs-hide` | Before the modal closes. Cancelable. |
+| `bs-hidden` | After close animation completes. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| default | Modal body content. |
+| `title` | Rich title markup (overrides `heading`). |
+| `footer` | Modal footer. Header is omitted if empty. |
+
+## Install
+
+```sh
+npm install @bootstrap-wc/components focus-trap
+# or
+npx bwc add modal
+```

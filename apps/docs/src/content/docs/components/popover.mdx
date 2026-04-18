@@ -1,0 +1,35 @@
+---
+title: bs-popover
+description: Rich floating panel with title + body.
+---
+
+import Example from '../../../components/Example.astro';
+
+Rich floating panel with title + body.
+
+## Example
+
+<Example code={`<bs-popover heading="Popover" content="Rich content here." trigger="click"><bs-button>Click me</bs-button></bs-popover>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add popover
+```
+
+Additional peer deps: `@floating-ui/dom`
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/popover';
+```
+
+```html
+<bs-popover heading="Popover" content="Rich content here." trigger="click"><bs-button>Click me</bs-button></bs-popover>
+```
+
+See `packages/components/src/popover/` in the source for the complete property / event list.

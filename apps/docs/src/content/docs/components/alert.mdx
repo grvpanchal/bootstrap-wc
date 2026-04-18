@@ -1,0 +1,50 @@
+---
+title: Alert
+description: Contextual feedback messages with optional dismiss button.
+---
+{/* handwritten */}
+
+import Example from '../../../components/Example.astro';
+
+## Variants
+
+<Example code={`<bs-alert variant="primary">A primary alert.</bs-alert>
+<bs-alert variant="success">Operation successful.</bs-alert>
+<bs-alert variant="warning">Proceed with caution.</bs-alert>
+<bs-alert variant="danger">Something went wrong.</bs-alert>`} />
+
+## Dismissible
+
+<Example code={`<bs-alert variant="warning" dismissible>
+  <strong>Heads up!</strong> You can dismiss this alert.
+</bs-alert>`} />
+
+## With heading
+
+<Example code={`<bs-alert variant="info">
+  <h4 slot="heading" class="alert-heading">Well done!</h4>
+  <p>Aww yeah, you successfully read this important alert message.</p>
+</bs-alert>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `variant` | Bootstrap variant | `primary` | Color. |
+| `dismissible` | `boolean` | `false` | Show close button. |
+| `open` | `boolean` | `true` | Controls visibility (reflected). |
+| `dismiss-label` | `string` | `'Close'` | ARIA label for dismiss button. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `close()` | Programmatically close with fade animation. |
+
+### Events
+
+| Event | Description |
+|---|---|
+| `bs-dismiss` | Fired after the alert finishes closing. |

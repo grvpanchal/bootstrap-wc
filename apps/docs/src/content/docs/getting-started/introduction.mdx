@@ -1,0 +1,36 @@
+---
+title: Introduction
+description: What Bootstrap Web Components is and why it exists.
+---
+
+**Bootstrap Web Components** (`@bootstrap-wc`) is a component library that wraps every Bootstrap 5.3 component as a framework-agnostic web component. Think of it as `react-bootstrap` without the React dependency — plus a shadcn-style CLI that lets you copy component source directly into your project so you own the code.
+
+## Design goals
+
+1. **Competitive with `react-bootstrap`.** Full component coverage, idiomatic Bootstrap markup, familiar API.
+2. **Framework agnostic.** Works in React, Vue, Angular, Svelte, Astro, HTMX, Rails, or a plain HTML file.
+3. **Own your code.** The `bwc` CLI copies TypeScript source into your project. No hidden magic — modify any component freely.
+4. **Bootstrap-idiomatic.** Components render standard Bootstrap classes on standard HTML, so every theme, override, or utility class you've ever written keeps working.
+5. **Behavior, not styling.** We don't reinvent Bootstrap's CSS. You load `bootstrap.min.css` once at the document level, and our components add behavior (focus trap, floating-ui positioning, form association, etc.).
+
+## How is this different from react-bootstrap?
+
+| | react-bootstrap | @bootstrap-wc |
+|---|---|---|
+| Runtime | React only | Anywhere HTML works |
+| API | JSX components | Custom elements (`<bs-button>`) |
+| Distribution | npm package only | npm **and** CLI copy-paste |
+| Interactive JS | Bootstrap's bundle | Reimplemented in Lit + floating-ui |
+| Form control | controlled via React state | Form-associated custom elements (native forms work) |
+| Own the code | No | Yes (via `bwc add`) |
+
+## How is this different from shadcn/ui?
+
+shadcn/ui is **React + Tailwind** copy-paste components. This library is **Web Components + Bootstrap** copy-paste components. Same philosophy, different ecosystem.
+
+## Stack
+
+- [Lit](https://lit.dev) for the custom-element authoring pattern
+- [@floating-ui/dom](https://floating-ui.com) for tooltips, popovers, dropdowns
+- [focus-trap](https://github.com/focus-trap/focus-trap) for modals and offcanvas
+- Bootstrap 5.3 CSS loaded by you at the document level

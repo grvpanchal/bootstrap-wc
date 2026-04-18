@@ -1,0 +1,75 @@
+---
+title: Dropdown
+description: Dropdown menu with floating-ui positioning and click-outside-to-close.
+---
+{/* handwritten */}
+
+import Example from '../../../components/Example.astro';
+
+Dropdowns use [@floating-ui/dom](https://floating-ui.com) for placement. They flip to stay in the viewport, shift to avoid overflow, and close on outside click or ESC.
+
+## Basic example
+
+<Example code={`<bs-dropdown label="Actions" variant="primary">
+  <bs-dropdown-item slot="menu" href="#">Edit</bs-dropdown-item>
+  <bs-dropdown-item slot="menu" href="#">Duplicate</bs-dropdown-item>
+  <bs-dropdown-item slot="menu" divider></bs-dropdown-item>
+  <bs-dropdown-item slot="menu" href="#" disabled>Delete</bs-dropdown-item>
+</bs-dropdown>`} />
+
+## Placement
+
+```html
+<bs-dropdown placement="bottom-start">…</bs-dropdown>
+<bs-dropdown placement="top-end">…</bs-dropdown>
+<bs-dropdown placement="right-start">…</bs-dropdown>
+```
+
+All [floating-ui placements](https://floating-ui.com/docs/computePosition#placement) are supported.
+
+## Split button
+
+```html
+<bs-dropdown split label="Primary" variant="primary">
+  <bs-dropdown-item slot="menu">Action</bs-dropdown-item>
+</bs-dropdown>
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `label` | `string` | `'Dropdown'` | Trigger label. Overridden by the `label` slot. |
+| `variant` | Bootstrap variant | `secondary` | Trigger button variant. |
+| `placement` | Floating-UI placement | `bottom-start` | Where the menu opens. |
+| `open` | `boolean` | `false` | Menu open state. |
+| `no-caret` | `boolean` | `false` | Hide the caret indicator. |
+| `auto-close` | `boolean` | `true` | Close on outside click / item select. |
+| `split` | `boolean` | `false` | Render as a split button. |
+
+### Events
+
+| Event | Description |
+|---|---|
+| `bs-show` / `bs-shown` | Opening lifecycle. |
+| `bs-hide` / `bs-hidden` | Closing lifecycle. |
+
+### `<bs-dropdown-item>` attributes
+
+| Name | Type | Description |
+|---|---|---|
+| `href` | `string` | Renders as a link. |
+| `disabled` | `boolean` | Disable the item. |
+| `active` | `boolean` | Mark as active. |
+| `divider` | `boolean` | Render as a divider `<hr>`. |
+| `header` | `boolean` | Render as a menu header. |
+
+## Install
+
+```sh
+npm install @bootstrap-wc/components @floating-ui/dom
+# or
+npx bwc add dropdown
+```

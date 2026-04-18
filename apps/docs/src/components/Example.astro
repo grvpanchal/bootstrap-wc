@@ -1,0 +1,20 @@
+---
+// Wraps a live web-component example + its source code.
+// Usage:
+//   <Example code={`<bs-button>Click</bs-button>`} />
+export interface Props {
+  code: string;
+  lang?: string;
+}
+const { code, lang = 'html' } = Astro.props;
+---
+
+<div class="bwc-example not-content">
+  <Fragment set:html={code} />
+</div>
+<pre><code class={`language-${lang}`}>{code}</code></pre>
+
+<script>
+  // Register every component so examples become interactive.
+  import '@bootstrap-wc/components';
+</script>

@@ -1,0 +1,34 @@
+/* Starlight custom theme — brand colors and tweaks. */
+
+:root {
+  --sl-color-accent-low: #e7f1ff;
+  --sl-color-accent: #0d6efd;
+  --sl-color-accent-high: #0a58ca;
+  --sl-font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #031633;
+  --sl-color-accent: #6ea8fe;
+  --sl-color-accent-high: #9ec5fe;
+}
+
+/* Keep Bootstrap's font rendering inside docs content. */
+.content-panel {
+  --sl-content-width: 48rem;
+}
+
+/* Example blocks — lightly framed region that shows the rendered component. */
+.bwc-example {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  background: var(--sl-color-bg);
+}
+
+.bwc-example + pre {
+  margin-top: -1rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

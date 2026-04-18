@@ -1,0 +1,69 @@
+---
+title: Input
+description: Form-associated text input that participates in native form submission.
+---
+{/* handwritten */}
+
+import Example from '../../../components/Example.astro';
+
+`<bs-input>` is a **form-associated custom element** — it participates in native `<form>` submission, reset, and validation just like a plain `<input>`.
+
+## Example
+
+<Example code={`<bs-input placeholder="Your email" type="email" required></bs-input>`} />
+
+## With a label
+
+<Example code={`<bs-form-label for="nickname" required>Nickname</bs-form-label>
+<bs-input id="nickname" placeholder="e.g. alice" minlength="2"></bs-input>
+<bs-form-text>Must be at least 2 characters.</bs-form-text>`} />
+
+## Validation states
+
+<Example code={`<bs-input valid value="looks good"></bs-input>
+<bs-input invalid value="bad"></bs-input>`} />
+
+## Sizes
+
+<Example code={`<bs-input size="sm" placeholder="Small"></bs-input>
+<bs-input placeholder="Default"></bs-input>
+<bs-input size="lg" placeholder="Large"></bs-input>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `type` | HTML input types | `text` | `text` / `email` / `password` / `number` / `search` / `tel` / `url` / `date` / … |
+| `value` | `string` | `''` | Current value. |
+| `name` | `string` | `''` | Form field name. |
+| `placeholder` | `string` | `''` | Placeholder. |
+| `size` | `sm` \| `md` \| `lg` | `md` | Size modifier. |
+| `disabled` | `boolean` | `false` | Disables the input. |
+| `readonly` | `boolean` | `false` | Read-only. |
+| `required` | `boolean` | `false` | Required. |
+| `invalid` | `boolean` | `false` | Applies `.is-invalid`. |
+| `valid` | `boolean` | `false` | Applies `.is-valid`. |
+| `plaintext` | `boolean` | `false` | Applies `.form-control-plaintext`. |
+| `pattern` / `min` / `max` / `step` / `minlength` / `maxlength` | — | — | Standard validation attrs. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-input` | `{ value }` | Fires on every keystroke. |
+| `bs-change` | `{ value }` | Fires on commit (blur or Enter). |
+
+### Forms
+
+```html
+<form onsubmit="event.preventDefault(); console.log(new FormData(event.target))">
+  <bs-input name="email" type="email" required></bs-input>
+  <bs-button type="submit">Submit</bs-button>
+</form>
+```
+
+The submitted FormData will contain `email` — no JS state management needed.
+
+> Safari < 16.4 lacks `ElementInternals`. Test your form flows on older Safari if you support it.
