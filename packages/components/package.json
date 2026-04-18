@@ -32,7 +32,9 @@
   ],
   "sideEffects": [
     "./dist/index.js",
-    "./dist/*/index.js"
+    "./dist/define.js",
+    "./dist/*/index.js",
+    "./dist/*/*.js"
   ],
   "scripts": {
     "build": "tsc -b",
