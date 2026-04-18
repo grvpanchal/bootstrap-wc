@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/cli",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "CLI for adding Bootstrap Web Components to your project (shadcn-style).",
   "license": "MIT",
   "repository": {
