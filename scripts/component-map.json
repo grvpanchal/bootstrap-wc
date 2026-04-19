@@ -1,183 +1,123 @@
 {
   "accordion": {
     "bwcUrl": "/components/accordion/",
-    "bwcSelector": "bs-accordion",
-    "bsUrl": "/components/accordion/",
-    "bsSelector": "#accordionExample"
+    "bsUrl": "/components/accordion/"
   },
   "alert": {
     "bwcUrl": "/components/alert/",
-    "bwcSelector": ".bwc-example",
-    "bsUrl": "/components/alerts/",
-    "bsSelector": ".bd-example .alert.alert-primary"
+    "bsUrl": "/components/alerts/"
   },
   "badge": {
     "bwcUrl": "/components/badge/",
-    "bwcSelector": ".bwc-example",
-    "bsUrl": "/components/badge/",
-    "bsSelector": ".bd-example h1:first-of-type"
+    "bsUrl": "/components/badge/"
   },
   "breadcrumb": {
     "bwcUrl": "/components/breadcrumb/",
-    "bwcSelector": "bs-breadcrumb",
-    "bsUrl": "/components/breadcrumb/",
-    "bsSelector": ".bd-example nav:first-of-type .breadcrumb"
+    "bsUrl": "/components/breadcrumb/"
   },
   "button": {
     "bwcUrl": "/components/button/",
-    "bwcSelector": ".bwc-example",
-    "bsUrl": "/components/buttons/",
-    "bsSelector": ".bd-example .btn.btn-primary"
+    "bsUrl": "/components/buttons/"
   },
   "button-group": {
     "bwcUrl": "/components/button-group/",
-    "bwcSelector": "bs-button-group",
-    "bsUrl": "/components/button-group/",
-    "bsSelector": ".bd-example .btn-group:first-of-type"
+    "bsUrl": "/components/button-group/"
   },
   "card": {
     "bwcUrl": "/components/card/",
-    "bwcSelector": "bs-card",
-    "bsUrl": "/components/card/",
-    "bsSelector": ".bd-example .card:first-of-type"
+    "bsUrl": "/components/card/"
   },
   "close-button": {
     "bwcUrl": "/components/close-button/",
-    "bwcSelector": "bs-close-button",
-    "bsUrl": "/components/close-button/",
-    "bsSelector": ".bd-example .btn-close:first-of-type"
+    "bsUrl": "/components/close-button/"
   },
   "collapse": {
     "bwcUrl": "/components/collapse/",
-    "bwcSelector": "bs-collapse",
-    "bsUrl": "/components/collapse/",
-    "bsSelector": ".bd-example #collapseExample"
+    "bsUrl": "/components/collapse/"
   },
   "dropdown": {
     "bwcUrl": "/components/dropdown/",
-    "bwcSelector": "bs-dropdown",
-    "bsUrl": "/components/dropdowns/",
-    "bsSelector": ".bd-example .dropdown:first-of-type"
+    "bsUrl": "/components/dropdowns/"
   },
   "form-check": {
     "bwcUrl": "/components/form-check/",
-    "bwcSelector": "bs-form-check",
-    "bsUrl": "/forms/checks-radios/",
-    "bsSelector": ".bd-example .form-check:first-of-type"
+    "bsUrl": "/forms/checks-radios/"
   },
   "form-label": {
     "bwcUrl": "/components/form-label/",
-    "bwcSelector": "bs-form-label",
-    "bsUrl": "/forms/form-control/",
-    "bsSelector": ".bd-example label.form-label"
+    "bsUrl": "/forms/form-control/"
   },
   "form-text": {
     "bwcUrl": "/components/form-text/",
-    "bwcSelector": "bs-form-text",
-    "bsUrl": "/forms/form-control/",
-    "bsSelector": ".bd-example .form-text"
+    "bsUrl": "/forms/form-control/"
   },
   "input": {
     "bwcUrl": "/components/input/",
-    "bwcSelector": "bs-input",
-    "bsUrl": "/forms/form-control/",
-    "bsSelector": ".bd-example input.form-control:first-of-type"
+    "bsUrl": "/forms/form-control/"
   },
   "input-group": {
     "bwcUrl": "/components/input-group/",
-    "bwcSelector": "bs-input-group",
-    "bsUrl": "/components/input-group/",
-    "bsSelector": ".bd-example .input-group:first-of-type"
+    "bsUrl": "/components/input-group/"
   },
   "list-group": {
     "bwcUrl": "/components/list-group/",
-    "bwcSelector": "bs-list-group",
-    "bsUrl": "/components/list-group/",
-    "bsSelector": ".bd-example .list-group:first-of-type"
+    "bsUrl": "/components/list-group/"
   },
   "modal": {
     "bwcUrl": "/components/modal/",
-    "bwcSelector": "bs-modal",
     "bsUrl": "/components/modal/",
-    "bsSelector": ".bd-example-modal .modal-dialog",
-    "notes": "Bootstrap's docs render the modal as a static preview; open the bs-modal via DevTools (`$0.open = true`) before comparing visually."
+    "notes": "Bootstrap's docs render modals as static previews. bs-modal renders nothing until opened — trigger `$0.open = true` via DevTools before comparing visually, or add closed-state previews to the docs example."
   },
   "nav": {
     "bwcUrl": "/components/nav/",
-    "bwcSelector": "bs-nav",
-    "bsUrl": "/components/navs-tabs/",
-    "bsSelector": ".bd-example ul.nav:first-of-type"
+    "bsUrl": "/components/navs-tabs/"
   },
   "navbar": {
     "bwcUrl": "/components/navbar/",
-    "bwcSelector": "bs-navbar",
-    "bsUrl": "/components/navbar/",
-    "bsSelector": ".bd-example .navbar:first-of-type"
+    "bsUrl": "/components/navbar/"
   },
   "offcanvas": {
     "bwcUrl": "/components/offcanvas/",
-    "bwcSelector": "bs-offcanvas",
-    "bsUrl": "/components/offcanvas/",
-    "bsSelector": ".bd-example #offcanvasExample"
+    "bsUrl": "/components/offcanvas/"
   },
   "pagination": {
     "bwcUrl": "/components/pagination/",
-    "bwcSelector": "bs-pagination",
-    "bsUrl": "/components/pagination/",
-    "bsSelector": ".bd-example .pagination:first-of-type"
+    "bsUrl": "/components/pagination/"
   },
   "popover": {
     "bwcUrl": "/components/popover/",
-    "bwcSelector": "bs-popover",
-    "bsUrl": "/components/popovers/",
-    "bsSelector": ".bd-example .popover:first-of-type"
+    "bsUrl": "/components/popovers/"
   },
   "progress": {
     "bwcUrl": "/components/progress/",
-    "bwcSelector": "bs-progress",
-    "bsUrl": "/components/progress/",
-    "bsSelector": ".bd-example .progress:first-of-type"
+    "bsUrl": "/components/progress/"
   },
   "range": {
     "bwcUrl": "/components/range/",
-    "bwcSelector": "bs-range",
-    "bsUrl": "/forms/range/",
-    "bsSelector": ".bd-example .form-range:first-of-type"
+    "bsUrl": "/forms/range/"
   },
   "select": {
     "bwcUrl": "/components/select/",
-    "bwcSelector": "bs-select",
-    "bsUrl": "/forms/select/",
-    "bsSelector": ".bd-example select.form-select:first-of-type"
+    "bsUrl": "/forms/select/"
   },
   "spinner": {
     "bwcUrl": "/components/spinner/",
-    "bwcSelector": "bs-spinner",
-    "bsUrl": "/components/spinners/",
-    "bsSelector": ".bd-example .spinner-border:first-of-type"
+    "bsUrl": "/components/spinners/"
   },
   "tabs": {
     "bwcUrl": "/components/tabs/",
-    "bwcSelector": "bs-tabs",
-    "bsUrl": "/components/navs-tabs/",
-    "bsSelector": ".bd-example:has(ul.nav-tabs)"
+    "bsUrl": "/components/navs-tabs/"
   },
   "textarea": {
     "bwcUrl": "/components/textarea/",
-    "bwcSelector": "bs-textarea",
-    "bsUrl": "/forms/form-control/",
-    "bsSelector": ".bd-example textarea.form-control:first-of-type"
+    "bsUrl": "/forms/form-control/"
   },
   "toast": {
     "bwcUrl": "/components/toast/",
-    "bwcSelector": "bs-toast",
-    "bsUrl": "/components/toasts/",
-    "bsSelector": ".bd-example .toast:first-of-type"
+    "bsUrl": "/components/toasts/"
   },
   "tooltip": {
     "bwcUrl": "/components/tooltip/",
-    "bwcSelector": "bs-tooltip",
-    "bsUrl": "/components/tooltips/",
-    "bsSelector": ".bd-example .tooltip:first-of-type"
+    "bsUrl": "/components/tooltips/"
   }
 }
