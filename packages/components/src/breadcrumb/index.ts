@@ -1,2 +1,2 @@
-export { BsBreadcrumb } from './breadcrumb.js';
+export { BsBreadcrumb, BsBreadcrumbItem } from './breadcrumb.js';
 export type { BreadcrumbItem } from './breadcrumb.js';

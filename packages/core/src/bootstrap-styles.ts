@@ -49,3 +49,27 @@ export function getSharedSheets(): CSSStyleSheet[] {
 export function getBootstrapCssText(): string {
   return BOOTSTRAP_CSS;
 }
+
+/**
+ * Inject the bundled Bootstrap stylesheet into the host document once, so that
+ * compound components whose hosts carry `.btn-group`, `.list-group`, `.nav`
+ * etc. can be matched by Bootstrap's parent/sibling selectors (which live in
+ * the document scope, not per-shadow). Idempotent — skips if another
+ * Bootstrap stylesheet is already present or we've already injected.
+ */
+let _documentInjected = false;
+export function injectBootstrapIntoDocument(): void {
+  if (_documentInjected || typeof document === 'undefined') return;
+  _documentInjected = true;
+  // Already present?
+  const existing = document.querySelector(
+    'style[data-bootstrap-wc],link[rel="stylesheet"][data-bootstrap-wc],' +
+      'link[rel="stylesheet"][href*="bootstrap"][href$=".css"],' +
+      'link[rel="stylesheet"][href*="bootstrap.min"]',
+  );
+  if (existing) return;
+  const style = document.createElement('style');
+  style.setAttribute('data-bootstrap-wc', 'injected');
+  style.textContent = BOOTSTRAP_CSS;
+  document.head.prepend(style);
+}

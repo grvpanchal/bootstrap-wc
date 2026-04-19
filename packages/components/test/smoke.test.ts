@@ -52,9 +52,11 @@ describe('smoke: every component registers and renders', () => {
 describe('smoke: selected components reflect attributes', () => {
   it('bs-button reflects disabled', async () => {
     const el = await fixture<HTMLElement>(html`<bs-button disabled>Hi</bs-button>`);
+    await new Promise((r) => requestAnimationFrame(r));
     expect(el.hasAttribute('disabled')).to.equal(true);
-    const inner = el.shadowRoot!.querySelector('button')!;
-    expect(inner.disabled).to.equal(true);
+    expect(el.classList.contains('btn')).to.equal(true);
+    expect(el.classList.contains('disabled')).to.equal(true);
+    expect(el.getAttribute('aria-disabled')).to.equal('true');
   });
 
   it('bs-badge applies text-bg-{variant}', async () => {

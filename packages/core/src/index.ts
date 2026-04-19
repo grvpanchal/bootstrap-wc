@@ -5,6 +5,7 @@ export {
   getBootstrapSheet,
   getSharedSheets,
   addGlobalStylesheet,
+  injectBootstrapIntoDocument,
 } from './bootstrap-styles.js';
 
 export { TransitionController } from './controllers/transition.js';
