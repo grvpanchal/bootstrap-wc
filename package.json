@@ -28,6 +28,7 @@
     "lint": "eslint . --ext .ts,.js",
     "format": "prettier --write \"**/*.{ts,js,json,md,mdx,scss,astro}\"",
     "clean": "rm -rf packages/*/dist apps/*/dist apps/*/.astro registry/dist **/*.tsbuildinfo",
+    "audit:component": "node scripts/compare-bootstrap.mjs",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "npm run build && changeset publish"

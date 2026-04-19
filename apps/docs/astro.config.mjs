@@ -27,6 +27,28 @@ export default defineConfig({
             href: 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
           },
         },
+        {
+          // Mirror Starlight's `data-theme` to Bootstrap's `data-bs-theme`
+          // so Bootstrap's CSS variables follow the user's light/dark
+          // preference and Bootstrap components inside `.bwc-example` match
+          // the surrounding docs theme.
+          tag: 'script',
+          content: `
+            (function () {
+              var root = document.documentElement;
+              function sync() {
+                var t = root.getAttribute('data-theme');
+                if (t === 'dark') root.setAttribute('data-bs-theme', 'dark');
+                else root.removeAttribute('data-bs-theme');
+              }
+              sync();
+              new MutationObserver(sync).observe(root, {
+                attributes: true,
+                attributeFilter: ['data-theme'],
+              });
+            })();
+          `,
+        },
       ],
       sidebar: [
         {

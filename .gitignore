@@ -20,6 +20,9 @@ storybook-static/
 apps/docs/public/r/*.json
 !apps/docs/public/r/.gitkeep
 
+# Audit artifacts from scripts/compare-bootstrap.mjs
+.audit/
+
 # Env + secrets
 .env
 .env.local
