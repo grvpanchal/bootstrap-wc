@@ -10,7 +10,7 @@ describe('bs-modal', () => {
     el.show();
     await shown;
     expect(el.open).to.equal(true);
-    expect(el.querySelector('.modal-dialog')).to.exist;
+    expect(el.shadowRoot?.querySelector('.modal-dialog')).to.exist;
     const hidden = oneEvent(el, 'bs-hidden');
     el.hide();
     await hidden;

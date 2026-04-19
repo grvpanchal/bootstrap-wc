@@ -5,7 +5,7 @@ import type { BsInput } from '../src/input/input.js';
 describe('bs-input', () => {
   it('updates value on user input and fires bs-input', async () => {
     const el = await fixture<BsInput>(html`<bs-input></bs-input>`);
-    const native = el.querySelector('input') as HTMLInputElement;
+    const native = el.shadowRoot!.querySelector('input') as HTMLInputElement;
     const event = oneEvent(el, 'bs-input');
     native.value = 'hello';
     native.dispatchEvent(new InputEvent('input', { bubbles: true }));

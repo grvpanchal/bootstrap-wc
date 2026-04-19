@@ -19,6 +19,10 @@ export class BsRange extends FormAssociated(BootstrapElement) {
     this._input?.focus();
   }
 
+  override willUpdate(changed: Map<string, unknown>) {
+    if (changed.has('value')) this._setValue(this.value);
+  }
+
   private _onInput = (ev: InputEvent) => {
     const target = ev.target as HTMLInputElement;
     this.value = target.value;

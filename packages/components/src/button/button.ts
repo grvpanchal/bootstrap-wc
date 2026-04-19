@@ -1,6 +1,5 @@
 import { html, nothing } from 'lit';
 import { property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { BootstrapElement, defineElement, type Size, type Variant } from '@bootstrap-wc/core';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -9,26 +8,94 @@ export type ButtonStyle = 'solid' | 'outline' | 'link';
 /**
  * `<bs-button>` — Bootstrap button as a web component.
  *
+ * The host element IS the button. Bootstrap's `.btn`, `.btn-{variant}`, size
+ * and state classes are applied to the host, so that container components
+ * (`.btn-group > .btn + .btn`) can style it correctly across shadow
+ * boundaries via slot flattening. A shadow slot simply projects the author's
+ * content; form submission, activation, and link navigation are handled on
+ * the host.
+ *
  * @slot - Button content (text and/or icon).
- * @csspart button - The native `<button>` or `<a>` element.
- * @fires bs-click - Bubbles on user activation (except when disabled).
+ * @fires bs-click - Bubbles on user activation (suppressed when disabled).
  */
 export class BsButton extends BootstrapElement {
+  static formAssociated = true;
+
   @property({ type: String }) variant: Variant = 'primary';
   @property({ type: String, attribute: 'button-style' }) buttonStyle: ButtonStyle = 'solid';
   @property({ type: String }) size?: Size;
   @property({ type: String }) type: ButtonType = 'button';
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: Boolean }) active = false;
+  @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: String }) href?: string;
   @property({ type: String }) target?: string;
   @property({ type: String }) rel?: string;
+
+  private _internals?: ElementInternals;
+
+  constructor() {
+    super();
+    if (typeof this.attachInternals === 'function') this._internals = this.attachInternals();
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (!this.hasAttribute('role')) this.setAttribute('role', this.href ? 'link' : 'button');
+    if (!this.hasAttribute('tabindex')) this.tabIndex = this.disabled ? -1 : 0;
+    this.addEventListener('click', this._onClick);
+    this.addEventListener('keydown', this._onKeydown);
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.removeEventListener('click', this._onClick);
+    this.removeEventListener('keydown', this._onKeydown);
+  }
+
+  protected override hostClasses(): string {
+    const parts = ['btn'];
+    if (this.buttonStyle === 'link') {
+      parts.push('btn-link');
+    } else {
+      const prefix = this.buttonStyle === 'outline' ? 'btn-outline-' : 'btn-';
+      parts.push(`${prefix}${this.variant}`);
+    }
+    if (this.size && this.size !== 'md') parts.push(`btn-${this.size}`);
+    if (this.active) parts.push('active');
+    if (this.disabled) parts.push('disabled');
+    return parts.join(' ');
+  }
+
+  override updated(changed: Map<string, unknown>): void {
+    super.updated(changed);
+    if (changed.has('disabled')) {
+      this.tabIndex = this.disabled ? -1 : 0;
+      this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
+    }
+    if (changed.has('active')) {
+      this.setAttribute('aria-pressed', this.active ? 'true' : 'false');
+    }
+    if (changed.has('href')) {
+      this.setAttribute('role', this.href ? 'link' : 'button');
+    }
+  }
 
   private _onClick = (ev: MouseEvent) => {
     if (this.disabled) {
       ev.preventDefault();
       ev.stopImmediatePropagation();
       return;
+    }
+    if (this.href && ev.target === this) {
+      const target = this.target || '_self';
+      if (target === '_self') window.location.href = this.href;
+      else window.open(this.href, target, this.rel ?? '');
+      return;
+    }
+    if (this.type === 'submit' && this._internals?.form) {
+      this._internals.form.requestSubmit();
+    } else if (this.type === 'reset' && this._internals?.form) {
+      this._internals.form.reset();
     }
     this.dispatchEvent(
       new CustomEvent('bs-click', {
@@ -39,48 +106,16 @@ export class BsButton extends BootstrapElement {
     );
   };
 
-  private _classes() {
-    return {
-      btn: true,
-      [`btn-${this.buttonStyle === 'outline' ? 'outline-' : ''}${this.variant}`]:
-        this.buttonStyle !== 'link',
-      'btn-link': this.buttonStyle === 'link',
-      [`btn-${this.size}`]: !!this.size && this.size !== 'md',
-      active: this.active,
-      disabled: this.disabled && !!this.href,
-    };
-  }
+  private _onKeydown = (ev: KeyboardEvent) => {
+    if (this.disabled) return;
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      this.click();
+    }
+  };
 
   override render() {
-    const classes = classMap(this._classes());
-    if (this.href) {
-      return html`
-        <a
-          part="button"
-          class=${classes}
-          href=${this.disabled ? nothing : this.href}
-          target=${this.target ?? nothing}
-          rel=${this.rel ?? nothing}
-          role="button"
-          aria-disabled=${this.disabled ? 'true' : 'false'}
-          @click=${this._onClick}
-        >
-          <slot></slot>
-        </a>
-      `;
-    }
-    return html`
-      <button
-        part="button"
-        class=${classes}
-        type=${this.type}
-        ?disabled=${this.disabled}
-        aria-pressed=${this.active ? 'true' : 'false'}
-        @click=${this._onClick}
-      >
-        <slot></slot>
-      </button>
-    `;
+    return html`<slot></slot>${nothing}`;
   }
 }
 

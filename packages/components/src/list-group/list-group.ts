@@ -1,26 +1,27 @@
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { BootstrapElement, defineElement } from '@bootstrap-wc/core';
 
 /**
- * `<bs-list-group>` — container for `<bs-list-group-item>` elements.
+ * `<bs-list-group>` — container for `<bs-list-group-item>` children. Host
+ * carries `.list-group` so Bootstrap's `.list-group > .list-group-item`
+ * selectors match the flattened slot tree.
  */
 export class BsListGroup extends BootstrapElement {
   @property({ type: Boolean }) flush = false;
   @property({ type: Boolean }) numbered = false;
   @property({ type: Boolean }) horizontal = false;
 
+  protected override hostClasses(): string {
+    const parts = ['list-group'];
+    if (this.flush) parts.push('list-group-flush');
+    if (this.numbered) parts.push('list-group-numbered');
+    if (this.horizontal) parts.push('list-group-horizontal');
+    return parts.join(' ');
+  }
+
   override render() {
-    const classes = classMap({
-      'list-group': true,
-      'list-group-flush': this.flush,
-      'list-group-numbered': this.numbered,
-      'list-group-horizontal': this.horizontal,
-    });
-    return this.numbered
-      ? html`<ol part="list" class=${classes}><slot></slot></ol>`
-      : html`<ul part="list" class=${classes}><slot></slot></ul>`;
+    return html`<slot></slot>`;
   }
 }
 

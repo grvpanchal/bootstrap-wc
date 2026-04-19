@@ -30,6 +30,12 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
     this._input?.focus();
   }
 
+  override willUpdate(changed: Map<string, unknown>) {
+    if (changed.has('checked') || changed.has('value')) {
+      this._setValue(this.checked ? this.value : '');
+    }
+  }
+
   private _onChange = (ev: Event) => {
     const target = ev.target as HTMLInputElement;
     this.checked = target.checked;
