@@ -18,13 +18,47 @@
   --sl-content-width: 48rem;
 }
 
-/* Example blocks — lightly framed region that shows the rendered component. */
+/* ---------------------------------------------------------------------------
+ * Theme bridge: Bootstrap's global stylesheet sets `body { background-color:
+ * var(--bs-body-bg); color: var(--bs-body-color); }` with light defaults that
+ * would otherwise paint Starlight's main panel white in dark mode. Rebind
+ * Bootstrap's body-level CSS variables to Starlight's theme tokens so the
+ * document surface follows `data-theme` cleanly. Bootstrap components inside
+ * `.bwc-example` still receive full Bootstrap styling because `data-bs-theme`
+ * is mirrored on <html> by the head script in astro.config.mjs.
+ * ------------------------------------------------------------------------- */
+:root,
+:root[data-theme='light'] {
+  --bs-body-bg: var(--sl-color-bg);
+  --bs-body-color: var(--sl-color-text);
+  --bs-heading-color: var(--sl-color-white);
+  --bs-link-color: var(--sl-color-accent);
+  --bs-link-hover-color: var(--sl-color-accent-high);
+  --bs-border-color: var(--sl-color-gray-5);
+}
+
+:root[data-theme='dark'] {
+  --bs-body-bg: var(--sl-color-bg);
+  --bs-body-color: var(--sl-color-text);
+  --bs-heading-color: var(--sl-color-white);
+  --bs-link-color: var(--sl-color-accent);
+  --bs-link-hover-color: var(--sl-color-accent-high);
+  --bs-border-color: var(--sl-color-gray-5);
+  --bs-emphasis-color: var(--sl-color-white);
+  --bs-secondary-color: var(--sl-color-gray-3);
+  --bs-tertiary-color: var(--sl-color-gray-4);
+}
+
+/* Example blocks — framed region that shows the rendered component. The
+ * inner surface stays at `--bs-body-bg` so Bootstrap components preview on
+ * the theme-appropriate canvas (white in light mode, near-black in dark). */
 .bwc-example {
   border: 1px solid var(--sl-color-gray-5);
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin: 1rem 0;
-  background: var(--sl-color-bg);
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
 }
 
 .bwc-example + pre {
