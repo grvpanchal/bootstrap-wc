@@ -66,3 +66,41 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+/* ---------------------------------------------------------------------------
+ * Starlight chrome: Bootstrap's reboot sets `summary { display: list-item;
+ * cursor: pointer; }`, which re-enables the browser's default <summary>
+ * disclosure triangle. Starlight already renders its own caret icon next to
+ * each sidebar section heading, so without this reset every <details> group
+ * and every Starlight mobile menu appears with a doubled-caret. Likewise
+ * Bootstrap's reboot on <button> leaks a white background onto the mobile
+ * hamburger and theme-select buttons in the nav — restore transparency.
+ * ------------------------------------------------------------------------- */
+/* Bootstrap's reboot sets `summary { display: list-item }` which both
+ * re-enables the browser default disclosure triangle (creating a doubled
+ * caret next to Starlight's own) AND collapses Starlight's flex layout so
+ * the caret drops below the heading. Force the intended flex layout and
+ * strip the default marker in both Blink and Gecko. */
+summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+summary::marker {
+  content: '';
+}
+
+/* Bootstrap's `button` reboot adds cursor styling + a default appearance
+ * that leaks a white background onto Starlight's nav chrome in dark mode.
+ * Keep Starlight's own button styling authoritative. */
+starlight-menu-button button,
+site-search button,
+starlight-theme-select button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+}
