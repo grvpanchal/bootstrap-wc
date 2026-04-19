@@ -20,9 +20,6 @@ storybook-static/
 apps/docs/public/r/*.json
 !apps/docs/public/r/.gitkeep
 
-# Generated Bootstrap CSS string module (built from bootstrap/dist/css/bootstrap.min.css)
-packages/core/src/bootstrap-css.ts
-
 # Env + secrets
 .env
 .env.local
