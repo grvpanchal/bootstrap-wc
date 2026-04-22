@@ -104,3 +104,58 @@ starlight-theme-select button {
   border: 0;
   color: inherit;
 }
+
+/* ---------------------------------------------------------------------------
+ * Navigation items — shadcn.ui-style.
+ *
+ * Bootstrap's global `a { color: var(--bs-link-color); text-decoration:
+ * underline; }` was painting every Starlight sidebar / table-of-contents
+ * entry blue-underlined. Override for Starlight's three nav regions with a
+ * muted, underline-free link that gains a subtle accent background on
+ * hover and becomes foreground-colored when it's the current page.
+ * ------------------------------------------------------------------------- */
+#starlight__sidebar a,
+nav[aria-label='Main'] a,
+starlight-toc a {
+  color: var(--sl-color-gray-2);
+  text-decoration: none;
+  font-weight: 400;
+  border-radius: 0.375rem;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+
+:root[data-theme='light'] #starlight__sidebar a,
+:root[data-theme='light'] nav[aria-label='Main'] a,
+:root[data-theme='light'] starlight-toc a {
+  color: var(--sl-color-gray-3);
+}
+
+#starlight__sidebar a:hover,
+nav[aria-label='Main'] a:hover,
+starlight-toc a:hover {
+  color: var(--sl-color-white);
+  background-color: var(--sl-color-gray-6);
+  text-decoration: none;
+}
+
+:root[data-theme='light'] #starlight__sidebar a:hover,
+:root[data-theme='light'] nav[aria-label='Main'] a:hover,
+:root[data-theme='light'] starlight-toc a:hover {
+  color: var(--sl-color-black);
+  background-color: var(--sl-color-gray-6);
+}
+
+/* Current page — slightly stronger than hover. Starlight marks it with
+ * `aria-current="page"`. */
+#starlight__sidebar a[aria-current='page'],
+starlight-toc a[aria-current='true'] {
+  color: var(--sl-color-white);
+  background-color: var(--sl-color-accent-low);
+  font-weight: 500;
+}
+
+:root[data-theme='light'] #starlight__sidebar a[aria-current='page'],
+:root[data-theme='light'] starlight-toc a[aria-current='true'] {
+  color: var(--sl-color-accent-high);
+  background-color: var(--sl-color-accent-low);
+}
