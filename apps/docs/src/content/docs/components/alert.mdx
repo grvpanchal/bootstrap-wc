@@ -6,24 +6,118 @@ description: Contextual feedback messages with optional dismiss button.
 
 import Example from '../../../components/Example.astro';
 
-## Variants
+## Examples
 
-<Example code={`<bs-alert variant="primary">A primary alert.</bs-alert>
-<bs-alert variant="success">Operation successful.</bs-alert>
-<bs-alert variant="warning">Proceed with caution.</bs-alert>
-<bs-alert variant="danger">Something went wrong.</bs-alert>`} />
+Alerts are available in eight contextual variants via the `variant` attribute.
 
-## Dismissible
+<Example code={`<bs-alert variant="primary">A simple primary alert—check it out!</bs-alert>
+<bs-alert variant="secondary">A simple secondary alert—check it out!</bs-alert>
+<bs-alert variant="success">A simple success alert—check it out!</bs-alert>
+<bs-alert variant="danger">A simple danger alert—check it out!</bs-alert>
+<bs-alert variant="warning">A simple warning alert—check it out!</bs-alert>
+<bs-alert variant="info">A simple info alert—check it out!</bs-alert>
+<bs-alert variant="light">A simple light alert—check it out!</bs-alert>
+<bs-alert variant="dark">A simple dark alert—check it out!</bs-alert>`} />
 
-<Example code={`<bs-alert variant="warning" dismissible>
-  <strong>Heads up!</strong> You can dismiss this alert.
+## Live example
+
+Toggle the `open` property (or use `close()`) to show and hide an alert without
+re-creating the element. The button below flips `open` back to `true` and the
+alert fades back in.
+
+<Example code={`<div id="liveAlertPlaceholder"></div>
+<bs-button variant="primary" onclick="(() => { const host = document.getElementById('liveAlertPlaceholder'); if (host.firstElementChild) return; const a = document.createElement('bs-alert'); a.setAttribute('variant', 'success'); a.setAttribute('dismissible', ''); a.textContent = 'Nice, you triggered this alert!'; a.addEventListener('bs-dismiss', () => a.remove()); host.appendChild(a); })()">Show live alert</bs-button>`} />
+
+## Link color
+
+Use the `.alert-link` utility class on anchors inside an alert to get matching
+colored links.
+
+<Example code={`<bs-alert variant="primary">A simple primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="secondary">A simple secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="success">A simple success alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="danger">A simple danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="warning">A simple warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="info">A simple info alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="light">A simple light alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>
+<bs-alert variant="dark">A simple dark alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.</bs-alert>`} />
+
+## Additional content
+
+Alerts accept rich content. Use the `heading` slot for an `.alert-heading`
+element, and mix in paragraphs, horizontal rules and utility classes as needed.
+
+<Example code={`<bs-alert variant="success">
+  <h4 slot="heading" class="alert-heading">Well done!</h4>
+  <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+  <hr />
+  <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
 </bs-alert>`} />
 
-## With heading
+## Icons
 
-<Example code={`<bs-alert variant="info">
-  <h4 slot="heading" class="alert-heading">Well done!</h4>
-  <p>Aww yeah, you successfully read this important alert message.</p>
+Compose an icon by slotting a flex container with an SVG and your message.
+The alert wrapper handles colors and padding; flex utilities inside control
+the horizontal layout.
+
+<Example code={`<bs-alert variant="primary">
+  <div class="d-flex align-items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="bi flex-shrink-0 me-2" width="24" height="24" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </svg>
+    <div>An example alert with an icon</div>
+  </div>
+</bs-alert>`} />
+
+## Icons
+
+For multiple alerts that share the same icon set, define a reusable SVG symbol
+library and reference each icon with `<use>`.
+
+<Example code={`<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="check-circle-fill" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" viewBox="0 0 16 16">
+    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>
+
+<bs-alert variant="primary">
+  <div class="d-flex align-items-center">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use href="#info-fill"/></svg>
+    <div>An example alert with an icon</div>
+  </div>
+</bs-alert>
+<bs-alert variant="success">
+  <div class="d-flex align-items-center">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use href="#check-circle-fill"/></svg>
+    <div>An example success alert with an icon</div>
+  </div>
+</bs-alert>
+<bs-alert variant="warning">
+  <div class="d-flex align-items-center">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use href="#exclamation-triangle-fill"/></svg>
+    <div>An example warning alert with an icon</div>
+  </div>
+</bs-alert>
+<bs-alert variant="danger">
+  <div class="d-flex align-items-center">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use href="#exclamation-triangle-fill"/></svg>
+    <div>An example danger alert with an icon</div>
+  </div>
+</bs-alert>`} />
+
+## Dismissing
+
+Add the `dismissible` attribute to render a close button. The alert fades out
+and dispatches `bs-dismiss` when closed.
+
+<Example code={`<bs-alert variant="warning" dismissible>
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
 </bs-alert>`} />
 
 ## API
@@ -36,6 +130,13 @@ import Example from '../../../components/Example.astro';
 | `dismissible` | `boolean` | `false` | Show close button. |
 | `open` | `boolean` | `true` | Controls visibility (reflected). |
 | `dismiss-label` | `string` | `'Close'` | ARIA label for dismiss button. |
+
+### Slots
+
+| Name | Description |
+|---|---|
+| _(default)_ | Alert content. Accepts rich markup — paragraphs, links (`.alert-link`), flex containers with icons, etc. |
+| `heading` | Optional heading block, typically an `<h4 class="alert-heading">`. |
 
 ### Methods
 
