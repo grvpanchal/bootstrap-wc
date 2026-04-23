@@ -16,9 +16,11 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) indeterminate = false;
   @property({ type: String }) name = '';
   @property({ type: String }) value = 'on';
   @property({ type: String }) label?: string;
+  @property({ type: String, attribute: 'aria-label' }) override ariaLabel: string | null = null;
   @property({ type: Boolean }) inline = false;
   @property({ type: Boolean }) reverse = false;
   @property({ type: Boolean }) invalid = false;
@@ -36,9 +38,21 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
     }
   }
 
+  override updated(changed: Map<string, unknown>) {
+    super.updated?.(changed);
+    // `indeterminate` is a DOM property only — it has no HTML attribute.
+    if (this._input && changed.has('indeterminate')) {
+      this._input.indeterminate = this.indeterminate;
+    } else if (this._input && this.indeterminate && this._input.indeterminate !== true) {
+      this._input.indeterminate = true;
+    }
+  }
+
   private _onChange = (ev: Event) => {
     const target = ev.target as HTMLInputElement;
     this.checked = target.checked;
+    // User interaction clears indeterminate, mirroring native behavior.
+    if (this.indeterminate) this.indeterminate = false;
     this._setValue(this.checked ? this.value : '');
     this.dispatchEvent(
       new CustomEvent('bs-change', {
@@ -63,6 +77,7 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
       'is-valid': this.valid,
     });
     const id = this.id || `bs-check-${Math.random().toString(36).slice(2, 9)}`;
+    const hasLabel = this.label !== undefined || !this.ariaLabel;
     return html`
       <div part="wrapper" class=${wrapperClasses}>
         <input
@@ -77,11 +92,14 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
           ?disabled=${this.disabled}
           ?required=${this.required}
           aria-invalid=${this.invalid ? 'true' : 'false'}
+          aria-label=${this.ariaLabel ?? nothing}
           @change=${this._onChange}
         />
-        ${this.label !== undefined
-          ? html`<label part="label" class="form-check-label" for=${id}>${this.label}<slot></slot></label>`
-          : html`<label part="label" class="form-check-label" for=${id}><slot></slot></label>`}
+        ${hasLabel
+          ? this.label !== undefined
+            ? html`<label part="label" class="form-check-label" for=${id}>${this.label}<slot></slot></label>`
+            : html`<label part="label" class="form-check-label" for=${id}><slot></slot></label>`
+          : nothing}
       </div>
     `;
   }
