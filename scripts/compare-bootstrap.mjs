@@ -78,8 +78,11 @@ async function ensurePreview() {
     const r = await fetch(BWC_BASE + '/');
     if (r.ok) return null;
   } catch {}
-  console.log(`starting astro preview on ${BWC_BASE} ...`);
-  const child = spawn('npx', ['astro', 'preview', '--port', '4321', '--host', '127.0.0.1'], {
+  const url = new URL(BWC_BASE);
+  const port = url.port || '4321';
+  const host = url.hostname || '127.0.0.1';
+  console.log(`starting astro preview on ${host}:${port} ...`);
+  const child = spawn('npx', ['astro', 'preview', '--port', port, '--host', host], {
     cwd: path.join(repoRoot, 'apps/docs'),
     detached: true,
     stdio: 'ignore',
