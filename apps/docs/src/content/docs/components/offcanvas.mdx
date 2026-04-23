@@ -5,12 +5,107 @@ description: Side drawer / offcanvas panel.
 
 import Example from '../../../components/Example.astro';
 
-Side drawer / offcanvas panel.
+Side drawer / offcanvas panel — matches Bootstrap 5.3's `.offcanvas` component with
+header + close button, backdrop, focus trap, ESC-to-close, and `show`/`shown`/`hide`/`hidden` events.
 
-## Example
+## Examples
 
-<Example code={`<bs-button>Open</bs-button>
-<bs-offcanvas heading="Sidebar">Offcanvas content.</bs-offcanvas>`} />
+### Offcanvas components
+
+A static rendering of the offcanvas panel (always open). Shows the same markup as
+Bootstrap's "Offcanvas components" example, just forced visible so the panel renders inline.
+
+<Example code={`<bs-offcanvas open heading="Offcanvas">
+  Content for the offcanvas goes here. You can place just about any Bootstrap component or custom elements here.
+</bs-offcanvas>`} />
+
+### Live demo
+
+Use a trigger element (any `<bs-button>`, link, or custom control) to toggle the panel.
+We wire it imperatively via `onclick` since web components don't read Bootstrap's
+`data-bs-toggle` / `data-bs-target` attributes.
+
+<Example code={`<bs-button onclick="document.getElementById('oc-demo').show()">Button with trigger</bs-button>
+<bs-offcanvas id="oc-demo" heading="Offcanvas">
+  <div>Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.</div>
+  <div class="dropdown mt-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button">Dropdown button</button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="#">Action</a></li>
+      <li><a class="dropdown-item" href="#">Another action</a></li>
+      <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+  </div>
+</bs-offcanvas>`} />
+
+### Body scrolling
+
+`body-scroll` lets the page scroll while the offcanvas is open (Bootstrap's `data-bs-scroll="true"`).
+Combine with `no-backdrop` to match the Bootstrap "Body scrolling" example.
+
+<Example code={`<bs-button onclick="document.getElementById('oc-scroll').show()">Enable body scrolling</bs-button>
+<bs-offcanvas id="oc-scroll" body-scroll no-backdrop heading="Offcanvas with body scrolling">
+  <p>Try scrolling the rest of the page to see this option in action.</p>
+</bs-offcanvas>`} />
+
+### Body scrolling and backdrop
+
+Leave the backdrop enabled but allow body scroll for the combined variant.
+
+<Example code={`<bs-button onclick="document.getElementById('oc-both').show()">Enable both scrolling &amp; backdrop</bs-button>
+<bs-offcanvas id="oc-both" body-scroll heading="Backdrop with scrolling">
+  <p>Try scrolling the rest of the page to see this option in action.</p>
+</bs-offcanvas>`} />
+
+### Static backdrop
+
+`static-backdrop` prevents closing when the user clicks outside — Bootstrap's `data-bs-backdrop="static"`.
+
+<Example code={`<bs-button onclick="document.getElementById('oc-static').show()">Toggle static offcanvas</bs-button>
+<bs-offcanvas id="oc-static" static-backdrop heading="Offcanvas">
+  <div>I will not close if you click outside of me.</div>
+</bs-offcanvas>`} />
+
+## Dark offcanvas
+
+Add the `dark` attribute to apply `.text-bg-dark` on the panel and switch the close
+button to `.btn-close-white`. (Bootstrap deprecated this class pairing in 5.3 in favor
+of the `[data-bs-theme="dark"]` attribute on a parent — either still works.)
+
+<Example code={`<bs-offcanvas open dark heading="Offcanvas">
+  <p>Place offcanvas content here.</p>
+</bs-offcanvas>`} />
+
+## Responsive
+
+Set `responsive` to a breakpoint (`sm` / `md` / `lg` / `xl` / `xxl`) to render
+`.offcanvas-{bp}`. The panel behaves as an offcanvas below that breakpoint and
+becomes a regular inline block at/above it. Typically paired with a `d-{bp}-none` toggle button.
+
+<Example code={`<div class="alert alert-info d-none d-lg-block">Resize your browser to less than 992 pixels to see the offcanvas toggle.</div>
+<bs-button class="d-lg-none" onclick="document.getElementById('oc-resp').show()">Toggle offcanvas</bs-button>
+<bs-offcanvas id="oc-resp" responsive="lg" placement="end" heading="Responsive offcanvas">
+  <p class="mb-0">This is content within an <code>.offcanvas-lg</code>.</p>
+</bs-offcanvas>`} />
+
+## Placement
+
+Four placements are supported: `start` (default), `end`, `top`, and `bottom`.
+
+<Example code={`<bs-button onclick="document.getElementById('oc-top').show()">Toggle top offcanvas</bs-button>
+<bs-offcanvas id="oc-top" placement="top" heading="Offcanvas top">
+  ...
+</bs-offcanvas>`} />
+
+<Example code={`<bs-button onclick="document.getElementById('oc-end').show()">Toggle right offcanvas</bs-button>
+<bs-offcanvas id="oc-end" placement="end" heading="Offcanvas right">
+  ...
+</bs-offcanvas>`} />
+
+<Example code={`<bs-button onclick="document.getElementById('oc-bottom').show()">Toggle bottom offcanvas</bs-button>
+<bs-offcanvas id="oc-bottom" placement="bottom" heading="Offcanvas bottom">
+  <small>...</small>
+</bs-offcanvas>`} />
 
 ## Install
 
@@ -30,8 +125,48 @@ import '@bootstrap-wc/components/offcanvas';
 ```
 
 ```html
-<bs-button>Open</bs-button>
-<bs-offcanvas heading="Sidebar">Offcanvas content.</bs-offcanvas>
+<bs-button onclick="document.getElementById('my-oc').show()">Open</bs-button>
+<bs-offcanvas id="my-oc" heading="Sidebar">Offcanvas content.</bs-offcanvas>
 ```
 
-See `packages/components/src/offcanvas/` in the source for the complete property / event list.
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | `false` | Controls visibility. Reflected. |
+| `placement` | `start` \| `end` \| `top` \| `bottom` | `start` | Which edge the panel slides in from. |
+| `heading` | `string` | — | Title text (slot `title` available for rich content). |
+| `body-scroll` | `boolean` | `false` | Allow the page body to scroll while open. |
+| `no-backdrop` | `boolean` | `false` | Hide the backdrop entirely. |
+| `static-backdrop` | `boolean` | `false` | Clicking outside doesn't close the offcanvas. |
+| `no-close-button` | `boolean` | `false` | Hide the header close button. |
+| `dark` | `boolean` | `false` | Apply `.text-bg-dark` + `.btn-close-white`. |
+| `responsive` | `sm` \| `md` \| `lg` \| `xl` \| `xxl` | — | Render `.offcanvas-{bp}` — inline at/above the breakpoint, offcanvas below. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `show()` | Open the offcanvas. |
+| `hide()` | Close the offcanvas. |
+| `toggle()` | Toggle open state. |
+
+### Events
+
+| Event | Description |
+|---|---|
+| `bs-show` | Fired when opening begins. |
+| `bs-shown` | Fired after the open animation completes. |
+| `bs-hide` | Fired when closing begins. |
+| `bs-hidden` | Fired after the close animation completes. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| default | Offcanvas body content. |
+| `title` | Rich title markup (overrides `heading`). |
+
+See `packages/components/src/offcanvas/` in the source for the full implementation.
