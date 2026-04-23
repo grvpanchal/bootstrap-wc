@@ -11,6 +11,28 @@ Dismiss button (×).
 
 <Example code={`<bs-close-button></bs-close-button>`} />
 
+## Disabled state
+
+Add the `disabled` boolean attribute to make the close button inactive.
+
+<Example code={`<bs-close-button disabled></bs-close-button>`} />
+
+## Dark variant
+
+Wrap the close button in an element with `data-bs-theme="dark"` to invert
+its color for use on dark backgrounds. You can still combine it with
+`disabled`.
+
+<Example code={`<div data-bs-theme="dark" class="bg-dark p-3">
+  <bs-close-button></bs-close-button>
+  <bs-close-button disabled></bs-close-button>
+</div>`} />
+
+The legacy `white` attribute is still supported and renders `btn-close-white`
+directly for backwards compatibility.
+
+<Example code={`<bs-close-button white></bs-close-button>`} />
+
 ## Install
 
 ```sh
@@ -31,5 +53,17 @@ import '@bootstrap-wc/components/close-button';
 ```html
 <bs-close-button></bs-close-button>
 ```
+
+## API
+
+| Attribute  | Type      | Default   | Description                                                   |
+| ---------- | --------- | --------- | ------------------------------------------------------------- |
+| `disabled` | boolean   | `false`   | Disables user activation and dims the button.                 |
+| `white`    | boolean   | `false`   | Adds `btn-close-white` (legacy — prefer `data-bs-theme`).     |
+| `label`    | string    | `'Close'` | Sets the `aria-label` on the rendered button.                 |
+
+| Event      | Detail | Description                         |
+| ---------- | ------ | ----------------------------------- |
+| `bs-close` | —      | Fired on user activation (click).   |
 
 See `packages/components/src/close-button/` in the source for the complete property / event list.
