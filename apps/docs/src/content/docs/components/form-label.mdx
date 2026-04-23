@@ -5,12 +5,78 @@ description: Form label.
 
 import Example from '../../../components/Example.astro';
 
-Form label.
+Form label. Pair with `<bs-input>`, `<bs-select>`, `<bs-textarea>`, etc. via
+the `for` attribute. Use `column` (with optional `size`) for horizontal form
+layouts where the label sits beside the control in a grid row.
 
 ## Example
 
-<Example code={`<bs-form-label required>Email</bs-form-label>
-<bs-input type="email"></bs-input>`} />
+<Example code={`<bs-form-label for="exampleFormControlInput1">Email address</bs-form-label>
+<bs-input id="exampleFormControlInput1" type="email" placeholder="name@example.com"></bs-input>`} />
+
+## Required
+
+Set `required` to append a red asterisk after the label text.
+
+<Example code={`<bs-form-label for="exampleRequiredInput" required>Email</bs-form-label>
+<bs-input id="exampleRequiredInput" type="email" required></bs-input>`} />
+
+## Form text
+
+Form labels pair naturally with `<bs-form-text>` for help text beneath the
+control.
+
+<Example code={`<bs-form-label for="inputPassword5">Password</bs-form-label>
+<bs-input id="inputPassword5" type="password" aria-describedby="passwordHelpBlock"></bs-input>
+<bs-form-text id="passwordHelpBlock">
+  Your password must be 8-20 characters long, contain letters and numbers,
+  and must not contain spaces, special characters, or emoji.
+</bs-form-text>`} />
+
+## Column form labels
+
+For horizontal form layouts, set `column` on the label and drop it into a
+Bootstrap grid row. The host renders the `.col-form-label` class so vertical
+alignment with the paired control matches Bootstrap's reference layout.
+
+<Example code={`<form>
+  <div class="row mb-3">
+    <bs-form-label for="inputEmail3" column class="col-sm-2">Email</bs-form-label>
+    <div class="col-sm-10">
+      <bs-input id="inputEmail3" type="email"></bs-input>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <bs-form-label for="inputPassword3" column class="col-sm-2">Password</bs-form-label>
+    <div class="col-sm-10">
+      <bs-input id="inputPassword3" type="password"></bs-input>
+    </div>
+  </div>
+</form>`} />
+
+## Column form label sizing
+
+Use `size="sm"` or `size="lg"` (which implies `column`) to match the small
+or large form-control variants.
+
+<Example code={`<div class="row mb-3">
+  <bs-form-label for="colFormLabelSm" size="sm" class="col-sm-2">Email</bs-form-label>
+  <div class="col-sm-10">
+    <bs-input id="colFormLabelSm" type="email" size="sm" placeholder="col-form-label-sm"></bs-input>
+  </div>
+</div>
+<div class="row mb-3">
+  <bs-form-label for="colFormLabel" column class="col-sm-2">Email</bs-form-label>
+  <div class="col-sm-10">
+    <bs-input id="colFormLabel" type="email" placeholder="col-form-label"></bs-input>
+  </div>
+</div>
+<div class="row">
+  <bs-form-label for="colFormLabelLg" size="lg" class="col-sm-2">Email</bs-form-label>
+  <div class="col-sm-10">
+    <bs-input id="colFormLabelLg" type="email" size="lg" placeholder="col-form-label-lg"></bs-input>
+  </div>
+</div>`} />
 
 ## Install
 
@@ -30,8 +96,17 @@ import '@bootstrap-wc/components/form-label';
 ```
 
 ```html
-<bs-form-label required>Email</bs-form-label>
-<bs-input type="email"></bs-input>
+<bs-form-label for="email" required>Email</bs-form-label>
+<bs-input id="email" type="email"></bs-input>
 ```
+
+## API
+
+| Attribute  | Type                | Default | Description                                                           |
+| ---------- | ------------------- | ------- | --------------------------------------------------------------------- |
+| `for`      | `string`            | —       | Forwarded to the inner `<label for>` so clicks focus the paired input |
+| `required` | `boolean`           | `false` | Appends a decorative `*` after the label text                         |
+| `column`   | `boolean`           | `false` | Renders `.col-form-label` for horizontal form layouts                 |
+| `size`     | `'sm' \| 'lg'`      | —       | Adds `col-form-label-{sm\|lg}` (implies `column`)                     |
 
 See `packages/components/src/form-label/` in the source for the complete property / event list.
