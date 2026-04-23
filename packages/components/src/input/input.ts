@@ -69,6 +69,7 @@ export class BsInput extends FormAssociated(BootstrapElement) {
     const classes = classMap({
       'form-control': !this.plaintext,
       'form-control-plaintext': this.plaintext,
+      'form-control-color': !this.plaintext && this.type === 'color',
       [`form-control-${this.size}`]: !!this.size && this.size !== 'md',
       'is-invalid': this.invalid,
       'is-valid': this.valid,
