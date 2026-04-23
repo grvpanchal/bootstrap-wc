@@ -1,15 +1,22 @@
 ---
 title: bs-card
-description: Flexible content container.
+description: Flexible content container with header, footer, and image slots.
 ---
 
 import Example from '../../../components/Example.astro';
 
-Flexible content container.
+Flexible content container for displaying a variety of content — text, images,
+list groups, headers, and footers.
 
 ## Example
 
-<Example code={`<bs-card heading="Card title" subtitle="Subtitle">Some quick example text.</bs-card>`} />
+<Example code={`<div style="width: 18rem;">
+  <bs-card heading="Card title">
+    <svg slot="image" class="card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </bs-card>
+</div>`} />
 
 ## Install
 
@@ -19,8 +26,6 @@ npm install @bootstrap-wc/components
 # or copy the source
 npx bwc add card
 ```
-
-
 
 ## Usage
 
@@ -32,4 +37,445 @@ import '@bootstrap-wc/components/card';
 <bs-card heading="Card title" subtitle="Subtitle">Some quick example text.</bs-card>
 ```
 
-See `packages/components/src/card/` in the source for the complete property / event list.
+## Body
+
+The building block of a card is the `card-body`. By default `<bs-card>`
+renders its default slot inside a `.card-body` so plain text "just works".
+
+<Example code={`<bs-card>This is some text within a card body.</bs-card>`} />
+
+## Titles, text, and links
+
+Pass `heading` and `subtitle` attributes for titled cards, or write your own
+`<h5 class="card-title">` and use `card-link` anchors inside.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card heading="Card title" subtitle="Card subtitle">
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </bs-card>
+</div>`} />
+
+## Images
+
+The `image` slot renders a `.card-img-top`; the `image-bottom` slot renders
+a `.card-img-bottom`.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card>
+    <svg slot="image" class="card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+</div>`} />
+
+## List groups
+
+Use `no-body` to opt out of the default `card-body` wrapper and put a
+`.list-group.list-group-flush` directly inside the card.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card no-body>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+  </bs-card>
+</div>`} />
+
+Combine a header slot with a flush list group.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card no-body>
+    <span slot="header">Featured</span>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+  </bs-card>
+</div>`} />
+
+Or combine a flush list group with a footer.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card no-body>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <span slot="footer">Card footer</span>
+  </bs-card>
+</div>`} />
+
+## Kitchen sink
+
+Mix and match multiple content types. Use `no-body` and explicit
+`card-body` divs to create multiple body sections alongside a list group.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card no-body>
+    <svg class="card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+      <li class="list-group-item">A second item</li>
+      <li class="list-group-item">A third item</li>
+    </ul>
+    <div class="card-body">
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </bs-card>
+</div>`} />
+
+## Header and footer
+
+Add a header via the `header` slot. A body follows by default.
+
+<Example code={`<bs-card heading="Special title treatment">
+  <span slot="header">Featured</span>
+  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+</bs-card>`} />
+
+Headers can include heading elements like `<h5 class="card-header">`.
+
+<Example code={`<bs-card heading="Special title treatment">
+  <h5 slot="header" class="card-header">Featured</h5>
+  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+</bs-card>`} />
+
+Headers pair nicely with blockquotes.
+
+<Example code={`<bs-card>
+  <span slot="header">Quote</span>
+  <figure class="mb-0">
+    <blockquote class="blockquote">
+      <p>A well-known quote, contained in a blockquote element.</p>
+    </blockquote>
+    <figcaption class="blockquote-footer mb-0">
+      Someone famous in <cite title="Source Title">Source Title</cite>
+    </figcaption>
+  </figure>
+</bs-card>`} />
+
+Cards support a footer via the `footer` slot too.
+
+<Example code={`<bs-card heading="Special title treatment" class="text-center">
+  <span slot="header">Featured</span>
+  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+  <span slot="footer" class="text-body-secondary">2 days ago</span>
+</bs-card>`} />
+
+## Using grid markup
+
+Use Bootstrap's grid system to lay out cards side-by-side.
+
+<Example code={`<div class="row">
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <bs-card heading="Special title treatment">
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </bs-card>
+  </div>
+  <div class="col-sm-6">
+    <bs-card heading="Special title treatment">
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </bs-card>
+  </div>
+</div>`} />
+
+## Using utilities
+
+Width utilities like `w-50` or `w-75` can size a wrapper around the card.
+
+<Example code={`<div class="w-75 mb-3">
+  <bs-card heading="Card title">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Button</a>
+  </bs-card>
+</div>
+<div class="w-50">
+  <bs-card heading="Card title">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Button</a>
+  </bs-card>
+</div>`} />
+
+## Using custom CSS
+
+Use a sizing wrapper with an inline `width` style to set an exact width.
+
+<Example code={`<div style="width: 18rem;">
+  <bs-card heading="Special title treatment">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </bs-card>
+</div>`} />
+
+## Text alignment
+
+Align text via the `text-start`, `text-center`, and `text-end` utilities on
+the card host.
+
+<Example code={`<div style="width: 18rem;" class="mb-3">
+  <bs-card heading="Special title treatment">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </bs-card>
+</div>
+<div style="width: 18rem;" class="mb-3">
+  <bs-card heading="Special title treatment" class="text-center">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </bs-card>
+</div>
+<div style="width: 18rem;">
+  <bs-card heading="Special title treatment" class="text-end">
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </bs-card>
+</div>`} />
+
+## Navigation
+
+Use `<bs-nav>` inside the header slot with `card-header-tabs` to pair nav
+tabs with a card.
+
+<Example code={`<bs-card heading="Special title treatment" class="text-center">
+  <div slot="header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item"><a class="nav-link active" aria-current="true" href="#">Active</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+      <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+    </ul>
+  </div>
+  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+</bs-card>`} />
+
+Or nav pills via `card-header-pills`.
+
+<Example code={`<bs-card heading="Special title treatment" class="text-center">
+  <div slot="header">
+    <ul class="nav nav-pills card-header-pills">
+      <li class="nav-item"><a class="nav-link active" href="#">Active</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+      <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+    </ul>
+  </div>
+  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+  <a href="#" class="btn btn-primary">Go somewhere</a>
+</bs-card>`} />
+
+## Image caps
+
+Similar to headers and footers, images can be placed at the top (via the
+`image` slot) or bottom (via `image-bottom`) of the card.
+
+<Example code={`<bs-card class="mb-3">
+  <svg slot="image" class="card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+  <h5 class="card-title">Card title</h5>
+  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+</bs-card>
+<bs-card>
+  <h5 class="card-title">Card title</h5>
+  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+  <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+  <svg slot="image-bottom" class="card-img-bottom" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+</bs-card>`} />
+
+## Image overlays
+
+Turn an image into a card background by rendering content into the
+`img-overlay` slot. The image slot provides a `.card-img` (use
+`class="card-img"` instead of `card-img-top`).
+
+<Example code={`<bs-card class="text-bg-dark" no-body>
+  <svg class="card-img" width="100%" height="270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Card image" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Card image</text></svg>
+  <div class="card-img-overlay">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="card-text"><small>Last updated 3 mins ago</small></p>
+  </div>
+</bs-card>`} />
+
+## Horizontal
+
+Use the `horizontal` attribute to render the card with an image column on
+the left and the body on the right. The image slot becomes the left column
+(`.col-md-4`) and all other content fills `.col-md-8`.
+
+<Example code={`<div class="mb-3" style="max-width: 540px;">
+  <bs-card horizontal heading="Card title">
+    <svg slot="image" class="img-fluid rounded-start" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+  </bs-card>
+</div>`} />
+
+## Background and color
+
+Use the `variant` attribute for a contextual `.text-bg-*` background.
+
+<Example code={`<div style="max-width: 18rem;">
+  <bs-card variant="primary" class="mb-3" heading="Primary card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="secondary" class="mb-3" heading="Secondary card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="success" class="mb-3" heading="Success card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="danger" class="mb-3" heading="Danger card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="warning" class="mb-3" heading="Warning card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="info" class="mb-3" heading="Info card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="light" class="mb-3" heading="Light card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card variant="dark" class="mb-3" heading="Dark card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+</div>`} />
+
+## Border
+
+Use border utility classes on the host with a matching text color for a
+bordered card style. (Pick a border utility such as `border-primary`.)
+
+<Example code={`<div style="max-width: 18rem;">
+  <bs-card class="border-primary mb-3" text-variant="primary" heading="Primary card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-secondary mb-3" text-variant="secondary" heading="Secondary card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-success mb-3" text-variant="success" heading="Success card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-danger mb-3" text-variant="danger" heading="Danger card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-warning mb-3" heading="Warning card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-info mb-3" heading="Info card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-light mb-3" heading="Light card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+  <bs-card class="border-dark mb-3" heading="Dark card title">
+    <span slot="header">Header</span>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+  </bs-card>
+</div>`} />
+
+## Mixins utilities
+
+Combine border and background utilities for a transparent-header, bordered card.
+
+<Example code={`<div style="max-width: 18rem;">
+  <bs-card class="border-success mb-3" text-variant="success" heading="Success card title">
+    <div slot="header" class="bg-transparent border-success">Header</div>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div slot="footer" class="bg-transparent border-success">Footer</div>
+  </bs-card>
+</div>`} />
+
+## Grid cards
+
+Use Bootstrap's `.row-cols-*` classes to lay out `<bs-card>` children as
+an equal-height grid.
+
+<Example code={`<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <bs-card>
+      <svg slot="image" class="card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    </bs-card>
+  </div>
+  <div class="col">
+    <bs-card>
+      <svg slot="image" class="card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">This is a shorter card.</p>
+    </bs-card>
+  </div>
+  <div class="col">
+    <bs-card>
+      <svg slot="image" class="card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+    </bs-card>
+  </div>
+  <div class="col">
+    <bs-card>
+      <svg slot="image" class="card-img-top" width="100%" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    </bs-card>
+  </div>
+</div>`} />
+
+## API
+
+| Attribute | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `'primary' \| 'secondary' \| 'success' \| 'danger' \| 'warning' \| 'info' \| 'light' \| 'dark'` | — | Contextual `.text-bg-{variant}` background. |
+| `text-variant` | Same as `variant` | — | Applies `.text-{variant}` to the card for bordered-card styles. |
+| `heading` | `string` | — | Renders `<h5 class="card-title">` at the top of the body. |
+| `subtitle` | `string` | — | Renders `<h6 class="card-subtitle">` below the title. |
+| `no-body` | `boolean` | `false` | Skip the default `.card-body` wrapper — slot content becomes a direct child of the card. |
+| `horizontal` | `boolean` | `false` | Render as a horizontal row (image-left, body-right). |
+
+### Slots
+
+| Slot | Description |
+| --- | --- |
+| *(default)* | Card body content. |
+| `header` | Rendered in `.card-header`. |
+| `footer` | Rendered in `.card-footer`. |
+| `image` | Image rendered above the body (`.card-img-top`). |
+| `image-bottom` | Image rendered after the footer (`.card-img-bottom`). |
+| `img-overlay` | Content rendered inside `.card-img-overlay` on top of the image. |
+
+See `packages/components/src/card/` in the source for the complete property list.
+
+{/* TODO bootstrap coverage:
+  - Card groups: needs a <bs-card-group> wrapper component (not in scope for this audit).
+  - Grid cards: only one example shown above; Bootstrap demos 4 variations (1-col, h-100, footer) that are simple pass-through markup with <bs-card>.
+*/}
