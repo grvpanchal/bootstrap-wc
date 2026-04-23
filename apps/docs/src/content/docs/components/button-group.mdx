@@ -1,15 +1,233 @@
 ---
 title: bs-button-group
-description: Groups related buttons.
+description: Groups related buttons horizontally or vertically.
 ---
+{/* handwritten */}
 
 import Example from '../../../components/Example.astro';
 
-Groups related buttons.
+`<bs-button-group>` puts `.btn-group` (or `.btn-group-vertical`) on its host so
+Bootstrap's sibling selectors apply to the slotted `<bs-button>` children.
 
-## Example
+## Basic example
 
-<Example code={`<bs-button-group><bs-button>Left</bs-button><bs-button>Middle</bs-button><bs-button>Right</bs-button></bs-button-group>`} />
+Wrap a series of buttons in `<bs-button-group>`. Pass `label` to set the
+`aria-label`.
+
+<Example code={`<bs-button-group label="Basic example">
+  <bs-button>Left</bs-button>
+  <bs-button>Middle</bs-button>
+  <bs-button>Right</bs-button>
+</bs-button-group>`} />
+
+Anchors (`href`) work the same way and can be marked `active`.
+
+<Example code={`<bs-button-group label="Basic link example">
+  <bs-button href="#" active>Active link</bs-button>
+  <bs-button href="#">Link</bs-button>
+  <bs-button href="#">Link</bs-button>
+</bs-button-group>`} />
+
+## Mixed styles
+
+Combine variants inside a single group — each `<bs-button>` keeps its own
+`variant`.
+
+<Example code={`<bs-button-group label="Basic mixed styles example">
+  <bs-button variant="danger">Left</bs-button>
+  <bs-button variant="warning">Middle</bs-button>
+  <bs-button variant="success">Right</bs-button>
+</bs-button-group>`} />
+
+## Outlined styles
+
+Use `button-style="outline"` for the bordered look.
+
+<Example code={`<bs-button-group label="Basic outlined example">
+  <bs-button button-style="outline" variant="primary">Left</bs-button>
+  <bs-button button-style="outline" variant="primary">Middle</bs-button>
+  <bs-button button-style="outline" variant="primary">Right</bs-button>
+</bs-button-group>`} />
+
+## Checkbox and radio button groups
+
+Bootstrap's toggle-button check / radio pattern uses a native
+`<input class="btn-check">` paired with a `<label class="btn">`. Drop that
+markup straight into the group — the Bootstrap stylesheet is injected
+globally once any `<bs-*>` element is on the page.
+
+<Example code={`<bs-button-group label="Basic checkbox toggle button group">
+  <input type="checkbox" class="btn-check" id="bwc-btncheck1" autocomplete="off">
+  <label class="btn btn-outline-primary" for="bwc-btncheck1">Checkbox 1</label>
+
+  <input type="checkbox" class="btn-check" id="bwc-btncheck2" autocomplete="off">
+  <label class="btn btn-outline-primary" for="bwc-btncheck2">Checkbox 2</label>
+
+  <input type="checkbox" class="btn-check" id="bwc-btncheck3" autocomplete="off">
+  <label class="btn btn-outline-primary" for="bwc-btncheck3">Checkbox 3</label>
+</bs-button-group>`} />
+
+<Example code={`<bs-button-group label="Basic radio toggle button group">
+  <input type="radio" class="btn-check" name="bwc-btnradio" id="bwc-btnradio1" autocomplete="off" checked>
+  <label class="btn btn-outline-primary" for="bwc-btnradio1">Radio 1</label>
+
+  <input type="radio" class="btn-check" name="bwc-btnradio" id="bwc-btnradio2" autocomplete="off">
+  <label class="btn btn-outline-primary" for="bwc-btnradio2">Radio 2</label>
+
+  <input type="radio" class="btn-check" name="bwc-btnradio" id="bwc-btnradio3" autocomplete="off">
+  <label class="btn btn-outline-primary" for="bwc-btnradio3">Radio 3</label>
+</bs-button-group>`} />
+
+## Button toolbar
+
+Combine multiple button groups (and optional input groups) inside
+`class="btn-toolbar"` to compose a toolbar.
+
+<Example code={`<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+  <bs-button-group label="First group" class="me-2">
+    <bs-button>1</bs-button>
+    <bs-button>2</bs-button>
+    <bs-button>3</bs-button>
+    <bs-button>4</bs-button>
+  </bs-button-group>
+  <bs-button-group label="Second group" class="me-2">
+    <bs-button variant="secondary">5</bs-button>
+    <bs-button variant="secondary">6</bs-button>
+    <bs-button variant="secondary">7</bs-button>
+  </bs-button-group>
+  <bs-button-group label="Third group">
+    <bs-button variant="info">8</bs-button>
+  </bs-button-group>
+</div>`} />
+
+Mix a button group with an input group inside the toolbar.
+
+<Example code={`<div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+  <bs-button-group label="First group" class="me-2">
+    <bs-button button-style="outline" variant="secondary">1</bs-button>
+    <bs-button button-style="outline" variant="secondary">2</bs-button>
+    <bs-button button-style="outline" variant="secondary">3</bs-button>
+    <bs-button button-style="outline" variant="secondary">4</bs-button>
+  </bs-button-group>
+  <div class="input-group">
+    <div class="input-group-text" id="bwc-btnGroupAddon">@</div>
+    <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="bwc-btnGroupAddon">
+  </div>
+</div>
+
+<div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+  <bs-button-group label="First group">
+    <bs-button button-style="outline" variant="secondary">1</bs-button>
+    <bs-button button-style="outline" variant="secondary">2</bs-button>
+    <bs-button button-style="outline" variant="secondary">3</bs-button>
+    <bs-button button-style="outline" variant="secondary">4</bs-button>
+  </bs-button-group>
+  <div class="input-group">
+    <div class="input-group-text" id="bwc-btnGroupAddon2">@</div>
+    <input type="text" class="form-control" placeholder="Input group example" aria-label="Input group example" aria-describedby="bwc-btnGroupAddon2">
+  </div>
+</div>`} />
+
+## Sizing
+
+Set `size="sm"` or `size="lg"` on `<bs-button-group>` to scale every
+child button in one go.
+
+<Example code={`<bs-button-group size="lg" label="Large button group">
+  <bs-button button-style="outline" variant="primary">Left</bs-button>
+  <bs-button button-style="outline" variant="primary">Middle</bs-button>
+  <bs-button button-style="outline" variant="primary">Right</bs-button>
+</bs-button-group>
+<br>
+<bs-button-group label="Default button group">
+  <bs-button button-style="outline" variant="primary">Left</bs-button>
+  <bs-button button-style="outline" variant="primary">Middle</bs-button>
+  <bs-button button-style="outline" variant="primary">Right</bs-button>
+</bs-button-group>
+<br>
+<bs-button-group size="sm" label="Small button group">
+  <bs-button button-style="outline" variant="primary">Left</bs-button>
+  <bs-button button-style="outline" variant="primary">Middle</bs-button>
+  <bs-button button-style="outline" variant="primary">Right</bs-button>
+</bs-button-group>`} />
+
+## Nesting
+
+Nest an inner `<bs-button-group>` (carrying a dropdown trigger) inside an
+outer group to build a segmented button with a dropdown.
+
+<Example code={`<bs-button-group label="Button group with nested dropdown">
+  <bs-button>1</bs-button>
+  <bs-button>2</bs-button>
+  <bs-dropdown label="Dropdown">
+    <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+    <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+  </bs-dropdown>
+</bs-button-group>`} />
+
+## Vertical variation
+
+Pass `vertical` to stack buttons vertically. The host swaps
+`.btn-group` for `.btn-group-vertical`.
+
+<Example code={`<bs-button-group vertical label="Vertical button group">
+  <bs-button>Button</bs-button>
+  <bs-button>Button</bs-button>
+  <bs-button>Button</bs-button>
+  <bs-button>Button</bs-button>
+</bs-button-group>`} />
+
+Vertical groups can also contain dropdown triggers in every direction.
+
+<Example code={`<bs-button-group vertical label="Vertical button group">
+  <bs-button-group>
+    <bs-dropdown label="Dropdown">
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+    </bs-dropdown>
+  </bs-button-group>
+  <bs-button>Button</bs-button>
+  <bs-button>Button</bs-button>
+  <bs-button-group class="dropstart">
+    <bs-dropdown label="Dropdown" placement="left-start">
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+    </bs-dropdown>
+  </bs-button-group>
+  <bs-button-group class="dropend">
+    <bs-dropdown label="Dropdown" placement="right-start">
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+    </bs-dropdown>
+  </bs-button-group>
+  <bs-button-group class="dropup">
+    <bs-dropdown label="Dropdown" placement="top-start">
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+      <bs-dropdown-item slot="menu" href="#">Dropdown link</bs-dropdown-item>
+    </bs-dropdown>
+  </bs-button-group>
+</bs-button-group>`} />
+
+Radios can be stacked vertically too.
+
+<Example code={`<bs-button-group vertical label="Vertical radio toggle button group">
+  <input type="radio" class="btn-check" name="bwc-vbtn-radio" id="bwc-vbtn-radio1" autocomplete="off" checked>
+  <label class="btn btn-outline-danger" for="bwc-vbtn-radio1">Radio 1</label>
+  <input type="radio" class="btn-check" name="bwc-vbtn-radio" id="bwc-vbtn-radio2" autocomplete="off">
+  <label class="btn btn-outline-danger" for="bwc-vbtn-radio2">Radio 2</label>
+  <input type="radio" class="btn-check" name="bwc-vbtn-radio" id="bwc-vbtn-radio3" autocomplete="off">
+  <label class="btn btn-outline-danger" for="bwc-vbtn-radio3">Radio 3</label>
+</bs-button-group>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `vertical` | `boolean` | `false` | Stack buttons vertically (`.btn-group-vertical`). |
+| `size` | `sm` \| `md` \| `lg` | `md` | Applies `.btn-group-sm` / `.btn-group-lg`. |
+| `label` | `string` | `Button group` | Sets the host's `aria-label`. |
 
 ## Install
 
@@ -20,8 +238,6 @@ npm install @bootstrap-wc/components
 npx bwc add button-group
 ```
 
-
-
 ## Usage
 
 ```ts
@@ -29,7 +245,9 @@ import '@bootstrap-wc/components/button-group';
 ```
 
 ```html
-<bs-button-group><bs-button>Left</bs-button><bs-button>Middle</bs-button><bs-button>Right</bs-button></bs-button-group>
+<bs-button-group label="Basic example">
+  <bs-button>Left</bs-button>
+  <bs-button>Middle</bs-button>
+  <bs-button>Right</bs-button>
+</bs-button-group>
 ```
-
-See `packages/components/src/button-group/` in the source for the complete property / event list.
