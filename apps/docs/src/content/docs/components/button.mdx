@@ -6,9 +6,17 @@ description: The bs-button element renders Bootstrap buttons as either a native 
 
 import Example from '../../../components/Example.astro';
 
-The `<bs-button>` element renders a Bootstrap button as a native `<button>` or — when an `href` is provided — an anchor styled as a button.
+The `<bs-button>` element renders a Bootstrap button as a native `<button>` or — when an `href` is provided — an anchor styled as a button. The host element itself carries `.btn` and the variant classes so it composes correctly inside `<bs-button-group>` and other compound containers.
+
+## Base class
+
+The `.btn` class alone applies the padding, font sizing and shape — without a color variant. Render it by setting `variant="none"`.
+
+<Example code={`<bs-button variant="none">Base class</bs-button>`} />
 
 ## Variants
+
+Bootstrap includes eight solid color variants plus the link style.
 
 <Example code={`<bs-button variant="primary">Primary</bs-button>
 <bs-button variant="secondary">Secondary</bs-button>
@@ -17,27 +25,135 @@ The `<bs-button>` element renders a Bootstrap button as a native `<button>` or �
 <bs-button variant="warning">Warning</bs-button>
 <bs-button variant="info">Info</bs-button>
 <bs-button variant="light">Light</bs-button>
-<bs-button variant="dark">Dark</bs-button>`} />
+<bs-button variant="dark">Dark</bs-button>
+<bs-button button-style="link">Link</bs-button>`} />
 
-## Outline and link styles
+## Button tags
 
-<Example code={`<bs-button button-style="outline" variant="primary">Outline</bs-button>
-<bs-button button-style="link" variant="primary">Link</bs-button>`} />
+`<bs-button>` renders as `<button type="button">` by default. Pass `type="submit"` or `type="reset"` to participate in form submission; pass `href` to render as an anchor styled as a button.
+
+<Example code={`<bs-button href="#">Link</bs-button>
+<bs-button type="submit">Submit</bs-button>
+<bs-button type="button">Button</bs-button>
+<bs-button type="reset">Reset</bs-button>`} />
+
+## Outline buttons
+
+Set `button-style="outline"` to swap the solid background for an outlined treatment that inherits the variant color on hover.
+
+<Example code={`<bs-button button-style="outline" variant="primary">Primary</bs-button>
+<bs-button button-style="outline" variant="secondary">Secondary</bs-button>
+<bs-button button-style="outline" variant="success">Success</bs-button>
+<bs-button button-style="outline" variant="danger">Danger</bs-button>
+<bs-button button-style="outline" variant="warning">Warning</bs-button>
+<bs-button button-style="outline" variant="info">Info</bs-button>
+<bs-button button-style="outline" variant="light">Light</bs-button>
+<bs-button button-style="outline" variant="dark">Dark</bs-button>`} />
 
 ## Sizes
 
-<Example code={`<bs-button size="sm">Small</bs-button>
-<bs-button>Default</bs-button>
-<bs-button size="lg">Large</bs-button>`} />
+Use `size="lg"` or `size="sm"` for larger or smaller buttons.
 
-## Disabled & active
+<Example code={`<bs-button variant="primary" size="lg">Large button</bs-button>
+<bs-button variant="secondary" size="lg">Large button</bs-button>`} />
 
-<Example code={`<bs-button disabled>Disabled</bs-button>
-<bs-button active>Active</bs-button>`} />
+<Example code={`<bs-button variant="primary" size="sm">Small button</bs-button>
+<bs-button variant="secondary" size="sm">Small button</bs-button>`} />
+
+You can also override sizing at the instance level by setting the Bootstrap CSS variables directly via inline `style`.
+
+<Example code={`<bs-button variant="primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+  Custom button
+</bs-button>`} />
+
+## Disabled state
+
+Set `disabled` to deactivate any button. The host reflects `aria-disabled="true"` and intercepts clicks and keyboard activation.
+
+<Example code={`<bs-button variant="primary" disabled>Primary button</bs-button>
+<bs-button variant="secondary" disabled>Button</bs-button>
+<bs-button button-style="outline" variant="primary" disabled>Primary button</bs-button>
+<bs-button button-style="outline" variant="secondary" disabled>Button</bs-button>`} />
+
+Disabled styling works the same way on link-rendered buttons.
+
+<Example code={`<bs-button variant="primary" disabled>Primary link</bs-button>
+<bs-button variant="secondary" disabled>Link</bs-button>`} />
+
+### Link functionality caveat
+
+When a button renders as an anchor (`href` set), the `disabled` attribute still applies the `.disabled` class, sets `aria-disabled="true"` and drops the element from the tab order. Clicks are suppressed on the host.
+
+<Example code={`<bs-button href="#" variant="primary" disabled>Primary link</bs-button>
+<bs-button href="#" variant="secondary" disabled>Link</bs-button>`} />
+
+## Block buttons
+
+Buttons take their parent's width by default when placed inside a `d-grid` container. Wrap `<bs-button>` elements in a grid to create a stack of block buttons.
+
+<Example code={`<div class="d-grid gap-2">
+  <bs-button variant="primary">Button</bs-button>
+  <bs-button variant="primary">Button</bs-button>
+</div>`} />
+
+Mix responsive display utilities to create buttons that are block-level on small screens and inline on larger viewports.
+
+<Example code={`<div class="d-grid gap-2 d-md-block">
+  <bs-button variant="primary">Button</bs-button>
+  <bs-button variant="primary">Button</bs-button>
+</div>`} />
+
+Constrain the width with column utilities.
+
+<Example code={`<div class="d-grid gap-2 col-6 mx-auto">
+  <bs-button variant="primary">Button</bs-button>
+  <bs-button variant="primary">Button</bs-button>
+</div>`} />
+
+Or align to the end of the row on medium+ viewports.
+
+<Example code={`<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <bs-button variant="primary" class="me-md-2">Button</bs-button>
+  <bs-button variant="primary">Button</bs-button>
+</div>`} />
+
+## Toggle states
+
+Set `toggle` to make user activation flip the `active` state. The host reflects `aria-pressed` automatically whenever `active` changes.
+
+<Example code={`<p class="d-inline-flex gap-1">
+  <bs-button variant="none" toggle>Toggle button</bs-button>
+  <bs-button variant="none" toggle active>Active toggle button</bs-button>
+  <bs-button variant="none" toggle disabled>Disabled toggle button</bs-button>
+</p>
+<p class="d-inline-flex gap-1">
+  <bs-button variant="primary" toggle>Toggle button</bs-button>
+  <bs-button variant="primary" toggle active>Active toggle button</bs-button>
+  <bs-button variant="primary" toggle disabled>Disabled toggle button</bs-button>
+</p>`} />
+
+Toggle behavior works the same way when the button renders as an anchor (`href` set).
+
+<Example code={`<p class="d-inline-flex gap-1">
+  <bs-button variant="none" href="#" toggle>Toggle link</bs-button>
+  <bs-button variant="none" href="#" toggle active>Active toggle link</bs-button>
+  <bs-button variant="none" href="#" toggle disabled>Disabled toggle link</bs-button>
+</p>
+<p class="d-inline-flex gap-1">
+  <bs-button variant="primary" href="#" toggle>Toggle link</bs-button>
+  <bs-button variant="primary" href="#" toggle active>Active toggle link</bs-button>
+  <bs-button variant="primary" href="#" toggle disabled>Disabled toggle link</bs-button>
+</p>`} />
 
 ## As a link
 
 <Example code={`<bs-button href="https://bootstrap-wc.dev" target="_blank" rel="noopener">Visit site</bs-button>`} />
+
+## Variables
+
+Each `<bs-button>` is themed entirely through Bootstrap's `.btn` CSS variables. Override them on the host to theme a single button, or on an ancestor to theme every nested button. The example below retools the primary variant with custom colors.
+
+<Example code={`<bs-button style="--bs-btn-color: #fff; --bs-btn-bg: #712cf9; --bs-btn-border-color: #712cf9; --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #6528e0; --bs-btn-hover-border-color: #6528e0; --bs-btn-active-color: #fff; --bs-btn-active-bg: #5d22d1; --bs-btn-active-border-color: #5d22d1;">Custom button</bs-button>`} />
 
 ## API
 
@@ -45,12 +161,13 @@ The `<bs-button>` element renders a Bootstrap button as a native `<button>` or �
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `variant` | `primary` \| `secondary` \| `success` \| `danger` \| `warning` \| `info` \| `light` \| `dark` | `primary` | Bootstrap color variant. |
+| `variant` | `primary` \| `secondary` \| `success` \| `danger` \| `warning` \| `info` \| `light` \| `dark` \| `none` | `primary` | Bootstrap color variant. `none` renders just the base `.btn`. |
 | `button-style` | `solid` \| `outline` \| `link` | `solid` | Visual style. |
 | `size` | `sm` \| `md` \| `lg` | `md` | Size modifier. |
 | `type` | `button` \| `submit` \| `reset` | `button` | Native button type. Ignored when `href` is set. |
 | `disabled` | `boolean` | `false` | Disables interaction. |
-| `active` | `boolean` | `false` | Applies the `.active` state. |
+| `active` | `boolean` | `false` | Applies the `.active` state and reflects `aria-pressed`. |
+| `toggle` | `boolean` | `false` | When set, user activation flips the `active` state (matches `data-bs-toggle="button"`). |
 | `href` | `string` | — | When set, renders as `<a role="button">`. |
 | `target` | `string` | — | Anchor target (when `href` is set). |
 | `rel` | `string` | — | Anchor rel (when `href` is set). |
@@ -60,12 +177,6 @@ The `<bs-button>` element renders a Bootstrap button as a native `<button>` or �
 | Event | Detail | Description |
 |---|---|---|
 | `bs-click` | `{ originalEvent }` | Fired on user activation. Suppressed when disabled. |
-
-### Shadow parts
-
-| Part | Description |
-|---|---|
-| `button` | The inner `<button>` or `<a>` element. |
 
 ## Install
 
