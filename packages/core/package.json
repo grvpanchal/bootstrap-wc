@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Core base class, controllers, and styles for Bootstrap Web Components.",
   "license": "MIT",
   "repository": {
