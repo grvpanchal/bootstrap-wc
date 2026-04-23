@@ -5,15 +5,337 @@ description: List of items, optionally actionable.
 
 import Example from '../../../components/Example.astro';
 
-List of items, optionally actionable.
+A flexible list of content. The host `<bs-list-group>` carries `.list-group`
+and each `<bs-list-group-item>` carries `.list-group-item`, so Bootstrap's
+sibling / child selectors apply across the slot boundary without any extra
+wrapper.
 
-## Example
+## Basic example
 
 <Example code={`<bs-list-group>
-  <bs-list-group-item active>Active</bs-list-group-item>
-  <bs-list-group-item>Second</bs-list-group-item>
-  <bs-list-group-item disabled>Disabled</bs-list-group-item>
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+  <bs-list-group-item>A fourth item</bs-list-group-item>
+  <bs-list-group-item>And a fifth one</bs-list-group-item>
 </bs-list-group>`} />
+
+## Active items
+
+Add the `active` attribute to a `<bs-list-group-item>` to mark the current
+selection. The host reflects `aria-current="true"`.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item active>An active item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+  <bs-list-group-item>A fourth item</bs-list-group-item>
+  <bs-list-group-item>And a fifth one</bs-list-group-item>
+</bs-list-group>`} />
+
+## Links and buttons
+
+Set `href` to make an item behave as a link, or `action` to give it the
+hover / focus treatment without a URL. Both variants receive the
+`.list-group-item-action` host class.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item href="#" active>The current link item</bs-list-group-item>
+  <bs-list-group-item href="#">A second link item</bs-list-group-item>
+  <bs-list-group-item href="#">A third link item</bs-list-group-item>
+  <bs-list-group-item href="#">A fourth link item</bs-list-group-item>
+  <bs-list-group-item href="#" disabled>A disabled link item</bs-list-group-item>
+</bs-list-group>`} />
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item action active>The current button</bs-list-group-item>
+  <bs-list-group-item action>A second button item</bs-list-group-item>
+  <bs-list-group-item action>A third button item</bs-list-group-item>
+  <bs-list-group-item action>A fourth button item</bs-list-group-item>
+  <bs-list-group-item action disabled>A disabled button item</bs-list-group-item>
+</bs-list-group>`} />
+
+## Flush
+
+Add `flush` to remove outer borders and rounded corners so the list sits
+flush inside a parent container (e.g. a card).
+
+<Example code={`<bs-list-group flush>
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+  <bs-list-group-item>A fourth item</bs-list-group-item>
+  <bs-list-group-item>And a fifth one</bs-list-group-item>
+</bs-list-group>`} />
+
+## Numbered
+
+Add `numbered` to render numeric badges as counters on each item.
+
+<Example code={`<bs-list-group numbered>
+  <bs-list-group-item>A list item</bs-list-group-item>
+  <bs-list-group-item>A list item</bs-list-group-item>
+  <bs-list-group-item>A list item</bs-list-group-item>
+</bs-list-group>`} />
+
+Numbered groups compose with Bootstrap's utility classes, for richer
+content on each row.
+
+<Example code={`<bs-list-group numbered>
+  <bs-list-group-item class="d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <bs-badge variant="primary" pill>14</bs-badge>
+  </bs-list-group-item>
+  <bs-list-group-item class="d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <bs-badge variant="primary" pill>14</bs-badge>
+  </bs-list-group-item>
+  <bs-list-group-item class="d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <bs-badge variant="primary" pill>14</bs-badge>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
+## Horizontal
+
+Add `horizontal` to lay items out in a row instead of stacking them. Pass
+a Bootstrap breakpoint (`sm`, `md`, `lg`, `xl`, `xxl`) to only go
+horizontal above that breakpoint.
+
+<Example code={`<bs-list-group horizontal>
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+</bs-list-group>
+<bs-list-group horizontal="sm" class="mt-2">
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+</bs-list-group>
+<bs-list-group horizontal="md" class="mt-2">
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+</bs-list-group>
+<bs-list-group horizontal="lg" class="mt-2">
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+</bs-list-group>
+<bs-list-group horizontal="xl" class="mt-2">
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+</bs-list-group>
+<bs-list-group horizontal="xxl" class="mt-2">
+  <bs-list-group-item>An item</bs-list-group-item>
+  <bs-list-group-item>A second item</bs-list-group-item>
+  <bs-list-group-item>A third item</bs-list-group-item>
+</bs-list-group>`} />
+
+## Variants
+
+Use the `variant` attribute for colored rows that match Bootstrap's
+contextual palette.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item>A simple default list group item</bs-list-group-item>
+  <bs-list-group-item variant="primary">A simple primary list group item</bs-list-group-item>
+  <bs-list-group-item variant="secondary">A simple secondary list group item</bs-list-group-item>
+  <bs-list-group-item variant="success">A simple success list group item</bs-list-group-item>
+  <bs-list-group-item variant="danger">A simple danger list group item</bs-list-group-item>
+  <bs-list-group-item variant="warning">A simple warning list group item</bs-list-group-item>
+  <bs-list-group-item variant="info">A simple info list group item</bs-list-group-item>
+  <bs-list-group-item variant="light">A simple light list group item</bs-list-group-item>
+  <bs-list-group-item variant="dark">A simple dark list group item</bs-list-group-item>
+</bs-list-group>`} />
+
+## For links and buttons
+
+Variants compose with `href` / `action` to produce interactive colored rows.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item href="#">A simple default list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="primary">A simple primary list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="secondary">A simple secondary list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="success">A simple success list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="danger">A simple danger list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="warning">A simple warning list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="info">A simple info list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="light">A simple light list group item</bs-list-group-item>
+  <bs-list-group-item href="#" variant="dark">A simple dark list group item</bs-list-group-item>
+</bs-list-group>`} />
+
+## With badges
+
+Combine with `<bs-badge>` and the Bootstrap flex utilities for pills on
+the right.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item class="d-flex justify-content-between align-items-center">
+    A list item
+    <bs-badge variant="primary" pill>14</bs-badge>
+  </bs-list-group-item>
+  <bs-list-group-item class="d-flex justify-content-between align-items-center">
+    A second list item
+    <bs-badge variant="primary" pill>2</bs-badge>
+  </bs-list-group-item>
+  <bs-list-group-item class="d-flex justify-content-between align-items-center">
+    A third list item
+    <bs-badge variant="primary" pill>1</bs-badge>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
+## Custom content
+
+Items can hold arbitrary markup — use the Bootstrap text / spacing utility
+classes to lay content out inside each row.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item href="#" active>
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small>3 days ago</small>
+    </div>
+    <p class="mb-1">Some placeholder content in a paragraph.</p>
+    <small>And some small print.</small>
+  </bs-list-group-item>
+  <bs-list-group-item href="#">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-body-secondary">3 days ago</small>
+    </div>
+    <p class="mb-1">Some placeholder content in a paragraph.</p>
+    <small class="text-body-secondary">And some muted small print.</small>
+  </bs-list-group-item>
+  <bs-list-group-item href="#">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">List group item heading</h5>
+      <small class="text-body-secondary">3 days ago</small>
+    </div>
+    <p class="mb-1">Some placeholder content in a paragraph.</p>
+    <small class="text-body-secondary">And some muted small print.</small>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
+## Checkboxes and radios
+
+Put form controls directly inside an item.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
+    <label class="form-check-label" for="firstCheckbox">First checkbox</label>
+  </bs-list-group-item>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckbox">
+    <label class="form-check-label" for="secondCheckbox">Second checkbox</label>
+  </bs-list-group-item>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckbox">
+    <label class="form-check-label" for="thirdCheckbox">Third checkbox</label>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
+Radios work the same way — share a common `name` so the browser enforces
+single selection.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="firstRadio" checked>
+    <label class="form-check-label" for="firstRadio">First radio</label>
+  </bs-list-group-item>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="secondRadio">
+    <label class="form-check-label" for="secondRadio">Second radio</label>
+  </bs-list-group-item>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="radio" name="listGroupRadio" value="" id="thirdRadio">
+    <label class="form-check-label" for="thirdRadio">Third radio</label>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
+Make the whole row clickable by pairing `.stretched-link` on the label
+with a checkbox.
+
+<Example code={`<bs-list-group>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckboxStretched">
+    <label class="form-check-label stretched-link" for="firstCheckboxStretched">First checkbox</label>
+  </bs-list-group-item>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="checkbox" value="" id="secondCheckboxStretched">
+    <label class="form-check-label stretched-link" for="secondCheckboxStretched">Second checkbox</label>
+  </bs-list-group-item>
+  <bs-list-group-item>
+    <input class="form-check-input me-1" type="checkbox" value="" id="thirdCheckboxStretched">
+    <label class="form-check-label stretched-link" for="thirdCheckboxStretched">Third checkbox</label>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
+## JavaScript behavior
+
+A list group can drive its own tab panels — use `<bs-list-group-item action>`
+for each row and toggle `.active` / `.show` on matching `<div class="tab-pane">`
+elements. The markup is identical to Bootstrap's native pattern, minus the
+`data-bs-toggle` attribute (web-component consumers wire their own click
+handler).
+
+<Example code={`<div class="row">
+  <div class="col-4">
+    <bs-list-group role="tablist">
+      <bs-list-group-item action active role="tab" aria-controls="list-home" aria-selected="true">Home</bs-list-group-item>
+      <bs-list-group-item action role="tab" aria-controls="list-profile" aria-selected="false">Profile</bs-list-group-item>
+      <bs-list-group-item action role="tab" aria-controls="list-messages" aria-selected="false">Messages</bs-list-group-item>
+      <bs-list-group-item action role="tab" aria-controls="list-settings" aria-selected="false">Settings</bs-list-group-item>
+    </bs-list-group>
+  </div>
+  <div class="col-8">
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="list-home" role="tabpanel">
+        <p>Some placeholder content in a paragraph relating to "Home". In production, you would obviously have more real content here.</p>
+      </div>
+      <div class="tab-pane fade" id="list-profile" role="tabpanel">
+        <p>Some placeholder content in a paragraph relating to "Profile".</p>
+      </div>
+      <div class="tab-pane fade" id="list-messages" role="tabpanel">
+        <p>Some placeholder content in a paragraph relating to "Messages".</p>
+      </div>
+      <div class="tab-pane fade" id="list-settings" role="tabpanel">
+        <p>Some placeholder content in a paragraph relating to "Settings".</p>
+      </div>
+    </div>
+  </div>
+</div>`} />
+
+## API
+
+### `<bs-list-group>` attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `flush` | `boolean` | `false` | Removes outer borders and rounded corners. |
+| `numbered` | `boolean` | `false` | Renders numeric counters via `::before` on each item. |
+| `horizontal` | `boolean` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` | — | Lay items in a row. Pass a breakpoint to only go horizontal above it. |
+
+### `<bs-list-group-item>` attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `active` | `boolean` | `false` | Applies the `.active` state and sets `aria-current="true"`. |
+| `disabled` | `boolean` | `false` | Styles as disabled and suppresses click navigation. Sets `aria-disabled="true"`. |
+| `variant` | `primary` \| `secondary` \| `success` \| `danger` \| `warning` \| `info` \| `light` \| `dark` | — | Bootstrap contextual color. |
+| `href` | `string` | — | When set, clicking the item navigates to the URL. Also adds `.list-group-item-action`. |
+| `action` | `boolean` | `false` | Adds `.list-group-item-action` for the hover / focus treatment without a URL. |
 
 ## Install
 
@@ -23,8 +345,6 @@ npm install @bootstrap-wc/components
 # or copy the source
 npx bwc add list-group
 ```
-
-
 
 ## Usage
 
