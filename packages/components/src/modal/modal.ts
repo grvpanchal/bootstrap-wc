@@ -70,6 +70,8 @@ export class BsModal extends BootstrapElement {
 
   private _focusTrap = new FocusTrapController(this);
   private _prevOverflow = '';
+  private _originalParent: Node | null = null;
+  private _originalNextSibling: Node | null = null;
 
   override connectedCallback() {
     super.connectedCallback();
@@ -80,7 +82,41 @@ export class BsModal extends BootstrapElement {
     super.disconnectedCallback();
     document.removeEventListener('keydown', this._onKeydown);
     this._focusTrap.deactivate();
-    this._restoreBody();
+    // NB: don't reset `_originalParent` here — a teleport-to-body triggers a
+    // disconnect → reconnect pair while we're mid-move, and we still want to
+    // be able to restore the original location on close.
+    if (!this._teleporting) this._restoreBody();
+  }
+
+  private _teleporting = false;
+
+  /**
+   * Move the host into `document.body` so the `.modal` overlay escapes every
+   * ancestor stacking context (Starlight's `.main-pane` uses `isolation:
+   * isolate`, for example, which otherwise caps the z-index of a modal
+   * rendered in-place). Static-preview modals intentionally stay inline.
+   */
+  private _teleportToBody(): void {
+    if (this.staticPreview) return;
+    if (this.parentElement === document.body) return;
+    this._originalParent = this.parentNode;
+    this._originalNextSibling = this.nextSibling;
+    this._teleporting = true;
+    document.body.appendChild(this);
+    this._teleporting = false;
+  }
+
+  /** Restore the host to its author-placed position in the DOM. */
+  private _restoreFromBody(): void {
+    if (!this._originalParent) return;
+    const parent = this._originalParent;
+    const next = this._originalNextSibling;
+    this._originalParent = null;
+    this._originalNextSibling = null;
+    this._teleporting = true;
+    if (next && next.parentNode === parent) parent.insertBefore(this, next);
+    else parent.appendChild(this);
+    this._teleporting = false;
   }
 
   override updated(changed: Map<string, unknown>) {
@@ -106,6 +142,7 @@ export class BsModal extends BootstrapElement {
     this._prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
+    this._teleportToBody();
     await this.updateComplete;
     await new Promise((r) => requestAnimationFrame(r));
     this._animating = false;
@@ -123,6 +160,7 @@ export class BsModal extends BootstrapElement {
     await new Promise((r) => setTimeout(r, 150));
     this._animating = false;
     this._restoreBody();
+    this._restoreFromBody();
     this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true }));
   }
 
