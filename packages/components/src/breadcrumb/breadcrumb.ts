@@ -28,8 +28,22 @@ export class BsBreadcrumb extends BootstrapElement {
     super.updated(changed);
     if (changed.has('label')) this.setAttribute('aria-label', this.label);
     if (changed.has('divider')) {
-      if (this.divider) this.style.setProperty('--bs-breadcrumb-divider', `'${this.divider}'`);
-      else this.style.removeProperty('--bs-breadcrumb-divider');
+      if (this.divider == null) {
+        this.style.removeProperty('--bs-breadcrumb-divider');
+      } else {
+        // Accept raw CSS values for `--bs-breadcrumb-divider`:
+        //  - `url(...)` SVG dividers pass through unquoted
+        //  - empty string / `none` renders no divider
+        //  - anything else is treated as a literal string and wrapped in quotes
+        const v = this.divider;
+        const trimmed = v.trim();
+        let css: string;
+        if (trimmed === '' || trimmed.toLowerCase() === 'none') css = `''`;
+        else if (/^url\s*\(/i.test(trimmed)) css = trimmed;
+        else if (/^['"].*['"]$/.test(trimmed)) css = trimmed;
+        else css = `'${v.replace(/'/g, "\\'")}'`;
+        this.style.setProperty('--bs-breadcrumb-divider', css);
+      }
     }
   }
 
