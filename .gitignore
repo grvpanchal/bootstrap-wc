@@ -23,6 +23,9 @@ apps/docs/public/r/*.json
 # Audit artifacts from scripts/compare-bootstrap.mjs
 .audit/
 
+# Claude Code local state (agent worktrees, etc.)
+.claude/worktrees/
+
 # Env + secrets
 .env
 .env.local
