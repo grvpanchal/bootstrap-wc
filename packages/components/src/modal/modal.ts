@@ -4,6 +4,31 @@ import { classMap } from 'lit/directives/class-map.js';
 import { BootstrapElement, FocusTrapController, defineElement } from '@bootstrap-wc/core';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
+export type ModalFullscreen =
+  | boolean
+  | ''
+  | 'sm-down'
+  | 'md-down'
+  | 'lg-down'
+  | 'xl-down'
+  | 'xxl-down';
+
+// Accepts: absent → false, empty string / "true" → true, breakpoint token
+// (e.g. "sm-down") → string. Mirrors Bootstrap's `.modal-fullscreen` vs
+// `.modal-fullscreen-sm-down` class set.
+const fullscreenConverter = {
+  fromAttribute(value: string | null): ModalFullscreen {
+    if (value === null) return false;
+    if (value === '' || value === 'true') return true;
+    if (value === 'false') return false;
+    return value as ModalFullscreen;
+  },
+  toAttribute(value: ModalFullscreen): string | null {
+    if (value === false || value == null) return null;
+    if (value === true) return '';
+    return String(value);
+  },
+};
 
 /**
  * `<bs-modal>` — Bootstrap modal dialog with backdrop, focus trap, and ESC close.
@@ -23,7 +48,20 @@ export class BsModal extends BootstrapElement {
   @property({ type: Boolean, attribute: 'no-backdrop' }) noBackdrop = false;
   @property({ type: Boolean, attribute: 'no-close-on-escape' }) noCloseOnEscape = false;
   @property({ type: Boolean, attribute: 'no-close-button' }) noCloseButton = false;
-  @property({ type: Boolean }) fullscreen = false;
+  /**
+   * Fullscreen mode.
+   *   - `true`            → `.modal-fullscreen` (always fullscreen)
+   *   - `"sm-down"` etc.  → `.modal-fullscreen-{breakpoint}-down`
+   *   - `false`/absent    → regular modal
+   */
+  @property({ converter: fullscreenConverter, reflect: true }) fullscreen: ModalFullscreen = false;
+  /**
+   * Render the dialog inline (not fixed-positioned) for static docs previews.
+   * Adds `.position-static .d-block` and suppresses the backdrop so the
+   * markup can sit in normal document flow. Has no effect on focus trap or
+   * show/hide lifecycle.
+   */
+  @property({ type: Boolean, attribute: 'static-preview' }) staticPreview = false;
 
   @state() private _animating = false;
 
@@ -99,39 +137,57 @@ export class BsModal extends BootstrapElement {
   };
 
   private _onBackdropClick = (ev: MouseEvent) => {
+    if (this.staticPreview) return;
     if (ev.target === this._modal && !this.staticBackdrop) this.hide();
   };
 
   override render() {
-    if (!this.open && !this._animating) return nothing;
+    const fullscreenClass =
+      this.fullscreen === true
+        ? 'modal-fullscreen'
+        : typeof this.fullscreen === 'string' && this.fullscreen
+          ? `modal-fullscreen-${this.fullscreen}`
+          : '';
     const dialogClasses = classMap({
       'modal-dialog': true,
       [`modal-${this.size}`]: this.size !== 'md',
       'modal-dialog-centered': this.centered,
       'modal-dialog-scrollable': this.scrollable,
-      'modal-fullscreen': this.fullscreen,
+      [fullscreenClass]: !!fullscreenClass,
     });
+    const isShown = this.staticPreview || (this.open && !this._animating);
     const modalClasses = classMap({
       modal: true,
-      fade: true,
-      show: this.open && !this._animating,
+      fade: !this.staticPreview,
+      show: isShown,
+      'position-static': this.staticPreview,
+      'd-block': this.staticPreview,
     });
+    const hasHeader = !!this.heading || this.querySelector('[slot="title"]') !== null || !this.noCloseButton;
+    const hasFooter = this.querySelector('[slot="footer"]') !== null;
+    const showBackdrop =
+      !this.noBackdrop && !this.staticPreview && (this.open || this._animating);
+    // Only force `display: block` when the modal is actually visible; otherwise
+    // leave it to Bootstrap's default (`.modal { display: none; }`) so closed
+    // modals don't render an invisible full-viewport overlay.
+    const modalStyle = isShown || this._animating ? 'display: block' : 'display: none';
     return html`
-      ${this.noBackdrop
-        ? nothing
-        : html`<div part="backdrop" class="modal-backdrop fade ${this.open && !this._animating ? 'show' : ''}"></div>`}
+      ${showBackdrop
+        ? html`<div part="backdrop" class="modal-backdrop fade ${this.open && !this._animating ? 'show' : ''}"></div>`
+        : nothing}
       <div
         part="modal"
         class=${modalClasses}
         tabindex="-1"
         role="dialog"
-        aria-modal="true"
-        style="display: block"
+        aria-modal=${this.staticPreview ? 'false' : 'true'}
+        aria-hidden=${!isShown ? 'true' : 'false'}
+        style=${modalStyle}
         @click=${this._onBackdropClick}
       >
         <div part="dialog" class=${dialogClasses} role="document">
           <div part="content" class="modal-content">
-            ${this.heading || !this.noCloseButton
+            ${hasHeader
               ? html`<div part="header" class="modal-header">
                   <h1 class="modal-title fs-5">${this.heading ?? html`<slot name="title"></slot>`}</h1>
                   ${this.noCloseButton
@@ -145,7 +201,7 @@ export class BsModal extends BootstrapElement {
                 </div>`
               : nothing}
             <div part="body" class="modal-body"><slot></slot></div>
-            ${this.querySelector('[slot="footer"]')
+            ${hasFooter
               ? html`<div part="footer" class="modal-footer"><slot name="footer"></slot></div>`
               : nothing}
           </div>
