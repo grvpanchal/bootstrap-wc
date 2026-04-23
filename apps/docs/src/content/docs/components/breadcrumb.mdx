@@ -5,11 +5,68 @@ description: Breadcrumb trail.
 
 import Example from '../../../components/Example.astro';
 
-Breadcrumb trail.
+Indicate the current page's location within a navigational hierarchy.
 
 ## Example
 
-<Example code={`<bs-breadcrumb></bs-breadcrumb>`} />
+Use an ordered or unordered list with linked list items to create a minimally
+styled breadcrumb. Use `bs-breadcrumb` with `bs-breadcrumb-item` children.
+
+<Example code={`<bs-breadcrumb>
+  <bs-breadcrumb-item active>Home</bs-breadcrumb-item>
+</bs-breadcrumb>
+
+<bs-breadcrumb>
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Library</bs-breadcrumb-item>
+</bs-breadcrumb>
+
+<bs-breadcrumb>
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item href="#">Library</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Data</bs-breadcrumb-item>
+</bs-breadcrumb>`} />
+
+## Dividers
+
+Dividers are automatically added in CSS through
+[`::before`](https://developer.mozilla.org/en-US/docs/Web/CSS/::before) and
+[`content`](https://developer.mozilla.org/en-US/docs/Web/CSS/content). They can
+be changed by modifying the `--bs-breadcrumb-divider` CSS variable, or via the
+`divider` attribute on `bs-breadcrumb`.
+
+<Example code={`<bs-breadcrumb divider=">">
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Library</bs-breadcrumb-item>
+</bs-breadcrumb>`} />
+
+Dividers can also be given an embedded SVG icon via the `--bs-breadcrumb-divider`
+CSS variable. The `divider` attribute accepts `url(...)` values and passes them
+through unquoted.
+
+<Example code={`<bs-breadcrumb divider="url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&quot;)">
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Library</bs-breadcrumb-item>
+</bs-breadcrumb>`} />
+
+You can also remove the divider entirely by setting `divider=""` (or
+`divider="none"`).
+
+<Example code={`<bs-breadcrumb divider="">
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Library</bs-breadcrumb-item>
+</bs-breadcrumb>`} />
+
+## Accessibility
+
+Since breadcrumbs provide a navigation, it's a good idea to add a meaningful
+label such as `aria-label="breadcrumb"` to describe the type of navigation
+provided — `bs-breadcrumb` does this automatically. Also add
+`aria-current="page"` to the last item of the set to indicate that it
+represents the current page — `bs-breadcrumb-item[active]` does this for you.
+
+See also the [ARIA Authoring Practices Guide breadcrumb
+pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/).
 
 ## Install
 
@@ -20,8 +77,6 @@ npm install @bootstrap-wc/components
 npx bwc add breadcrumb
 ```
 
-
-
 ## Usage
 
 ```ts
@@ -29,7 +84,27 @@ import '@bootstrap-wc/components/breadcrumb';
 ```
 
 ```html
-<bs-breadcrumb></bs-breadcrumb>
+<bs-breadcrumb>
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Library</bs-breadcrumb-item>
+</bs-breadcrumb>
 ```
+
+## API
+
+### `bs-breadcrumb`
+
+| Attribute | Type   | Default      | Notes                                                                                       |
+| --------- | ------ | ------------ | ------------------------------------------------------------------------------------------- |
+| `label`   | string | `breadcrumb` | Mirrored to `aria-label` on the host.                                                       |
+| `divider` | string | —            | Value for `--bs-breadcrumb-divider`. Literal chars are quoted; `url(...)` passes through.   |
+| `items`   | array  | `[]`         | Data-driven crumbs: `{ label, href?, active? }[]`. When set, overrides slotted children.    |
+
+### `bs-breadcrumb-item`
+
+| Attribute | Type    | Default | Notes                                                                        |
+| --------- | ------- | ------- | ---------------------------------------------------------------------------- |
+| `href`    | string  | —       | When set (and not active) renders the slot content inside an `<a>` link.     |
+| `active`  | boolean | `false` | Marks the crumb as the current page and adds `aria-current="page"`.          |
 
 See `packages/components/src/breadcrumb/` in the source for the complete property / event list.
