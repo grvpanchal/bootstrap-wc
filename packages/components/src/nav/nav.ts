@@ -22,6 +22,10 @@ export class BsNav extends BootstrapElement {
 
   protected override hostClasses(): string {
     const parts = ['nav'];
+    // When used inside a <bs-navbar>, also emit `.navbar-nav` so
+    // Bootstrap's `.navbar .navbar-nav .nav-link` selectors apply
+    // across the slot boundary.
+    if (this.closest('bs-navbar')) parts.push('navbar-nav');
     if (this.navStyle === 'tabs') parts.push('nav-tabs');
     if (this.navStyle === 'pills') parts.push('nav-pills');
     if (this.navStyle === 'underline') parts.push('nav-underline');
