@@ -17,6 +17,7 @@ export class BsTextarea extends FormAssociated(BootstrapElement) {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean }) invalid = false;
   @property({ type: Boolean }) valid = false;
+  @property({ type: Boolean }) plaintext = false;
   @property({ type: Number }) minlength?: number;
   @property({ type: Number }) maxlength?: number;
 
@@ -43,8 +44,9 @@ export class BsTextarea extends FormAssociated(BootstrapElement) {
 
   override render() {
     const classes = classMap({
-      'form-control': true,
-      [`form-control-${this.size}`]: !!this.size && this.size !== 'md',
+      'form-control': !this.plaintext,
+      'form-control-plaintext': this.plaintext,
+      [`form-control-${this.size}`]: !this.plaintext && !!this.size && this.size !== 'md',
       'is-invalid': this.invalid,
       'is-valid': this.valid,
     });
