@@ -14,6 +14,8 @@ export class BsPopover extends BootstrapElement {
   @property({ type: String }) placement: Placement = 'right';
   @property({ type: String }) trigger: PopoverTrigger = 'click';
   @property({ type: Boolean, reflect: true }) open = false;
+  /** Extra class applied to the rendered popover element, mirrors Bootstrap's `data-bs-custom-class`. */
+  @property({ type: String, attribute: 'custom-class' }) customClass = '';
 
   @state() private _mounted = false;
   @query('.popover') private _popEl!: HTMLElement;
@@ -91,14 +93,15 @@ export class BsPopover extends BootstrapElement {
       'bs-popover-auto': true,
       fade: true,
       show: this.open,
+      ...(this.customClass ? { [this.customClass]: true } : {}),
     });
     return html`
       <span class="bs-popover-ref d-inline-block" part="reference"><slot name="trigger"></slot><slot></slot></span>
       ${this._mounted || this.open
         ? html`<div part="popover" class=${classes} role="tooltip" style="position:absolute;top:0;left:0">
             <div class="popover-arrow"></div>
-            ${this.title
-              ? html`<h3 part="header" class="popover-header">${this.title}</h3>`
+            ${this.heading
+              ? html`<h3 part="header" class="popover-header">${this.heading}</h3>`
               : html`<slot name="heading"></slot>`}
             <div part="body" class="popover-body">
               ${this.content || nothing}
