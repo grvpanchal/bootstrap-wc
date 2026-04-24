@@ -18,6 +18,8 @@ export class BsTooltip extends BootstrapElement {
   @property({ type: Number, attribute: 'show-delay' }) showDelay = 0;
   @property({ type: Number, attribute: 'hide-delay' }) hideDelay = 0;
   @property({ type: Boolean, reflect: true }) open = false;
+  /** Extra class applied to the rendered tooltip element, mirrors Bootstrap's `data-bs-custom-class`. */
+  @property({ type: String, attribute: 'custom-class' }) customClass = '';
 
   @state() private _mounted = false;
 
@@ -42,7 +44,15 @@ export class BsTooltip extends BootstrapElement {
     this._floating.stop();
   }
 
+  protected override hostClasses(): string {
+    // Mirror customClass onto the host so CSS custom properties declared on
+    // that class (e.g. --bs-tooltip-bg) inherit through the shadow boundary
+    // onto the rendered tooltip element.
+    return this.customClass || '';
+  }
+
   override updated(changed: Map<string, unknown>) {
+    super.updated(changed);
     if (changed.has('open')) {
       if (this.open && this._tipEl && this._refEl) {
         this._mounted = true;
@@ -93,6 +103,7 @@ export class BsTooltip extends BootstrapElement {
       'bs-tooltip-auto': true,
       fade: true,
       show: this.open,
+      ...(this.customClass ? { [this.customClass]: true } : {}),
     });
     return html`
       <span class="bs-tooltip-ref d-inline-block" part="reference"><slot></slot></span>
