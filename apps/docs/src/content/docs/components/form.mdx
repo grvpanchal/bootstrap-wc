@@ -1,0 +1,147 @@
+---
+title: Form
+description: A light-DOM form wrapper that solves browser autofill for shadow-DOM form controls and centralizes submit handling.
+---
+
+import Example from '../../../components/Example.astro';
+
+`<bs-form>` is a thin wrapper around a native `<form>` element. It exists
+for two reasons:
+
+1. **Browser autofill doesn't cross shadow DOM boundaries.** Chrome,
+   Safari, and Firefox walk the light-DOM tree looking for
+   `<input name="…" autocomplete="…">`. Because `<bs-input>` /
+   `<bs-textarea>` / `<bs-select>` render their native controls *inside*
+   a shadow root, those inputs are invisible to the autofill predictor
+   on their own. `<bs-form>` fixes this by injecting a hidden
+   "mirror" `<input>` into the light-DOM form for every form-associated
+   `<bs-*>` child that has both `name` and `autocomplete`. The browser
+   sees and fills the mirrors; `<bs-form>` pipes the filled values into
+   the real `<bs-*>` components.
+2. **Submit handling in one place.** `<bs-form>` dispatches a single
+   `bs-submit` event whose `detail.formData` already includes every
+   form-associated custom element (via `ElementInternals`) as well as
+   any plain `<input>` children. `preventDefault()` cancels the
+   underlying submit.
+
+## Example
+
+<Example code={`<bs-form id="signup" novalidate>
+  <div class="mb-3">
+    <bs-form-label for="email">Email</bs-form-label>
+    <bs-input id="email" name="email" type="email" autocomplete="email" required></bs-input>
+    <bs-form-text>We'll never share your email.</bs-form-text>
+  </div>
+  <div class="mb-3">
+    <bs-form-label for="pw">Password</bs-form-label>
+    <bs-input id="pw" name="password" type="password" autocomplete="current-password" required></bs-input>
+  </div>
+  <bs-form-check name="remember" value="1" label="Remember me" autocomplete="off"></bs-form-check>
+  <div class="mt-3">
+    <bs-button type="submit" variant="primary">Sign in</bs-button>
+  </div>
+</bs-form>
+<script>
+  document.getElementById('signup')?.addEventListener('bs-submit', (ev) => {
+    ev.preventDefault(); // prevent real submit for this demo
+    const data = Object.fromEntries(ev.detail.formData.entries());
+    console.log('submitted:', data);
+  });
+</script>`} />
+
+Because `<bs-input type="email" autocomplete="email">` sits inside a
+shadow root, browsers would normally never autofill it. Open this page
+on a device that has a saved email address and click the input — the
+browser's autofill chip appears because `<bs-form>` has placed a
+matching mirror `<input>` next to it.
+
+## Validation
+
+`<bs-form>` applies Bootstrap's `.needs-validation` class to the inner
+form and toggles `.was-validated` after the first submit attempt (unless
+`novalidate` is set). Combined with `bs-input[required]`, `[pattern]`,
+etc. you get the full `:valid` / `:invalid` styling with no extra JS.
+
+<Example code={`<bs-form id="login">
+  <bs-form-label for="user">Username</bs-form-label>
+  <bs-input id="user" name="username" required autocomplete="username"></bs-input>
+
+  <bs-form-label for="pw2" class="mt-3">Password</bs-form-label>
+  <bs-input id="pw2" name="password" type="password" required autocomplete="current-password"></bs-input>
+
+  <div class="mt-3">
+    <bs-button type="submit" variant="primary">Submit</bs-button>
+  </div>
+</bs-form>`} />
+
+## API
+
+### Attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `action` | `string` | — | Forwarded to the inner `<form>`. |
+| `method` | `string` | — | Forwarded to the inner `<form>`. |
+| `target` | `string` | — | Forwarded to the inner `<form>`. |
+| `enctype` | `string` | — | Forwarded to the inner `<form>`. |
+| `novalidate` | `boolean` | `false` | Disable native constraint validation. |
+| `validated` | `boolean` | `false` | Applies `.was-validated`. Auto-set after first submit unless `novalidate`. |
+| `no-autofill-mirror` | `boolean` | `false` | Opt out of the mirror-`<input>` injection. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-submit` | `{ formData, form, originalEvent }` | Fires on submit. Cancellable — `preventDefault()` stops the underlying form submission. |
+
+### Methods
+
+- `reset()` — resets the inner form and clears `validated`.
+- `checkValidity()` / `reportValidity()` — forwarded to the inner form.
+- `get formData: FormData` — returns a fresh snapshot.
+
+### How the autofill mirror works
+
+Every time the light-DOM tree of a `<bs-form>` mutates, it walks for
+descendants matching
+`bs-input[autocomplete], bs-textarea[autocomplete], bs-select[autocomplete]`
+with a `name` attribute, and:
+
+- Inserts a sibling `<input data-bs-form-mirror>` after the control with
+  the same `name`, `autocomplete`, and `type`.
+- The mirror is visually hidden via the off-screen clip pattern
+  (`clip: rect(0 0 0 0); width: 1px; height: 1px; overflow: hidden`) —
+  **not** `display:none`, which would make browsers skip it during
+  autofill prediction.
+- Listens for `input` / `change` on the mirror; on fill, assigns
+  `mirror.value` to the control's `value` property and dispatches a
+  `bs-input` event with `detail.autofilled = true` so authors can
+  distinguish programmatic-from-autofill updates from typed input.
+- Keeps the mirror's value in sync as the user types in the real
+  control.
+
+If any of this interferes with your setup, set `no-autofill-mirror` to
+opt out entirely.
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add form
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/form';
+```
+
+```html
+<bs-form action="/signup" method="post">
+  <!-- form-associated <bs-*> controls go here -->
+</bs-form>
+```
+
+See `packages/components/src/form/` in the source for the complete implementation.
