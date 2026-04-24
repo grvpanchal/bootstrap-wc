@@ -14,6 +14,8 @@ export class BsTabs extends BootstrapElement {
   @property({ type: String, attribute: 'nav-style' }) navStyle: 'tabs' | 'pills' | 'underline' = 'tabs';
   @property({ type: String }) fill: 'none' | 'fill' | 'justified' = 'none';
   @property({ type: Boolean }) vertical = false;
+  /** Opt out of the default `.fade` animation on tab panels. */
+  @property({ type: Boolean, attribute: 'no-fade' }) noFade = false;
 
   @state() private _panels: { name: string; label: string; disabled: boolean }[] = [];
 
@@ -30,6 +32,12 @@ export class BsTabs extends BootstrapElement {
       label: p.getAttribute('label') ?? p.getAttribute('name') ?? '',
       disabled: p.hasAttribute('disabled'),
     }));
+    // Propagate the fade setting to every panel so the panel's own shadow
+    // picks the right class set.
+    this.querySelectorAll<HTMLElement>('bs-tab-panel').forEach((p) => {
+      if (this.noFade) p.setAttribute('no-fade', '');
+      else p.removeAttribute('no-fade');
+    });
     if (!this.active && this._panels[0]) this.active = this._panels[0].name;
     this._applyActive();
   };
@@ -43,6 +51,13 @@ export class BsTabs extends BootstrapElement {
   }
 
   override updated(changed: Map<string, unknown>) {
+    super.updated(changed);
+    if (changed.has('noFade')) {
+      this.querySelectorAll<HTMLElement>('bs-tab-panel').forEach((p) => {
+        if (this.noFade) p.setAttribute('no-fade', '');
+        else p.removeAttribute('no-fade');
+      });
+    }
     if (changed.has('active')) {
       this._applyActive();
       this.dispatchEvent(
@@ -73,16 +88,23 @@ export class BsTabs extends BootstrapElement {
     const wrapperClasses = classMap({ 'd-flex': this.vertical });
     return html`
       <div part="wrapper" class=${wrapperClasses}>
-        <ul part="nav" class=${navClasses} role="tablist">
+        <ul
+          part="nav"
+          class=${navClasses}
+          role="tablist"
+          aria-orientation=${this.vertical ? 'vertical' : 'horizontal'}
+        >
           ${this._panels.map(
             (p) => html`<li class="nav-item" role="presentation">
               <button
                 part="tab"
                 type="button"
+                id=${`${p.name}-tab`}
                 class="nav-link ${p.name === this.active ? 'active' : ''} ${p.disabled ? 'disabled' : ''}"
                 role="tab"
                 aria-selected=${p.name === this.active ? 'true' : 'false'}
                 aria-controls=${p.name}
+                tabindex=${p.name === this.active ? '0' : '-1'}
                 ?disabled=${p.disabled}
                 @click=${() => this._select(p.name)}
               >${p.label}</button>
@@ -105,10 +127,24 @@ export class BsTabPanel extends BootstrapElement {
   @property({ type: String }) label = '';
   @property({ type: Boolean, reflect: true }) active = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  /** Opt out of the default `.fade` animation. Normally set by the parent `<bs-tabs>`. */
+  @property({ type: Boolean, attribute: 'no-fade', reflect: true }) noFade = false;
 
   override render() {
-    const classes = classMap({ 'tab-pane': true, fade: true, show: this.active, active: this.active });
-    return html`<div part="panel" class=${classes} role="tabpanel" id=${this.name}><slot></slot></div>`;
+    const classes = classMap({
+      'tab-pane': true,
+      fade: !this.noFade,
+      show: this.active,
+      active: this.active,
+    });
+    return html`<div
+      part="panel"
+      class=${classes}
+      role="tabpanel"
+      id=${this.name}
+      aria-labelledby=${`${this.name}-tab`}
+      tabindex="0"
+    ><slot></slot></div>`;
   }
 }
 
