@@ -29,6 +29,18 @@ export interface FormAssociatedInterface {
 export const FormAssociated = <T extends Constructor<LitElement>>(superClass: T) => {
   class FormAssociatedElement extends superClass {
     static readonly formAssociated: boolean = true;
+    /**
+     * Opt every form-associated component's shadow root into `delegatesFocus:
+     * true`. This makes `<label for="my-input">` clicks focus the inner native
+     * `<input>` / `<select>` / `<textarea>` via the shadow boundary — otherwise
+     * the browser focuses the host element, `:focus` doesn't reach the real
+     * control, and caret / autofill prompts don't appear on label click.
+     */
+    static readonly shadowRootOptions: ShadowRootInit = {
+      ...(superClass as unknown as { shadowRootOptions?: ShadowRootInit }).shadowRootOptions,
+      mode: 'open',
+      delegatesFocus: true,
+    };
 
     protected _internals!: ElementInternals;
     protected _value = '';

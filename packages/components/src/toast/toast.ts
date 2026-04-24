@@ -37,7 +37,9 @@ export class BsToast extends BootstrapElement {
         window.clearTimeout(this._timer);
         this._timer = window.setTimeout(() => this.hide(), this.delay);
       }
-      this.dispatchEvent(new CustomEvent(this.open ? 'bs-show' : 'bs-hide', { bubbles: true }));
+      this.dispatchEvent(
+        new CustomEvent(this.open ? 'bs-show' : 'bs-hide', { bubbles: true, composed: true }),
+      );
     }
   }
 

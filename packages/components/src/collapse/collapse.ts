@@ -51,7 +51,9 @@ export class BsCollapse extends BootstrapElement {
     const el = this._inner;
     const dimension = this.horizontal ? 'width' : 'height';
     const scrollDim = this.horizontal ? el.scrollWidth : el.scrollHeight;
-    this.dispatchEvent(new CustomEvent(opening ? 'bs-show' : 'bs-hide', { bubbles: true }));
+    this.dispatchEvent(
+      new CustomEvent(opening ? 'bs-show' : 'bs-hide', { bubbles: true, composed: true }),
+    );
     el.classList.remove('collapse', 'show');
     el.classList.add('collapsing');
     if (this.horizontal) el.classList.add('collapse-horizontal');
@@ -79,7 +81,9 @@ export class BsCollapse extends BootstrapElement {
     if (opening) el.classList.add('show');
     el.style[dimension] = '';
     this._busy = false;
-    this.dispatchEvent(new CustomEvent(opening ? 'bs-shown' : 'bs-hidden', { bubbles: true }));
+    this.dispatchEvent(
+      new CustomEvent(opening ? 'bs-shown' : 'bs-hidden', { bubbles: true, composed: true }),
+    );
   }
 
   override render() {

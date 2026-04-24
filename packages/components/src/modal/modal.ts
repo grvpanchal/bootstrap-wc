@@ -137,7 +137,7 @@ export class BsModal extends BootstrapElement {
   }
 
   private async _onOpen() {
-    this.dispatchEvent(new CustomEvent('bs-show', { bubbles: true, cancelable: true }));
+    this.dispatchEvent(new CustomEvent('bs-show', { bubbles: true, composed: true, cancelable: true }));
     this._animating = true;
     this._prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -149,11 +149,11 @@ export class BsModal extends BootstrapElement {
     this.requestUpdate();
     await this.updateComplete;
     if (this._dialog) this._focusTrap.activate(this._dialog);
-    this.dispatchEvent(new CustomEvent('bs-shown', { bubbles: true }));
+    this.dispatchEvent(new CustomEvent('bs-shown', { bubbles: true, composed: true }));
   }
 
   private async _onClose() {
-    this.dispatchEvent(new CustomEvent('bs-hide', { bubbles: true, cancelable: true }));
+    this.dispatchEvent(new CustomEvent('bs-hide', { bubbles: true, composed: true, cancelable: true }));
     this._focusTrap.deactivate();
     this._animating = true;
     await this.updateComplete;
@@ -161,7 +161,7 @@ export class BsModal extends BootstrapElement {
     this._animating = false;
     this._restoreBody();
     this._restoreFromBody();
-    this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true }));
+    this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true, composed: true }));
   }
 
   private _restoreBody() {
