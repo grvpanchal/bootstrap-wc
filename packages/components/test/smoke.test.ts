@@ -30,6 +30,7 @@ const TAGS = [
   'bs-pagination',
   'bs-popover',
   'bs-progress',
+  'bs-progress-stacked',
   'bs-range',
   'bs-select',
   'bs-spinner',
