@@ -5,11 +5,70 @@ description: Form-associated multiline text input.
 
 import Example from '../../../components/Example.astro';
 
-Form-associated multiline text input.
+`<bs-textarea>` is a **form-associated custom element** — it participates in native `<form>` submission, reset, and validation just like a plain `<textarea>`.
 
 ## Example
 
-<Example code={`<bs-textarea placeholder="Your message" rows="4"></bs-textarea>`} />
+Pair a `<bs-textarea>` with a `<bs-form-label>` (or any `label`) to label the control. Use `rows` to control the default height.
+
+<Example code={`<bs-form-label for="exampleFormControlTextarea1">Example textarea</bs-form-label>
+<bs-textarea id="exampleFormControlTextarea1" rows="3"></bs-textarea>`} />
+
+## Sizing
+
+Use `size="sm"` or `size="lg"` to get a smaller or larger textarea, matching Bootstrap's `.form-control-sm` / `.form-control-lg` sizing scale used by other form controls.
+
+<Example code={`<bs-textarea size="lg" rows="2" placeholder=".form-control-lg" aria-label=".form-control-lg textarea example"></bs-textarea>
+<bs-textarea rows="2" placeholder="Default textarea" aria-label="default textarea example"></bs-textarea>
+<bs-textarea size="sm" rows="2" placeholder=".form-control-sm" aria-label=".form-control-sm textarea example"></bs-textarea>`} />
+
+Use the `rows` attribute to change the visible height in lines.
+
+<Example code={`<bs-textarea rows="2" placeholder="rows=2"></bs-textarea>
+<bs-textarea rows="5" placeholder="rows=5"></bs-textarea>`} />
+
+## Disabled
+
+Add the `disabled` boolean attribute to prevent user interaction and make the textarea appear lighter. Disabled controls can also be marked `readonly`.
+
+<Example code={`<bs-textarea placeholder="Disabled textarea" aria-label="Disabled textarea example" rows="3" disabled></bs-textarea>
+<bs-textarea value="Disabled readonly textarea" aria-label="Disabled readonly textarea example" rows="3" disabled readonly></bs-textarea>`} />
+
+## Readonly
+
+Add the `readonly` boolean attribute to prevent modification of the value. Read-only textareas look like a normal textarea, but are not editable.
+
+<Example code={`<bs-textarea rows="3" value="Readonly textarea content here..." aria-label="readonly textarea example" readonly></bs-textarea>`} />
+
+## Readonly plain text
+
+Add the `plaintext` boolean attribute to render a textarea that looks like plain text (no borders, no background) while preserving the standard vertical spacing. Useful for read-only fields inside a form.
+
+<Example code={`<div class="mb-3 row">
+  <bs-form-label for="staticNotes" class="col-sm-2 col-form-label">Notes</bs-form-label>
+  <div class="col-sm-10">
+    <bs-textarea id="staticNotes" rows="3" value="This field is shown as plain text." readonly plaintext></bs-textarea>
+  </div>
+</div>
+<div class="mb-3 row">
+  <bs-form-label for="editableNotes" class="col-sm-2 col-form-label">Reply</bs-form-label>
+  <div class="col-sm-10">
+    <bs-textarea id="editableNotes" rows="3"></bs-textarea>
+  </div>
+</div>`} />
+
+## With a label and helper text
+
+<Example code={`<bs-form-label for="messageField" required>Message</bs-form-label>
+<bs-textarea id="messageField" name="message" rows="4" minlength="10" required></bs-textarea>
+<bs-form-text>Please provide at least 10 characters.</bs-form-text>`} />
+
+## Validation states
+
+Apply the `valid` or `invalid` boolean attributes to render Bootstrap's `.is-valid` / `.is-invalid` styling.
+
+<Example code={`<bs-textarea valid rows="3" value="Looks good!"></bs-textarea>
+<bs-textarea invalid rows="3" value="Please fix this."></bs-textarea>`} />
 
 ## Install
 
@@ -20,8 +79,6 @@ npm install @bootstrap-wc/components
 npx bwc add textarea
 ```
 
-
-
 ## Usage
 
 ```ts
@@ -31,5 +88,44 @@ import '@bootstrap-wc/components/textarea';
 ```html
 <bs-textarea placeholder="Your message" rows="4"></bs-textarea>
 ```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | `''` | Current value. |
+| `name` | `string` | `''` | Form field name. |
+| `placeholder` | `string` | `''` | Placeholder. |
+| `rows` | `number` | `3` | Visible height in lines. |
+| `size` | `sm` \| `md` \| `lg` | `md` | Size modifier. |
+| `disabled` | `boolean` | `false` | Disables the textarea. |
+| `readonly` | `boolean` | `false` | Read-only. |
+| `required` | `boolean` | `false` | Required. |
+| `invalid` | `boolean` | `false` | Applies `.is-invalid`. |
+| `valid` | `boolean` | `false` | Applies `.is-valid`. |
+| `plaintext` | `boolean` | `false` | Applies `.form-control-plaintext`. |
+| `minlength` / `maxlength` | `number` | — | Standard validation attrs. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-input` | `{ value }` | Fires on every keystroke. |
+| `bs-change` | `{ value }` | Fires on commit (blur). |
+
+### Forms
+
+```html
+<form onsubmit="event.preventDefault(); console.log(new FormData(event.target))">
+  <bs-textarea name="message" required></bs-textarea>
+  <bs-button type="submit">Submit</bs-button>
+</form>
+```
+
+The submitted FormData will contain `message` — no JS state management needed.
+
+> Safari < 16.4 lacks `ElementInternals`. Test your form flows on older Safari if you support it.
 
 See `packages/components/src/textarea/` in the source for the complete property / event list.
