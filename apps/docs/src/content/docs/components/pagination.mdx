@@ -5,11 +5,60 @@ description: Pagination controls with windowing.
 
 import Example from '../../../components/Example.astro';
 
-Pagination controls with windowing.
+Documentation and examples for the `<bs-pagination>` component — a paginated
+navigation control with windowing. Matches Bootstrap 5.3 pagination markup and
+styles.
 
-## Example
+## Overview
 
-<Example code={`<bs-pagination total="10" current="3"></bs-pagination>`} />
+We use a large block of connected links for our pagination, making links hard
+to miss and easily scalable. Active and disabled states are handled
+automatically based on the `current` and `total` attributes.
+
+<Example code={`<bs-pagination total="3" current="0"></bs-pagination>`} />
+
+## Working with icons
+
+Use the `prev` and `next` slots to provide icon content for the Previous and
+Next controls. When a slot is used, `prev-label` / `next-label` are applied as
+the `aria-label` on the link so screen readers still get a textual hint.
+
+<Example code={`<bs-pagination total="3" current="0" prev-label="Previous" next-label="Next">
+  <span slot="prev" aria-hidden="true">«</span>
+  <span slot="next" aria-hidden="true">»</span>
+</bs-pagination>`} />
+
+## Active
+
+Indicates the current page via `aria-current="page"` and the `active` class.
+The component handles this automatically based on the `current` attribute.
+
+<Example code={`<bs-pagination total="3" current="2"></bs-pagination>`} />
+
+## Disabled
+
+Links are automatically disabled when their target is out of bounds — e.g.
+the Previous control at page 1 or Next at page `total`. Disabled items are
+`aria-disabled` via the `disabled` page-item class and skip navigation clicks.
+
+<Example code={`<bs-pagination total="3" current="1"></bs-pagination>`} />
+
+## Sizing
+
+Use the `size` attribute (`sm` or `lg`) for smaller or larger variants.
+
+<Example code={`<bs-pagination total="3" current="1" size="lg" no-nav></bs-pagination>`} />
+
+<Example code={`<bs-pagination total="3" current="1" size="sm" no-nav></bs-pagination>`} />
+
+## Alignment
+
+Use the `align` attribute to change alignment. Default is `start`; `center`
+and `end` are also supported.
+
+<Example code={`<bs-pagination total="3" current="1" align="center"></bs-pagination>`} />
+
+<Example code={`<bs-pagination total="3" current="1" align="end"></bs-pagination>`} />
 
 ## Install
 
@@ -19,8 +68,6 @@ npm install @bootstrap-wc/components
 # or copy the source
 npx bwc add pagination
 ```
-
-
 
 ## Usage
 
@@ -32,4 +79,28 @@ import '@bootstrap-wc/components/pagination';
 <bs-pagination total="10" current="3"></bs-pagination>
 ```
 
-See `packages/components/src/pagination/` in the source for the complete property / event list.
+## API
+
+| Attribute     | Type                               | Default    | Description                                              |
+| ------------- | ---------------------------------- | ---------- | -------------------------------------------------------- |
+| `total`       | `number`                           | `1`        | Total number of pages.                                   |
+| `current`     | `number`                           | `1`        | 1-based index of the active page.                        |
+| `window`      | `number`                           | `2`        | How many page links to show on either side of `current`. |
+| `size`        | `'sm' \| 'md' \| 'lg'`             | `undefined`| Pagination size modifier.                                |
+| `align`       | `'start' \| 'center' \| 'end'`     | `'start'`  | Horizontal alignment of the control.                     |
+| `no-nav`      | `boolean`                          | `false`    | Hide the Previous / Next controls.                       |
+| `prev-label`  | `string`                           | `Previous` | Text or `aria-label` for the Previous control.           |
+| `next-label`  | `string`                           | `Next`     | Text or `aria-label` for the Next control.               |
+
+### Slots
+
+| Name   | Description                                                        |
+| ------ | ------------------------------------------------------------------ |
+| `prev` | Custom content (e.g. an icon) for the Previous control.            |
+| `next` | Custom content (e.g. an icon) for the Next control.                |
+
+### Events
+
+| Event            | Detail                 | Fired when                      |
+| ---------------- | ---------------------- | ------------------------------- |
+| `bs-page-change` | `{ page: number }`     | The user selects a new page.    |
