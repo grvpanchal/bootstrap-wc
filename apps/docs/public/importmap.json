@@ -1,0 +1,20 @@
+{
+  "imports": {
+    "@bootstrap-wc/components": "https://cdn.jsdelivr.net/npm/@bootstrap-wc/components@0.3/dist/index.js",
+    "@bootstrap-wc/core": "https://cdn.jsdelivr.net/npm/@bootstrap-wc/core@0.3/dist/index.js",
+    "lit": "https://cdn.jsdelivr.net/npm/lit@3/+esm",
+    "lit/": "https://cdn.jsdelivr.net/npm/lit@3/",
+    "lit-html": "https://cdn.jsdelivr.net/npm/lit-html@3/+esm",
+    "lit-html/": "https://cdn.jsdelivr.net/npm/lit-html@3/",
+    "lit-element": "https://cdn.jsdelivr.net/npm/lit-element@4/+esm",
+    "lit-element/": "https://cdn.jsdelivr.net/npm/lit-element@4/",
+    "@lit/reactive-element": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/+esm",
+    "@lit/reactive-element/": "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/",
+    "@floating-ui/dom": "https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm",
+    "@floating-ui/core": "https://cdn.jsdelivr.net/npm/@floating-ui/core@1/+esm",
+    "@floating-ui/utils": "https://cdn.jsdelivr.net/npm/@floating-ui/utils@0.2/+esm",
+    "@floating-ui/utils/dom": "https://cdn.jsdelivr.net/npm/@floating-ui/utils@0.2/dom/+esm",
+    "focus-trap": "https://cdn.jsdelivr.net/npm/focus-trap@7/+esm",
+    "tabbable": "https://cdn.jsdelivr.net/npm/tabbable@6/+esm"
+  }
+}

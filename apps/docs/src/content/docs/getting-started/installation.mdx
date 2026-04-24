@@ -35,10 +35,76 @@ import '@bootstrap-wc/components/modal';
 ```
 </TabItem>
 
-<TabItem label="CDN">
+<TabItem label="CDN + import map">
+The fastest way to try the library — no bundler, no `npm install`. Drop
+this into any HTML file and open it in the browser:
+
+```html
+<!-- 1. Bootstrap stylesheet -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css">
+
+<!-- 2. Import map: tells the browser where to find every bare module
+        specifier the components import (lit, @floating-ui/dom, etc.).
+        Keep this in sync with /importmap.json on bootstrap-wc.dev. -->
+<script type="importmap">
+{
+  "imports": {
+    "@bootstrap-wc/components": "https://cdn.jsdelivr.net/npm/@bootstrap-wc/components@0.3/dist/index.js",
+    "@bootstrap-wc/core":       "https://cdn.jsdelivr.net/npm/@bootstrap-wc/core@0.3/dist/index.js",
+    "lit":                      "https://cdn.jsdelivr.net/npm/lit@3/+esm",
+    "lit/":                     "https://cdn.jsdelivr.net/npm/lit@3/",
+    "lit-html":                 "https://cdn.jsdelivr.net/npm/lit-html@3/+esm",
+    "lit-html/":                "https://cdn.jsdelivr.net/npm/lit-html@3/",
+    "lit-element":              "https://cdn.jsdelivr.net/npm/lit-element@4/+esm",
+    "lit-element/":             "https://cdn.jsdelivr.net/npm/lit-element@4/",
+    "@lit/reactive-element":    "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/+esm",
+    "@lit/reactive-element/":   "https://cdn.jsdelivr.net/npm/@lit/reactive-element@2/",
+    "@floating-ui/dom":         "https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm",
+    "@floating-ui/core":        "https://cdn.jsdelivr.net/npm/@floating-ui/core@1/+esm",
+    "@floating-ui/utils":       "https://cdn.jsdelivr.net/npm/@floating-ui/utils@0.2/+esm",
+    "@floating-ui/utils/dom":   "https://cdn.jsdelivr.net/npm/@floating-ui/utils@0.2/dom/+esm",
+    "focus-trap":               "https://cdn.jsdelivr.net/npm/focus-trap@7/+esm",
+    "tabbable":                 "https://cdn.jsdelivr.net/npm/tabbable@6/+esm"
+  }
+}
+</script>
+
+<!-- 3. Register every component (or pick individual imports). -->
+<script type="module">
+  import '@bootstrap-wc/components';
+</script>
+```
+
+Then use any component anywhere on the page:
+
+```html
+<bs-button variant="primary">Click me</bs-button>
+```
+
+The latest copy of the import map is hosted at
+[`/importmap.json`](/importmap.json) — you can also fetch it
+verbatim:
+
+```html
+<script type="importmap" src="https://bootstrap-wc.dev/importmap.json"></script>
+```
+
+(Native `src=` on import maps requires Chrome 124+, Edge 124+,
+Firefox 130+, Safari 18.4+. For older browsers, inline the JSON as
+shown above.)
+
+A complete, runnable example lives at
+[`/sample.html`](/sample.html) on the docs site.
+</TabItem>
+
+<TabItem label="CDN (single script)">
 ```html
 <script type="module" src="https://cdn.jsdelivr.net/npm/@bootstrap-wc/components/dist/index.js"></script>
 ```
+
+This works for quick experiments but pins every transitive dependency
+to whatever version the CDN serves. For anything beyond a one-off
+demo, prefer the import-map approach above.
 </TabItem>
 
 <TabItem label="bwc CLI (own the code)">
