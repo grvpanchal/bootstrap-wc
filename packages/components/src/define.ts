@@ -11,6 +11,7 @@ export * from './card/index.js';
 export * from './close-button/index.js';
 export * from './collapse/index.js';
 export * from './dropdown/index.js';
+export * from './form/index.js';
 export * from './form-check/index.js';
 export * from './form-label/index.js';
 export * from './form-text/index.js';
