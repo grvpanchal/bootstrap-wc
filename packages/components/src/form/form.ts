@@ -1,39 +1,41 @@
 import { defineElement } from '@bootstrap-wc/core';
 
-const CONTROL_TAGS = new Set(['BS-INPUT', 'BS-TEXTAREA', 'BS-SELECT']);
-
 /**
- * `<bs-form>` — a thin wrapper around a native `<form>` that solves the
- * browser-autofill gap for shadow-DOM form controls.
+ * `<bs-form>` — a thin wrapper around a native `<form>`.
  *
- * Browsers' autofill heuristics walk the light-DOM tree looking for
- * `<input name="…" autocomplete="…">` elements inside a `<form>`. Because
- * our `bs-input` / `bs-textarea` / `bs-select` render their native inputs
- * *inside* a shadow root, Chrome / Safari / Firefox never see them and
- * never offer to autofill. `bs-form` patches that by:
+ * Wraps its children in a real light-DOM `<form>` so they participate in
+ * native form submission, validation, and FormData / `<input>` autofill
+ * out of the box. Hoists submit into a single cancellable `bs-submit`
+ * event whose `detail.formData` is a fresh snapshot.
  *
- * 1. Hosting a real light-DOM `<form>` around its slotted children (it
- *    moves initial children into the form on first connect and maintains
- *    membership via a MutationObserver).
- * 2. Scanning for every form-associated `<bs-*>` that declares `name` +
- *    `autocomplete` and injecting a **hidden mirror `<input>`** into the
- *    form for each. The mirror carries the same `name`, `autocomplete`,
- *    and `type` so browser autofill prediction runs normally. When the
- *    browser fills the mirror, its value is piped back into the real
- *    `<bs-*>` via its `value` / `checked` property.
- * 3. Hoisting submit into a single custom `bs-submit` event whose
- *    `detail.formData` already includes every form-associated CE via
- *    `ElementInternals`, plus the author's native `<input>`s.
+ * **Why a light-DOM `<form>`?** Browser autofill heuristics and password
+ * managers (Chrome, Safari, Firefox, 1Password, Bitwarden, …) walk the
+ * light-DOM tree looking for `<input name="…" autocomplete="…">` inside
+ * a `<form>`. They also anchor their autofill UI to the focused
+ * light-DOM control. Our `bs-input` / `bs-textarea` / `bs-select` /
+ * `bs-range` / `bs-form-check` therefore render their native control
+ * into light DOM (Ionic, Adobe Spectrum, Lion, Carbon all do the same)
+ * — `bs-form` simply provides the `<form>` ancestor.
  *
- * Implementation notes:
- * - Extends `HTMLElement` directly (not `LitElement`). We need complete
- *   control of light-DOM children — Lit's render pipeline replaces the
- *   host's contents when rendering into light DOM, which would blow away
- *   the `<form>` we create. Since the component's DOM is structurally
- *   trivial (just a form wrapper + mirror inputs), hand-rolling is both
- *   simpler and correct.
- * - Mirror inputs are visually hidden via an off-screen clip rectangle,
- *   NOT `display:none` (which would exclude them from autofill).
+ * Implementation detail: extends `HTMLElement` directly (not
+ * `LitElement`). When `createRenderRoot()` returns the host (light DOM),
+ * Lit's render pipeline replaces the host's contents on every render —
+ * which would blow away the `<form>` we just created. The component's
+ * DOM is trivial enough that hand-rolling on `HTMLElement` with
+ * `attributeChangedCallback` is both simpler and correct.
+ *
+ * Attributes:
+ * - `action`, `method`, `target`, `enctype` — passed through to the
+ *   inner `<form>`.
+ * - `novalidate` — disable native constraint validation before submit.
+ * - `validated` — applies Bootstrap's `.was-validated` state for
+ *   validation styling. Set automatically after the first submit unless
+ *   `novalidate` is present.
+ *
+ * Events:
+ * - `bs-submit` — fires on submit with `{ detail: { formData, form,
+ *   originalEvent } }`. Cancellable — `preventDefault()` stops the
+ *   underlying form submission.
  */
 export class BsForm extends HTMLElement {
   static observedAttributes = [
@@ -43,13 +45,10 @@ export class BsForm extends HTMLElement {
     'enctype',
     'novalidate',
     'validated',
-    'no-autofill-mirror',
   ];
 
   private _form?: HTMLFormElement;
   private _observer?: MutationObserver;
-  private _mirrors = new Map<Element, HTMLInputElement>();
-  private _listenerDisposers = new Map<Element, () => void>();
   private _upgraded = false;
 
   connectedCallback(): void {
@@ -60,32 +59,20 @@ export class BsForm extends HTMLElement {
     this._syncFormAttrs();
     this._form!.addEventListener('submit', this._onSubmit);
     this._observer = new MutationObserver((records) => this._onMutate(records));
-    this._observer.observe(this, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeFilter: ['name', 'autocomplete', 'type'],
-    });
-    this._syncMirrors();
+    this._observer.observe(this, { childList: true });
   }
 
   disconnectedCallback(): void {
     this._form?.removeEventListener('submit', this._onSubmit);
     this._observer?.disconnect();
     this._observer = undefined;
-    for (const dispose of this._listenerDisposers.values()) dispose();
-    this._listenerDisposers.clear();
   }
 
-  attributeChangedCallback(name: string, _old: string | null, _next: string | null): void {
-    if (!this._form) return;
-    this._syncFormAttrs();
-    if (name === 'no-autofill-mirror') this._syncMirrors();
+  attributeChangedCallback(): void {
+    if (this._form) this._syncFormAttrs();
   }
 
-  // ---------------------------------------------------------------------------
-  // Public API (method / property accessors)
-  // ---------------------------------------------------------------------------
+  // Public API ---------------------------------------------------------------
 
   get action(): string | null { return this.getAttribute('action'); }
   set action(v: string | null) { if (v == null) this.removeAttribute('action'); else this.setAttribute('action', v); }
@@ -105,29 +92,26 @@ export class BsForm extends HTMLElement {
   get validated(): boolean { return this.hasAttribute('validated'); }
   set validated(v: boolean) { this.toggleAttribute('validated', !!v); }
 
-  get noAutofillMirror(): boolean { return this.hasAttribute('no-autofill-mirror'); }
-  set noAutofillMirror(v: boolean) { this.toggleAttribute('no-autofill-mirror', !!v); }
-
+  /** Resets the inner form and clears the `validated` state. */
   reset(): void {
     this._form?.reset();
     this.validated = false;
   }
 
-  checkValidity(): boolean {
-    return this._form?.checkValidity() ?? true;
-  }
+  checkValidity(): boolean { return this._form?.checkValidity() ?? true; }
+  reportValidity(): boolean { return this._form?.reportValidity() ?? true; }
 
-  reportValidity(): boolean {
-    return this._form?.reportValidity() ?? true;
-  }
-
+  /** Returns a fresh FormData snapshot. */
   get formData(): FormData {
     return this._form ? new FormData(this._form) : new FormData();
   }
 
-  // ---------------------------------------------------------------------------
-  // Light-DOM form maintenance
-  // ---------------------------------------------------------------------------
+  /** The native `<form>` instance (read-only after first connect). */
+  get nativeForm(): HTMLFormElement | null {
+    return this._form ?? null;
+  }
+
+  // Light-DOM form maintenance -----------------------------------------------
 
   private _ensureForm(): void {
     const existing = this.querySelector(':scope > form[data-bs-form-root]');
@@ -163,137 +147,19 @@ export class BsForm extends HTMLElement {
   }
 
   private _onMutate(records: MutationRecord[]): void {
-    if (this._form) {
-      for (const r of records) {
-        if (r.type !== 'childList' || r.target !== this) continue;
-        for (const node of Array.from(r.addedNodes)) {
-          if (node === this._form) continue;
-          if (
-            node.nodeType === Node.ELEMENT_NODE &&
-            (node as Element).hasAttribute?.('data-bs-form-mirror')
-          ) {
-            this._form.appendChild(node);
-            continue;
-          }
-          if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) {
-            this._form.appendChild(node);
-          }
+    if (!this._form) return;
+    for (const r of records) {
+      if (r.type !== 'childList' || r.target !== this) continue;
+      for (const node of Array.from(r.addedNodes)) {
+        if (node === this._form) continue;
+        if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) {
+          this._form.appendChild(node);
         }
       }
     }
-    this._syncMirrors();
   }
 
-  // ---------------------------------------------------------------------------
-  // Autofill mirror inputs
-  // ---------------------------------------------------------------------------
-
-  private _syncMirrors(): void {
-    if (!this._form) return;
-    if (this.noAutofillMirror) {
-      for (const mirror of this._mirrors.values()) mirror.remove();
-      for (const dispose of this._listenerDisposers.values()) dispose();
-      this._mirrors.clear();
-      this._listenerDisposers.clear();
-      return;
-    }
-
-    const seen = new Set<Element>();
-    const controls = this._form.querySelectorAll(
-      'bs-input[autocomplete], bs-textarea[autocomplete], bs-select[autocomplete]',
-    );
-    for (const ctl of Array.from(controls)) {
-      if (!CONTROL_TAGS.has(ctl.tagName)) continue;
-      if (!ctl.getAttribute('name')) continue;
-      seen.add(ctl);
-      this._ensureMirrorFor(ctl as HTMLElement);
-    }
-    for (const [ctl, mirror] of this._mirrors) {
-      if (!seen.has(ctl)) {
-        mirror.remove();
-        this._mirrors.delete(ctl);
-        this._listenerDisposers.get(ctl)?.();
-        this._listenerDisposers.delete(ctl);
-      }
-    }
-  }
-
-  private _ensureMirrorFor(ctl: HTMLElement): void {
-    let mirror = this._mirrors.get(ctl);
-    const name = ctl.getAttribute('name') || '';
-    const autocomplete = ctl.getAttribute('autocomplete') || '';
-    const type = this._mirrorTypeFor(ctl);
-
-    if (!mirror) {
-      mirror = document.createElement('input');
-      mirror.setAttribute('data-bs-form-mirror', '');
-      mirror.tabIndex = -1;
-      mirror.setAttribute('aria-hidden', 'true');
-      mirror.style.position = 'absolute';
-      mirror.style.width = '1px';
-      mirror.style.height = '1px';
-      mirror.style.padding = '0';
-      mirror.style.margin = '-1px';
-      mirror.style.overflow = 'hidden';
-      mirror.style.clip = 'rect(0, 0, 0, 0)';
-      mirror.style.whiteSpace = 'nowrap';
-      mirror.style.border = '0';
-      ctl.after(mirror);
-      this._mirrors.set(ctl, mirror);
-
-      const onMirrorInput = () => this._applyMirrorValue(ctl, mirror!);
-      mirror.addEventListener('input', onMirrorInput);
-      mirror.addEventListener('change', onMirrorInput);
-
-      const onControlInput = () => this._readFromControl(ctl, mirror!);
-      ctl.addEventListener('bs-input', onControlInput as EventListener);
-      ctl.addEventListener('bs-change', onControlInput as EventListener);
-
-      this._readFromControl(ctl, mirror);
-
-      this._listenerDisposers.set(ctl, () => {
-        mirror!.removeEventListener('input', onMirrorInput);
-        mirror!.removeEventListener('change', onMirrorInput);
-        ctl.removeEventListener('bs-input', onControlInput as EventListener);
-        ctl.removeEventListener('bs-change', onControlInput as EventListener);
-      });
-    }
-
-    if (mirror.name !== name) mirror.name = name;
-    if (mirror.getAttribute('autocomplete') !== autocomplete) {
-      mirror.setAttribute('autocomplete', autocomplete);
-    }
-    if (mirror.type !== type) mirror.type = type;
-  }
-
-  private _mirrorTypeFor(ctl: HTMLElement): string {
-    if (ctl.tagName === 'BS-INPUT') {
-      const t = ctl.getAttribute('type');
-      return t || 'text';
-    }
-    return 'text';
-  }
-
-  private _applyMirrorValue(ctl: Element, mirror: HTMLInputElement): void {
-    const v = mirror.value;
-    (ctl as unknown as { value: string }).value = v;
-    ctl.dispatchEvent(
-      new CustomEvent('bs-input', {
-        bubbles: true,
-        composed: true,
-        detail: { value: v, autofilled: true },
-      }),
-    );
-  }
-
-  private _readFromControl(ctl: Element, mirror: HTMLInputElement): void {
-    const v = (ctl as unknown as { value?: string }).value;
-    if (typeof v === 'string' && mirror.value !== v) mirror.value = v;
-  }
-
-  // ---------------------------------------------------------------------------
-  // Submit
-  // ---------------------------------------------------------------------------
+  // Submit -------------------------------------------------------------------
 
   private _onSubmit = (ev: SubmitEvent) => {
     if (!this.novalidate) {

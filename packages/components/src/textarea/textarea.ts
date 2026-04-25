@@ -1,15 +1,18 @@
 import { html, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { BootstrapElement, FormAssociated, defineElement, type Size } from '@bootstrap-wc/core';
+import { BootstrapElement, defineElement, type Size } from '@bootstrap-wc/core';
 
 /**
- * `<bs-textarea>` — form-associated Bootstrap textarea.
+ * `<bs-textarea>` — Bootstrap textarea. Renders the native `<textarea>`
+ * into LIGHT DOM so browser autofill / password-manager UI can target
+ * it. See `bs-input` for the rationale.
  */
-export class BsTextarea extends FormAssociated(BootstrapElement) {
+export class BsTextarea extends BootstrapElement {
   @property({ type: String }) value = '';
   @property({ type: String }) placeholder = '';
   @property({ type: String }) name = '';
+  @property({ type: String }) autocomplete?: string;
   @property({ type: Number }) rows = 3;
   @property({ type: String }) size?: Size;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -27,19 +30,31 @@ export class BsTextarea extends FormAssociated(BootstrapElement) {
     this._textarea?.focus();
   }
 
-  override willUpdate(changed: Map<string, unknown>) {
-    if (changed.has('value')) this._setValue(this.value);
+  get nativeTextarea(): HTMLTextAreaElement | null {
+    return this._textarea ?? null;
+  }
+
+  protected override createRenderRoot(): HTMLElement {
+    return this;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.style.display = this.style.display || 'contents';
   }
 
   private _onInput = (ev: InputEvent) => {
     const target = ev.target as HTMLTextAreaElement;
     this.value = target.value;
-    this._setValue(this.value);
-    this.dispatchEvent(new CustomEvent('bs-input', { bubbles: true, composed: true, detail: { value: this.value } }));
+    this.dispatchEvent(
+      new CustomEvent('bs-input', { bubbles: true, composed: true, detail: { value: this.value } }),
+    );
   };
 
   private _onChange = () => {
-    this.dispatchEvent(new CustomEvent('bs-change', { bubbles: true, composed: true, detail: { value: this.value } }));
+    this.dispatchEvent(
+      new CustomEvent('bs-change', { bubbles: true, composed: true, detail: { value: this.value } }),
+    );
   };
 
   override render() {
@@ -50,24 +65,24 @@ export class BsTextarea extends FormAssociated(BootstrapElement) {
       'is-invalid': this.invalid,
       'is-valid': this.valid,
     });
-    return html`
-      <textarea
-        part="textarea"
-        class=${classes}
-        rows=${this.rows}
-        placeholder=${this.placeholder}
-        name=${this.name}
-        minlength=${this.minlength ?? nothing}
-        maxlength=${this.maxlength ?? nothing}
-        ?disabled=${this.disabled}
-        ?readonly=${this.readonly}
-        ?required=${this.required}
-        aria-invalid=${this.invalid ? 'true' : 'false'}
-        @input=${this._onInput}
-        @change=${this._onChange}
-        .value=${this.value}
-      ></textarea>
-    `;
+    return html`<textarea
+      part="textarea"
+      class=${classes}
+      rows=${this.rows}
+      placeholder=${this.placeholder}
+      name=${this.name}
+      id=${this.id ? `${this.id}__native` : nothing}
+      autocomplete=${this.autocomplete ?? nothing}
+      minlength=${this.minlength ?? nothing}
+      maxlength=${this.maxlength ?? nothing}
+      ?disabled=${this.disabled}
+      ?readonly=${this.readonly}
+      ?required=${this.required}
+      aria-invalid=${this.invalid ? 'true' : 'false'}
+      @input=${this._onInput}
+      @change=${this._onChange}
+      .value=${this.value}
+    ></textarea>`;
   }
 }
 
