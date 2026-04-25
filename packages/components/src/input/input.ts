@@ -38,6 +38,14 @@ export type InputType =
  * @fires bs-change - Mirrors native `change`.
  */
 export class BsInput extends BootstrapElement {
+  /**
+   * Mark as form-associated so the host is a labelable element. When the
+   * user clicks `<label for="my-input">` Chrome / Safari look up
+   * `#my-input` and call `.focus()` on it; the override below forwards
+   * focus to the actual native `<input>` inside.
+   */
+  static formAssociated = true;
+
   @property({ type: String }) type: InputType = 'text';
   @property({ type: String }) value = '';
   @property({ type: String }) placeholder = '';

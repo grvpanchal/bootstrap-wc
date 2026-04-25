@@ -8,6 +8,8 @@ import { BootstrapElement, defineElement } from '@bootstrap-wc/core';
  * automatic. See `bs-input` for the rationale.
  */
 export class BsRange extends BootstrapElement {
+  static formAssociated = true;
+
   @property({ type: String }) value = '50';
   @property({ type: Number }) min = 0;
   @property({ type: Number }) max = 100;

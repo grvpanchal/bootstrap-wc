@@ -37,6 +37,8 @@ type SlottedNode = SlottedOption | SlottedGroup | SlottedHr;
  * first connect and rendered inside the native `<select>`.
  */
 export class BsSelect extends BootstrapElement {
+  static formAssociated = true;
+
   @property({ type: String }) value = '';
   @property({ type: String }) name = '';
   @property({ type: String }) autocomplete?: string;

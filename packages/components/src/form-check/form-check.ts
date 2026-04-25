@@ -19,6 +19,8 @@ export type CheckType = 'checkbox' | 'radio' | 'switch';
  * the element.
  */
 export class BsFormCheck extends BootstrapElement {
+  static formAssociated = true;
+
   @property({ type: String }) type: CheckType = 'checkbox';
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;

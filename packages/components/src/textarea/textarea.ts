@@ -9,6 +9,8 @@ import { BootstrapElement, defineElement, type Size } from '@bootstrap-wc/core';
  * it. See `bs-input` for the rationale.
  */
 export class BsTextarea extends BootstrapElement {
+  static formAssociated = true;
+
   @property({ type: String }) value = '';
   @property({ type: String }) placeholder = '';
   @property({ type: String }) name = '';

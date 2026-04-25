@@ -4,35 +4,35 @@ import '../src/textarea/index.js';
 import '../src/select/index.js';
 import '../src/collapse/index.js';
 
-describe('WC polish: delegatesFocus', () => {
-  it('bs-input shadow root delegates focus to the inner <input>', async () => {
-    const wrap = await fixture<HTMLElement>(html`<div>
-      <label for="ctl">Label</label>
-      <bs-input id="ctl"></bs-input>
-    </div>`);
+describe('WC polish: form controls render the native control in light DOM', () => {
+  it('bs-input has no shadow root and exposes its native <input> as a child', async () => {
+    const el = await fixture<HTMLElement>(html`<bs-input></bs-input>`);
     await new Promise((r) => requestAnimationFrame(r));
-    const host = wrap.querySelector('bs-input') as HTMLElement;
-    expect(host.shadowRoot!.delegatesFocus, 'shadow root opts into delegatesFocus').to.equal(true);
-    // Label click should focus through the shadow boundary to the inner input.
-    wrap.querySelector('label')!.click();
-    // activeElement from the document's perspective is the host (focus delegates
-    // inward, but document.activeElement reports the shadow host).
-    expect(document.activeElement).to.equal(host);
-    // Inside the shadow, the native input should actually be focused.
-    const nativeInput = host.shadowRoot!.querySelector('input');
-    expect(host.shadowRoot!.activeElement).to.equal(nativeInput);
+    expect(el.shadowRoot, 'no shadow root for form controls').to.equal(null);
+    expect(el.querySelector('input'), 'native <input> in light DOM').to.exist;
   });
 
-  it('bs-textarea shadow root delegates focus', async () => {
+  it('bs-textarea renders <textarea> in light DOM', async () => {
     const el = await fixture<HTMLElement>(html`<bs-textarea></bs-textarea>`);
     await new Promise((r) => requestAnimationFrame(r));
-    expect(el.shadowRoot!.delegatesFocus).to.equal(true);
+    expect(el.shadowRoot).to.equal(null);
+    expect(el.querySelector('textarea')).to.exist;
   });
 
-  it('bs-select shadow root delegates focus', async () => {
+  it('bs-select renders <select> in light DOM', async () => {
     const el = await fixture<HTMLElement>(html`<bs-select></bs-select>`);
     await new Promise((r) => requestAnimationFrame(r));
-    expect(el.shadowRoot!.delegatesFocus).to.equal(true);
+    expect(el.shadowRoot).to.equal(null);
+    expect(el.querySelector('select')).to.exist;
+  });
+
+  it('bs-input host.focus() delegates to the native <input>', async () => {
+    const el = await fixture<HTMLElement & { focus(): void }>(html`<bs-input></bs-input>`);
+    await new Promise((r) => requestAnimationFrame(r));
+    const native = el.querySelector('input') as HTMLInputElement;
+    expect(native, 'native input rendered').to.exist;
+    el.focus();
+    expect(document.activeElement, 'native input ends up focused').to.equal(native);
   });
 });
 
