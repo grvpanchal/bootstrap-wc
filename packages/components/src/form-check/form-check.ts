@@ -1,17 +1,24 @@
 import { html, nothing } from 'lit';
 import { property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
-import { BootstrapElement, FormAssociated, defineElement } from '@bootstrap-wc/core';
+import { BootstrapElement, defineElement } from '@bootstrap-wc/core';
 
 export type CheckType = 'checkbox' | 'radio' | 'switch';
 
 /**
- * `<bs-form-check>` — unified checkbox / radio / switch form control.
+ * `<bs-form-check>` — unified checkbox / radio / switch.
  *
- * Use `type="switch"` for the toggle style. `type="radio"` requires a `name`
- * attribute to group with sibling radios.
+ * Renders the native `<input type="checkbox|radio">` into LIGHT DOM so
+ * browser autofill, password-manager autofill, and form-association all
+ * work the same way they do for plain HTML. See `bs-input` for
+ * background on the light-DOM rendering choice.
+ *
+ * Use `type="switch"` for the toggle style. `type="radio"` requires a
+ * `name` attribute to group with sibling radios. Author label content
+ * either via the `label` attribute or by placing inline children inside
+ * the element.
  */
-export class BsFormCheck extends FormAssociated(BootstrapElement) {
+export class BsFormCheck extends BootstrapElement {
   @property({ type: String }) type: CheckType = 'checkbox';
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -19,6 +26,7 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
   @property({ type: Boolean, reflect: true }) indeterminate = false;
   @property({ type: String }) name = '';
   @property({ type: String }) value = 'on';
+  @property({ type: String }) autocomplete?: string;
   @property({ type: String }) label?: string;
   @property({ type: String, attribute: 'aria-label' }) override ariaLabel: string | null = null;
   @property({ type: Boolean }) inline = false;
@@ -27,33 +35,57 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
   @property({ type: Boolean }) valid = false;
 
   @query('input') private _input!: HTMLInputElement;
+  @query('label[part="label"]') private _label!: HTMLLabelElement | null;
+
+  /** Snapshot of author-provided label children, taken before Lit's
+   *  light-DOM render replaces them. Re-inserted into the rendered
+   *  `<label>` after each render. */
+  private _labelContent: Node[] = [];
+
+  protected override createRenderRoot(): HTMLElement {
+    return this;
+  }
+
+  override connectedCallback(): void {
+    if (!this._labelContent.length) {
+      this._labelContent = Array.from(this.childNodes).map((n) => n.cloneNode(true));
+      // Clear children so Lit's render starts from a known state.
+      while (this.firstChild) this.firstChild.remove();
+    }
+    super.connectedCallback();
+    this.style.display = this.style.display || 'contents';
+  }
 
   override focus() {
     this._input?.focus();
   }
 
-  override willUpdate(changed: Map<string, unknown>) {
-    if (changed.has('checked') || changed.has('value')) {
-      this._setValue(this.checked ? this.value : '');
-    }
+  get nativeInput(): HTMLInputElement | null {
+    return this._input ?? null;
   }
 
   override updated(changed: Map<string, unknown>) {
     super.updated?.(changed);
-    // `indeterminate` is a DOM property only — it has no HTML attribute.
+    // `indeterminate` is a DOM property only — no HTML attribute.
     if (this._input && changed.has('indeterminate')) {
       this._input.indeterminate = this.indeterminate;
     } else if (this._input && this.indeterminate && this._input.indeterminate !== true) {
       this._input.indeterminate = true;
+    }
+    // Re-attach the author's label children after each render.
+    if (this._label && this.label === undefined && this._labelContent.length) {
+      // Only repopulate if it's currently empty (Lit's render leaves it
+      // empty when there's no `${this.label}` text).
+      if (!this._label.firstChild) {
+        for (const node of this._labelContent) this._label.appendChild(node.cloneNode(true));
+      }
     }
   }
 
   private _onChange = (ev: Event) => {
     const target = ev.target as HTMLInputElement;
     this.checked = target.checked;
-    // User interaction clears indeterminate, mirroring native behavior.
     if (this.indeterminate) this.indeterminate = false;
-    this._setValue(this.checked ? this.value : '');
     this.dispatchEvent(
       new CustomEvent('bs-change', {
         bubbles: true,
@@ -78,30 +110,29 @@ export class BsFormCheck extends FormAssociated(BootstrapElement) {
     });
     const id = this.id || `bs-check-${Math.random().toString(36).slice(2, 9)}`;
     const hasLabel = this.label !== undefined || !this.ariaLabel;
-    return html`
-      <div part="wrapper" class=${wrapperClasses}>
-        <input
-          part="input"
-          id=${id}
-          class=${inputClasses}
-          type=${nativeType}
-          name=${this.name}
-          value=${this.value}
-          role=${this.type === 'switch' ? 'switch' : nothing}
-          ?checked=${this.checked}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          aria-invalid=${this.invalid ? 'true' : 'false'}
-          aria-label=${this.ariaLabel ?? nothing}
-          @change=${this._onChange}
-        />
-        ${hasLabel
-          ? this.label !== undefined
-            ? html`<label part="label" class="form-check-label" for=${id}>${this.label}<slot></slot></label>`
-            : html`<label part="label" class="form-check-label" for=${id}><slot></slot></label>`
-          : nothing}
-      </div>
-    `;
+    return html`<div part="wrapper" class=${wrapperClasses}>
+      <input
+        part="input"
+        id=${id}
+        class=${inputClasses}
+        type=${nativeType}
+        name=${this.name}
+        value=${this.value}
+        autocomplete=${this.autocomplete ?? nothing}
+        role=${this.type === 'switch' ? 'switch' : nothing}
+        ?checked=${this.checked}
+        ?disabled=${this.disabled}
+        ?required=${this.required}
+        aria-invalid=${this.invalid ? 'true' : 'false'}
+        aria-label=${this.ariaLabel ?? nothing}
+        @change=${this._onChange}
+      />
+      ${hasLabel
+        ? this.label !== undefined
+          ? html`<label part="label" class="form-check-label" for=${id}>${this.label}</label>`
+          : html`<label part="label" class="form-check-label" for=${id}></label>`
+        : nothing}
+    </div>`;
   }
 }
 

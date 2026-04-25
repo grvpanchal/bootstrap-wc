@@ -2,31 +2,41 @@
 '@bootstrap-wc/components': minor
 ---
 
-New `<bs-form>` component — a light-DOM wrapper around a native `<form>`
-that closes the browser-autofill gap for shadow-DOM form controls.
+Browser autofill, fixed properly — by switching every form-control
+component to light-DOM rendering for the native control.
 
-Browsers' autofill predictors walk the light-DOM tree looking for
-`<input name="…" autocomplete="…">` inside a `<form>`. Our `bs-input` /
-`bs-textarea` / `bs-select` render native inputs *inside* a shadow root,
-so Chrome, Safari, and Firefox never see them and never offer to
-autofill on their own. `<bs-form>`:
+Browser autofill heuristics walk the light-DOM tree looking for
+`<input name="…" autocomplete="…">` inside a `<form>` and anchor their
+autofill UI to the focused control. With our previous shadow-DOM
+implementation no autofill chip ever appeared on `bs-input` /
+`bs-textarea` / `bs-select` / `bs-range` / `bs-form-check`, no matter
+what mirror tricks we tried — Chrome's UI is positioned over whatever
+input the user actually clicked, so a hidden mirror in some sibling
+position never received the chip.
 
-- Wraps its children in a light-DOM `<form>` (moves initial children
-  into it and watches for later additions via MutationObserver).
-- Injects a hidden mirror `<input>` into the form for every
-  form-associated `<bs-*>` child declaring both `name` and
-  `autocomplete`. The mirror carries matching `name` / `autocomplete` /
-  `type` so autofill prediction runs normally. It's visually hidden via
-  the off-screen-clip pattern (not `display:none`, which would disqualify
-  it from autofill).
-- Propagates browser-filled values from the mirror into the real
-  `<bs-*>` via its `value` property, and emits a `bs-input` event with
-  `detail.autofilled = true`.
-- Dispatches a single cancellable `bs-submit` event whose
-  `detail.formData` already includes every form-associated CE (via
-  `ElementInternals`) plus any plain `<input>` children.
-- Applies Bootstrap's `.needs-validation` / `.was-validated` state
-  automatically; exposes `reset()`, `checkValidity()`,
-  `reportValidity()`, and a `formData` getter.
+This is the same problem Ionic, Adobe Spectrum, Lion, and Carbon's
+web-component libraries solved for their form controls, and they all
+landed on the same answer: **render the native control in light DOM**.
+That's what we now do.
 
-Opt out of the mirror injection with `<bs-form no-autofill-mirror>`.
+- New `<bs-form>` — wraps its children in a real light-DOM `<form>`,
+  hoists submit into a cancellable `bs-submit` event, applies
+  Bootstrap's `.needs-validation` / `.was-validated` lifecycle, exposes
+  `reset()` / `checkValidity()` / `reportValidity()` / `formData` /
+  `nativeForm`.
+- `bs-input` / `bs-textarea` / `bs-select` / `bs-range` / `bs-form-check`
+  now render their native `<input>` / `<textarea>` / `<select>` into
+  light DOM (`createRenderRoot()` returns `this`). Form participation,
+  FormData, validation, and autofill all "just work" via the native
+  control — no `ElementInternals` plumbing.
+- `bs-input` / `bs-textarea` / `bs-select` / `bs-form-check` gain an
+  `autocomplete` attribute that's forwarded to the native control.
+- `bs-form-check` snapshots its inline label children before render so
+  inline `<a>` / `<span>` content inside `<bs-form-check>I agree to
+  <a href="…">terms</a></bs-form-check>` keeps working.
+
+API compatibility note — these components no longer use the
+`FormAssociated` mixin, which means `el.form` / `el.validity` /
+`el.checkValidity()` are no longer methods on the host. Equivalent APIs
+are available on the underlying native control via the new
+`nativeInput` / `nativeTextarea` / `nativeSelect` getters.
