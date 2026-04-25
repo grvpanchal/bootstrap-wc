@@ -45,13 +45,19 @@ export class BsOffcanvas extends BootstrapElement {
     super.updated(changed);
     if (changed.has('open')) {
       if (this.open) {
-        this.dispatchEvent(new CustomEvent('bs-show', { bubbles: true }));
+        this.dispatchEvent(new CustomEvent('bs-show', { bubbles: true, composed: true }));
         queueMicrotask(() => this._panel && this._trap.activate(this._panel));
-        setTimeout(() => this.dispatchEvent(new CustomEvent('bs-shown', { bubbles: true })), 300);
+        setTimeout(
+          () => this.dispatchEvent(new CustomEvent('bs-shown', { bubbles: true, composed: true })),
+          300,
+        );
       } else {
         this._trap.deactivate();
-        this.dispatchEvent(new CustomEvent('bs-hide', { bubbles: true }));
-        setTimeout(() => this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true })), 300);
+        this.dispatchEvent(new CustomEvent('bs-hide', { bubbles: true, composed: true }));
+        setTimeout(
+          () => this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true, composed: true })),
+          300,
+        );
       }
     }
   }

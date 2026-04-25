@@ -88,10 +88,10 @@ export class BsDropdown extends BootstrapElement {
           shift: true,
         });
         this._floating.start(this._toggleEl, this._menuEl);
-        this.dispatchEvent(new CustomEvent('bs-shown', { bubbles: true }));
+        this.dispatchEvent(new CustomEvent('bs-shown', { bubbles: true, composed: true }));
       } else {
         this._floating.stop();
-        this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true }));
+        this.dispatchEvent(new CustomEvent('bs-hidden', { bubbles: true, composed: true }));
       }
     }
   }
@@ -99,14 +99,14 @@ export class BsDropdown extends BootstrapElement {
   /** Show the menu. */
   show() {
     if (this.open) return;
-    this.dispatchEvent(new CustomEvent('bs-show', { bubbles: true, cancelable: true }));
+    this.dispatchEvent(new CustomEvent('bs-show', { bubbles: true, composed: true, cancelable: true }));
     this.open = true;
   }
 
   /** Hide the menu. */
   hide() {
     if (!this.open) return;
-    this.dispatchEvent(new CustomEvent('bs-hide', { bubbles: true, cancelable: true }));
+    this.dispatchEvent(new CustomEvent('bs-hide', { bubbles: true, composed: true, cancelable: true }));
     this.open = false;
   }
 
