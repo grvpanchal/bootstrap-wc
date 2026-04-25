@@ -29,8 +29,12 @@ export class BootstrapElement extends LitElement {
   private _dirObserver?: MutationObserver;
   private _appliedHostClasses: string[] = [];
 
-  protected override createRenderRoot(): ShadowRoot {
-    const root = super.createRenderRoot() as ShadowRoot;
+  protected override createRenderRoot(): ShadowRoot | HTMLElement {
+    const root = super.createRenderRoot() as ShadowRoot | HTMLElement;
+    // Light-DOM render roots (`createRenderRoot` returning `this`) skip
+    // the shadow-sheet adoption — they rely on Bootstrap living in the
+    // document scope via `injectBootstrapIntoDocument()`.
+    if (!(root instanceof ShadowRoot)) return root;
     const shared = getSharedSheets();
     if (getBootstrapSheet()) {
       root.adoptedStyleSheets = [...shared, ...root.adoptedStyleSheets];

@@ -5,40 +5,31 @@ description: A light-DOM form wrapper that solves browser autofill for shadow-DO
 
 import Example from '../../../components/Example.astro';
 
-`<bs-form>` is a thin wrapper around a native `<form>` element. It exists
-for two reasons:
-
-1. **Browser autofill doesn't cross shadow DOM boundaries.** Chrome,
-   Safari, and Firefox walk the light-DOM tree looking for
-   `<input name="…" autocomplete="…">`. Because `<bs-input>` /
-   `<bs-textarea>` / `<bs-select>` render their native controls *inside*
-   a shadow root, those inputs are invisible to the autofill predictor
-   on their own. `<bs-form>` fixes this by injecting a hidden
-   "mirror" `<input>` into the light-DOM form for every form-associated
-   `<bs-*>` child that has both `name` and `autocomplete`. The browser
-   sees and fills the mirrors; `<bs-form>` pipes the filled values into
-   the real `<bs-*>` components.
-2. **Submit handling in one place.** `<bs-form>` dispatches a single
-   `bs-submit` event whose `detail.formData` already includes every
-   form-associated custom element (via `ElementInternals`) as well as
-   any plain `<input>` children. `preventDefault()` cancels the
-   underlying submit.
+`<bs-form>` is a thin wrapper around a native `<form>`. It exists for
+one purpose: give the form-control components an ancestor `<form>` and
+hoist submit into a single cancellable `bs-submit` event whose
+`detail.formData` is a fresh snapshot.
 
 ## How autofill works here
 
-Because `<bs-input type="email" autocomplete="email">` sits inside a
-shadow root, browsers would normally never autofill it. Each example
-below works *because* `<bs-form>` places a matching
-[hidden mirror `<input>`](#how-the-autofill-mirror-works) next to every
-`<bs-*>` with `name + autocomplete`. The autofill predictor reads the
-mirrors; when the browser fills one, `<bs-form>` copies the value into
-the real component and fires `bs-input` with
-`detail.autofilled = true`.
+Browser autofill heuristics and password managers (Chrome, Safari,
+Firefox, 1Password, Bitwarden, …) walk the **light-DOM** tree looking
+for `<input name="…" autocomplete="…">` inside a `<form>`, and anchor
+their autofill UI to the focused control. Anything inside a shadow root
+is invisible to them.
 
-Open any of these forms on a device that has saved credentials /
-address / contact info and you'll see the autofill chip appear on the
-right inputs. Each form intercepts the submit and logs the
-`FormData` to the console instead of navigating.
+So our form controls — `bs-input`, `bs-textarea`, `bs-select`,
+`bs-range`, `bs-form-check` — render their native control directly
+into **light DOM**, not into a shadow root. This is the same approach
+Ionic, Adobe Spectrum, Lion, and Carbon's web-component libraries take
+for form controls. `bs-form` simply provides the `<form>` ancestor
+those native controls live inside.
+
+End result: open any of these forms on a device with saved
+credentials / address / contact info and the browser's autofill chip
+appears on the right inputs — exactly as it would for a hand-written
+HTML form. Each form below intercepts submit and logs the `FormData`
+to the console instead of navigating.
 
 ## Sign in
 
@@ -215,7 +206,6 @@ styling with no extra JS.
 | `enctype` | `string` | — | Forwarded to the inner `<form>`. |
 | `novalidate` | `boolean` | `false` | Disable native constraint validation. |
 | `validated` | `boolean` | `false` | Applies `.was-validated`. Auto-set after first submit unless `novalidate`. |
-| `no-autofill-mirror` | `boolean` | `false` | Opt out of the mirror-`<input>` injection. |
 
 ### Events
 
@@ -223,34 +213,34 @@ styling with no extra JS.
 |---|---|---|
 | `bs-submit` | `{ formData, form, originalEvent }` | Fires on submit. Cancellable — `preventDefault()` stops the underlying form submission. |
 
-### Methods
+### Methods & properties
 
 - `reset()` — resets the inner form and clears `validated`.
 - `checkValidity()` / `reportValidity()` — forwarded to the inner form.
-- `get formData: FormData` — returns a fresh snapshot.
+- `formData` — fresh `FormData` snapshot.
+- `nativeForm` — the underlying `<form>` element.
 
-### How the autofill mirror works
+### How the form-control components are wired
 
-Every time the light-DOM tree of a `<bs-form>` mutates, it walks for
-descendants matching
-`bs-input[autocomplete], bs-textarea[autocomplete], bs-select[autocomplete]`
-with a `name` attribute, and:
+Every form control in the library — `bs-input`, `bs-textarea`,
+`bs-select`, `bs-range`, `bs-form-check` — renders its native control
+(`<input>`, `<textarea>`, `<select>`) directly into **light DOM** rather
+than into a shadow root. That choice is deliberate and matches what
+Ionic, Adobe Spectrum, Lion, and Carbon's web-component libraries do
+for form controls. The reason is twofold:
 
-- Inserts a sibling `<input data-bs-form-mirror>` after the control with
-  the same `name`, `autocomplete`, and `type`.
-- The mirror is visually hidden via the off-screen clip pattern
-  (`clip: rect(0 0 0 0); width: 1px; height: 1px; overflow: hidden`) —
-  **not** `display:none`, which would make browsers skip it during
-  autofill prediction.
-- Listens for `input` / `change` on the mirror; on fill, assigns
-  `mirror.value` to the control's `value` property and dispatches a
-  `bs-input` event with `detail.autofilled = true` so authors can
-  distinguish programmatic-from-autofill updates from typed input.
-- Keeps the mirror's value in sync as the user types in the real
-  control.
+- Browser autofill predictors (Chrome, Safari, Firefox) walk the
+  light-DOM tree to find inputs and decide what type they are. Inputs
+  inside a shadow root are invisible to them.
+- Autofill / password-manager UI is *anchored* to the focused control.
+  A hidden mirror in a sibling never receives focus, so the autofill
+  chip never appears even if the predictor saw it.
 
-If any of this interferes with your setup, set `no-autofill-mirror` to
-opt out entirely.
+Because the native control is in light DOM, it's automatically inside
+the nearest `<form>` ancestor (typically a `<bs-form>`) and participates
+in `FormData` natively — no `ElementInternals` plumbing required. Each
+component still exposes its `value` / `checked` / events on the host
+for ergonomic property binding.
 
 ## Install
 
