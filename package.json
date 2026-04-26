@@ -30,6 +30,7 @@
     "clean": "rm -rf packages/*/dist apps/*/dist apps/*/.astro registry/dist **/*.tsbuildinfo",
     "audit:component": "node scripts/compare-bootstrap.mjs",
     "audit:docs": "node scripts/check-docs-readability.mjs",
+    "audit:ui": "node scripts/wc-ui-compare.mjs",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "npm run build && changeset publish"
@@ -39,7 +40,9 @@
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
+    "playwright": "^1.53.0",
     "prettier": "^3.2.0",
+    "sharp": "^0.33.0",
     "typescript": "^5.4.0"
   },
   "overrides": {

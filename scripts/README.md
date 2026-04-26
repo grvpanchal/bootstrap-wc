@@ -152,3 +152,59 @@ loop and is meant to run before any PR that touches
 `apps/docs/src/content/**.mdx`. Invoke it with:
 
     /agents → docs-readability-auditor
+
+## `wc-ui-compare.mjs`
+
+Side-by-side comparator for "build it twice" UI development. The agent
+authors a feature first as a plain Bootstrap-CSS reference page, then as
+a `<bs-*>` web-component port, and this script holds the two pages
+side-by-side at the same viewport — taking screenshots, running a
+sharp-based pixel diff, and walking paired DOM trees to compare
+`getBoundingClientRect` + ~30 visual computed-style properties.
+
+The pair lives under `apps/docs/src/pages/compare/<slug>/`:
+
+    apps/docs/src/pages/compare/<slug>/
+      reference.astro    # plain Bootstrap classes only
+      wc.astro           # the <bs-*> port
+
+Both pages mark equivalent elements with the same
+`data-compare-key="<role>"` attribute so the comparator can pair them
+across the two trees.
+
+### Usage
+
+    npm run audit:ui -- --name <slug>
+
+    # other knobs:
+    node scripts/wc-ui-compare.mjs --name <slug> --viewport 390x844
+    node scripts/wc-ui-compare.mjs --name <slug> --threshold 0.5
+    node scripts/wc-ui-compare.mjs --ref <url> --wc <url> --name <slug>
+
+Auto-starts `astro preview` on `:4321` if nothing is listening. Output:
+
+    .audit/wc-ui/<slug>/
+      reference.png      # screenshot of the reference page
+      wc.png             # screenshot of the wc port
+      diff.png           # red-on-faded-reference highlight of differing pixels
+      report.md          # markdown report (pixel %, paired keys, style table)
+
+Exits 0 when:
+- pixel diff `<= --threshold` (default 1%)
+- 0 unpaired `data-compare-key` on either side
+- 0 style mismatches above the per-property tolerance
+
+There's a self-test pair at `apps/docs/src/pages/compare/smoke/`. Run
+`npm run audit:ui -- --name smoke` to verify the comparator itself
+still works end-to-end.
+
+### Agent
+
+For Claude Code users: `.claude/agents/wc-ui-developer.md` wraps this
+script into a full **build-as-Bootstrap → port-to-WC → diff → patch →
+re-verify** loop, and is the primary tool for adding new docs / theme
+pages from a Bootstrap design. The agent is allowed to patch
+`packages/components/src/**` when a diff cannot be closed without a
+genuine framework change. Invoke it with:
+
+    /agents → wc-ui-developer
