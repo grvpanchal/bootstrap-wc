@@ -53,19 +53,58 @@ body {
   padding: 0;
   color: inherit;
 }
+/* Navbar full-width fill.
+ *
+ * The DocsLayout puts `class="navbar navbar-expand-lg"` directly on the
+ * `<bs-navbar>` host so Bootstrap's descendant selectors
+ * (`.navbar-expand-lg .navbar-nav`, etc.) match into slotted children.
+ * That makes the host `display: flex`, which means the shadow `<nav>`
+ * (the only flex item under the host) sizes to content with default
+ * `flex-grow: 0` — so the entire navbar shrinks to ~500px and the
+ * `ms-auto` GitHub+theme cluster ends up right-aligned inside that
+ * narrow box instead of at the viewport edge.
+ *
+ * Reach into the shadow via `::part(nav)` and `::part(collapse)` to
+ * force both to fill: the shadow `<nav>` fills the host, and the
+ * `.navbar-collapse` (which has Bootstrap's `flex-basis: auto` at
+ * `>= lg`) fills the shadow `<nav>`. */
+bs-navbar::part(nav),
+bs-navbar::part(collapse) {
+  flex-grow: 1;
+  width: 100%;
+}
+
+/* Tables: a rehype plugin in astro.config.mjs wraps every Markdown
+ * `<table>` in `<div class="table-responsive">` and tags the table itself
+ * with `.table`. The wrapper handles horizontal overflow on narrow
+ * viewports (long Type columns on component API tables would otherwise
+ * push the whole article wider than the viewport). */
+.docs-content .table-responsive {
+  margin-bottom: 1rem;
+}
 .docs-content table {
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 0;
 }
 .docs-content th,
 .docs-content td {
   border: 1px solid var(--bs-border-color);
   padding: 0.5rem 0.75rem;
   text-align: left;
+  /* Keep cell contents from expanding the table beyond the viewport. */
+  vertical-align: top;
 }
 .docs-content th {
   background-color: var(--bs-secondary-bg);
   font-weight: 600;
+  white-space: nowrap;
+}
+/* Inline `<code>` inside a cell shouldn't break to wrap its delimiter
+ * pipes, but should still allow the table cell to overflow horizontally
+ * (the .table-responsive wrapper handles the scroll). */
+.docs-content td code {
+  white-space: nowrap;
 }
 .docs-content blockquote {
   border-left: 4px solid var(--bs-primary);
