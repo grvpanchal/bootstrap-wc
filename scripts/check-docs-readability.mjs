@@ -193,6 +193,24 @@ async function checkDoc(browser, doc) {
   const failures = [];
   const consoleErrors = [];
   const pageErrors = [];
+  // Track which URLs failed at the network layer so we can correlate
+  // generic "Failed to load resource" console errors back to their origin.
+  // Off-origin failures (cdn.jsdelivr.net, getbootstrap.com, etc.) depend
+  // on the runtime environment (e.g. sandboxed CI w/o TLS roots) and
+  // aren't readability bugs in the page itself.
+  const failedRequests = new Set();
+  page.on('requestfailed', (req) => failedRequests.add(req.url()));
+  page.on('response', (r) => {
+    if (r.status() >= 400) failedRequests.add(r.url());
+  });
+  const sameOriginFailedRequest = () => {
+    for (const u of failedRequests) {
+      try {
+        if (new URL(u).origin === new URL(BASE).origin) return u;
+      } catch {}
+    }
+    return null;
+  };
   page.on('console', (m) => {
     if (m.type() === 'error') consoleErrors.push(m.text());
   });
@@ -216,12 +234,19 @@ async function checkDoc(browser, doc) {
   }
   if (consoleErrors.length) {
     // Filter out third-party / Lit-dev-mode chatter that isn't actionable.
-    const interesting = consoleErrors.filter(
-      (m) =>
-        !m.includes('Lit is in dev mode') &&
-        !m.toLowerCase().includes('favicon') &&
-        !m.includes('downloadable font'),
-    );
+    const sameOriginFail = sameOriginFailedRequest();
+    const interesting = consoleErrors.filter((m) => {
+      if (m.includes('Lit is in dev mode')) return false;
+      if (m.toLowerCase().includes('favicon')) return false;
+      if (m.includes('downloadable font')) return false;
+      // Generic "Failed to load resource …" console errors are emitted
+      // for both first- and third-party network failures. Only keep them
+      // if at least one same-origin request failed; otherwise the page
+      // itself is fine and the chatter comes from external CDNs that
+      // can't be reached from a sandboxed environment.
+      if (m.startsWith('Failed to load resource') && !sameOriginFail) return false;
+      return true;
+    });
     if (interesting.length) failures.push({ kind: 'console-error', detail: interesting.slice(0, 5) });
   }
 
