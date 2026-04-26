@@ -49,7 +49,21 @@ const fullTitle = title === 'Bootstrap Web Components'
     </script>
   </head>
   <body class="d-flex flex-column min-vh-100">
-    <bs-navbar class="navbar navbar-expand-lg border-bottom sticky-top bg-body" aria-label="Main">
+    <!--
+      `expand="always"` keeps the navbar's slotted content inline at every
+      viewport and suppresses bs-navbar's built-in `.navbar-toggler`. This
+      layout uses a separate offcanvas (mounted below) for mobile sidebar
+      navigation, so the navbar's collapse feature would just collide with
+      the custom hamburger trigger and produce a confusing doubled-button
+      UI. Keep all of: [offcanvas-trigger] [brand] [github + theme] on a
+      single row, and let the custom `bs-button` below own the
+      mobile-sidebar handoff.
+    -->
+    <bs-navbar
+      expand="always"
+      class="navbar navbar-expand border-bottom sticky-top bg-body"
+      aria-label="Main"
+    >
       <div class="container-fluid gap-2 px-3 px-lg-4">
         <bs-button
           variant="none"
@@ -61,7 +75,8 @@ const fullTitle = title === 'Bootstrap Web Components'
         </bs-button>
         <a class="navbar-brand d-flex align-items-center gap-2" href="/">
           <span class="badge bg-primary fs-6">B</span>
-          <span class="fw-semibold">Bootstrap Web Components</span>
+          <span class="fw-semibold d-none d-sm-inline">Bootstrap Web Components</span>
+          <span class="fw-semibold d-sm-none">BWC</span>
         </a>
         <div class="ms-auto d-flex align-items-center gap-2">
           <a
