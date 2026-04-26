@@ -20,8 +20,14 @@ storybook-static/
 apps/docs/public/r/*.json
 !apps/docs/public/r/.gitkeep
 
-# Audit artifacts from scripts/compare-bootstrap.mjs
-.audit/
+# Audit artifacts from scripts/compare-bootstrap.mjs and
+# scripts/check-docs-readability.mjs. Ignore the directory contents,
+# but keep the readability-memory.json snapshot tracked so the
+# readability auditor can do incremental runs across sessions.
+# (Negation only works when the parent directory itself is not ignored,
+# which is why we ignore .audit/* instead of .audit/.)
+.audit/*
+!.audit/readability-memory.json
 
 # Claude Code local state (agent worktrees, etc.)
 .claude/worktrees/

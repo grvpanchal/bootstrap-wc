@@ -84,3 +84,71 @@ wraps this script into a full audit → fix → re-verify loop. Invoke it
 with:
 
     /agents → bootstrap-component-auditor
+
+## `check-docs-readability.mjs`
+
+Headlessly browses every page of the rendered docs site (driving Chromium
+against `astro preview`) and verifies it reads cleanly — catching
+problems that escape `npm run build:docs`:
+
+- HTTP non-200, page errors, substantive `console.error`s
+- Missing or duplicate `<h1>`, skipped heading levels
+- Unregistered `<bs-*>` elements still on the page
+- Empty `<Example>` (`.bwc-example`) blocks
+- `<img>` without `alt`
+- Dead in-page anchors (`href="#…"` with no matching id)
+- Dead internal links (`href="/…"` returning 404 against preview)
+- Leftover Lit template artifacts (`${…}`, multiple literal `nothing`)
+
+Headings inside `.bwc-example` demos are deliberately excluded from the
+heading-outline check so component examples don't poison the page audit.
+
+### Usage
+
+    # every doc, ignoring memory
+    node scripts/check-docs-readability.mjs --all
+
+    # only docs whose MDX sha256 doesn't match the last `pass` (default)
+    node scripts/check-docs-readability.mjs --changed
+    node scripts/check-docs-readability.mjs
+
+    # explicit slugs
+    node scripts/check-docs-readability.mjs components/button getting-started/installation
+
+    # dump current memory and exit
+    node scripts/check-docs-readability.mjs --print-memory
+
+    # via npm script
+    npm run audit:docs -- --changed
+
+Auto-starts `astro preview` on `:4321` if nothing is listening. Per-page
+reports land under `.audit/readability/<section>__<name>.md` (gitignored).
+
+### The memory file
+
+`.audit/readability-memory.json` is **tracked in git** (the one
+hand-picked exception under `.audit/`). It maps each doc slug to:
+
+    {
+      "<slug>": {
+        "sha256": "<first 16 hex chars of MDX sha256>",
+        "lastChecked": "<ISO timestamp>",
+        "status": "pass" | "fail",
+        "issues": [...]
+      }
+    }
+
+`--changed` is the default mode and only re-checks docs whose current
+MDX sha256 differs from the recorded `pass` entry. This keeps the loop
+tight as the docs grow — a typical PR-time run only walks the pages it
+actually touches. Always commit the updated memory alongside any docs
+fix so future runs (and CI / agents) start from the same baseline.
+
+### Agent
+
+For Claude Code users: `.claude/agents/docs-readability-auditor.md`
+wraps this script into a full snapshot → diagnose → fix → re-verify
+loop and is meant to run before any PR that touches
+`apps/docs/src/content/**.mdx`. Invoke it with:
+
+    /agents → docs-readability-auditor
