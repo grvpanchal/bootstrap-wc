@@ -1,0 +1,51 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro';
+import Card from '../components/starlight-shims/Card.astro';
+import CardGrid from '../components/starlight-shims/CardGrid.astro';
+---
+
+<DocsLayout title="Bootstrap Web Components" description="Bootstrap 5 as framework-agnostic Web Components. Own the code. Ship anywhere.">
+  <section class="py-5 text-center">
+    <h1 class="display-4 fw-bold mb-3">Bootstrap Web Components</h1>
+    <p class="lead text-body-secondary mb-4 mx-auto" style="max-width: 42rem">
+      Bootstrap 5 as framework-agnostic Web Components. Install with npm, or
+      copy the source with a single CLI command — you own the code.
+    </p>
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+      <bs-button variant="primary" size="lg" href="/getting-started/introduction/">
+        Get started
+        <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+      </bs-button>
+      <bs-button button-style="outline" variant="secondary" size="lg" href="/components/button/">
+        Browse components
+        <i class="bi bi-box-arrow-up-right ms-1" aria-hidden="true"></i>
+      </bs-button>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <h2 class="text-center mb-4">Why?</h2>
+    <CardGrid>
+      <Card title="Framework-agnostic" icon="rocket">
+        Works in React, Vue, Angular, Svelte, or plain HTML. Web components
+        are the platform.
+      </Card>
+      <Card title="Own your code" icon="open-book">
+        The <code>bwc</code> CLI copies the component source into your project —
+        no hidden magic, no lock-in.
+      </Card>
+      <Card title="Bootstrap 5 native" icon="star">
+        Every component renders standard Bootstrap markup, so your existing
+        CSS overrides and themes just work.
+      </Card>
+    </CardGrid>
+  </section>
+
+  <section class="py-4">
+    <bs-alert variant="info" class="alert alert-info">
+      <strong>Dogfooded.</strong> Every chrome element on this docs site —
+      navbar, sidebar, mobile drawer, theme toggle, cards, buttons — is a
+      <code>&lt;bs-*&gt;</code> custom element from this very library.
+    </bs-alert>
+  </section>
+</DocsLayout>

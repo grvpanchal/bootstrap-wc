@@ -1,0 +1,139 @@
+---
+title: Progress
+description: Documentation and examples for using the progress bar with striped, animated and stacked variants.
+---
+
+import Example from '../../components/Example.astro';
+
+Documentation and examples for using `<bs-progress>` — a custom progress bar
+featuring support for stacked bars, animated backgrounds and text labels.
+
+## How it works
+
+Progress components are built with two child elements: a `.progress` wrapper
+(the host `<bs-progress>`) and an inner `.progress-bar` (in shadow DOM) whose
+width indicates completion. Use the `value` attribute (a number between
+`min` and `max`, defaulting to `0` / `100`) to set the current percentage.
+
+<Example code={`<bs-progress aria-label="Basic example" value="0"></bs-progress>
+<bs-progress aria-label="Basic example" value="25"></bs-progress>
+<bs-progress aria-label="Basic example" value="50"></bs-progress>
+<bs-progress aria-label="Basic example" value="75"></bs-progress>
+<bs-progress aria-label="Basic example" value="100"></bs-progress>`} />
+
+## Width
+
+Set `value` (together with `min` / `max`, if you use a range other than
+`0`–`100`) and the component scales the inner bar accordingly.
+
+<Example code={`<bs-progress aria-label="Basic example" value="75"></bs-progress>`} />
+
+## Height
+
+Override the `--bs-progress-height` custom property (or set `height`
+directly on the host) to change the component's vertical size.
+
+<Example code={`<bs-progress aria-label="Example 1px high" value="25" style="height: 1px"></bs-progress>
+<bs-progress aria-label="Example 20px high" value="25" style="height: 20px"></bs-progress>`} />
+
+## Labels
+
+Add a text label inside the bar by passing a `label` attribute or slotting
+text as the default child.
+
+<Example code={`<bs-progress aria-label="Example with label" value="25" label="25%"></bs-progress>`} />
+
+## Backgrounds
+
+Use the `bar-bg` attribute (or the legacy `variant` attribute) to apply a
+contextual `.bg-*` utility class to the inner bar.
+
+<Example code={`<bs-progress aria-label="Success example" value="25" bar-bg="success"></bs-progress>
+<bs-progress aria-label="Info example" value="50" bar-bg="info"></bs-progress>
+<bs-progress aria-label="Warning example" value="75" bar-bg="warning"></bs-progress>
+<bs-progress aria-label="Danger example" value="100" bar-bg="danger"></bs-progress>`} />
+
+If you're using a label, use the `bar-text-bg` attribute instead — it
+applies `.text-bg-*`, pairing a contrast-aware foreground with the
+contextual background.
+
+<Example code={`<bs-progress aria-label="Success example" value="25" bar-text-bg="success" label="25%"></bs-progress>
+<bs-progress aria-label="Info example" value="50" bar-text-bg="info" label="50%"></bs-progress>
+<bs-progress aria-label="Warning example" value="75" bar-text-bg="warning" label="75%"></bs-progress>
+<bs-progress aria-label="Danger example" value="100" bar-text-bg="danger" label="100%"></bs-progress>`} />
+
+## Multiple bars
+
+Wrap several `<bs-progress>` elements in `<bs-progress-stacked>` to render a
+single stacked progress track. Each segment's `value` becomes its share of
+the 100% track width.
+
+<Example code={`<bs-progress-stacked>
+  <bs-progress aria-label="Segment one" value="15"></bs-progress>
+  <bs-progress aria-label="Segment two" value="30" bar-bg="success"></bs-progress>
+  <bs-progress aria-label="Segment three" value="20" bar-bg="info"></bs-progress>
+</bs-progress-stacked>`} />
+
+## Striped
+
+Add the `striped` attribute to render a gradient stripe over the bar's
+background color.
+
+<Example code={`<bs-progress aria-label="Default striped example" value="10" striped></bs-progress>
+<bs-progress aria-label="Success striped example" value="25" bar-bg="success" striped></bs-progress>
+<bs-progress aria-label="Info striped example" value="50" bar-bg="info" striped></bs-progress>
+<bs-progress aria-label="Warning striped example" value="75" bar-bg="warning" striped></bs-progress>
+<bs-progress aria-label="Danger striped example" value="100" bar-bg="danger" striped></bs-progress>`} />
+
+## Animated stripes
+
+Add the `animated` attribute to animate the stripes right-to-left via CSS.
+
+<Example code={`<bs-progress aria-label="Animated striped example" value="75" animated></bs-progress>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add progress
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/progress';
+```
+
+```html
+<bs-progress value="65" bar-bg="info"></bs-progress>
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `value` | `number` | `0` | Current progress value. |
+| `min` | `number` | `0` | Lower bound for `value`. |
+| `max` | `number` | `100` | Upper bound for `value`. |
+| `bar-bg` | Bootstrap variant | — | Applies `.bg-{variant}` to the inner bar. |
+| `bar-text-bg` | Bootstrap variant | — | Applies `.text-bg-{variant}` (pairs foreground with background). |
+| `variant` | Bootstrap variant | — | Alias for `bar-bg` (kept for backwards compatibility). |
+| `striped` | `boolean` | `false` | Renders striped background. |
+| `animated` | `boolean` | `false` | Animates the stripes (implies `striped`). |
+| `label` | `string` | — | Text shown inside the bar. |
+
+### Slots
+
+| Name | Description |
+|---|---|
+| _(default)_ | Custom content inside the progress bar (alternative to `label`). |
+
+### Related
+
+- `<bs-progress-stacked>` — wrap any number of `<bs-progress>` children to produce a stacked track. It has no attributes; each segment's `value` is taken as a share of the 100% container width.
+
+See `packages/components/src/progress/` in the source for the complete property / event list.

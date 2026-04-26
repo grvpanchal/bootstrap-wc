@@ -1,63 +1,20 @@
-/* Starlight custom theme — brand colors and tweaks. */
+/* Docs-site tweaks on top of Bootstrap. */
 
 :root {
-  --sl-color-accent-low: #e7f1ff;
-  --sl-color-accent: #0d6efd;
-  --sl-color-accent-high: #0a58ca;
-  --sl-font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --bwc-content-max: 56rem;
 }
 
-:root[data-theme='dark'] {
-  --sl-color-accent-low: #031633;
-  --sl-color-accent: #6ea8fe;
-  --sl-color-accent-high: #9ec5fe;
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Keep Bootstrap's font rendering inside docs content. */
-.content-panel {
-  --sl-content-width: 48rem;
-}
-
-/* ---------------------------------------------------------------------------
- * Theme bridge: Bootstrap's global stylesheet sets `body { background-color:
- * var(--bs-body-bg); color: var(--bs-body-color); }` with light defaults that
- * would otherwise paint Starlight's main panel white in dark mode. Rebind
- * Bootstrap's body-level CSS variables to Starlight's theme tokens so the
- * document surface follows `data-theme` cleanly. Bootstrap components inside
- * `.bwc-example` still receive full Bootstrap styling because `data-bs-theme`
- * is mirrored on <html> by the head script in astro.config.mjs.
- * ------------------------------------------------------------------------- */
-:root,
-:root[data-theme='light'] {
-  --bs-body-bg: var(--sl-color-bg);
-  --bs-body-color: var(--sl-color-text);
-  --bs-heading-color: var(--sl-color-white);
-  --bs-link-color: var(--sl-color-accent);
-  --bs-link-hover-color: var(--sl-color-accent-high);
-  --bs-border-color: var(--sl-color-gray-5);
-}
-
-:root[data-theme='dark'] {
-  --bs-body-bg: var(--sl-color-bg);
-  --bs-body-color: var(--sl-color-text);
-  --bs-heading-color: var(--sl-color-white);
-  --bs-link-color: var(--sl-color-accent);
-  --bs-link-hover-color: var(--sl-color-accent-high);
-  --bs-border-color: var(--sl-color-gray-5);
-  --bs-emphasis-color: var(--sl-color-white);
-  --bs-secondary-color: var(--sl-color-gray-3);
-  --bs-tertiary-color: var(--sl-color-gray-4);
-}
-
-/* Example blocks — framed region that shows the rendered component. The
- * inner surface stays at `--bs-body-bg` so Bootstrap components preview on
- * the theme-appropriate canvas (white in light mode, near-black in dark). */
+/* `.bwc-example` — the framed live region produced by <Example>. */
 .bwc-example {
-  border: 1px solid var(--sl-color-gray-5);
+  border: 1px solid var(--bs-border-color);
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin: 1rem 0;
-  background: var(--bs-body-bg);
+  background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
 }
 
@@ -67,95 +24,75 @@
   border-top-right-radius: 0;
 }
 
-/* ---------------------------------------------------------------------------
- * Starlight chrome: Bootstrap's reboot sets `summary { display: list-item;
- * cursor: pointer; }`, which re-enables the browser's default <summary>
- * disclosure triangle. Starlight already renders its own caret icon next to
- * each sidebar section heading, so without this reset every <details> group
- * and every Starlight mobile menu appears with a doubled-caret. Likewise
- * Bootstrap's reboot on <button> leaks a white background onto the mobile
- * hamburger and theme-select buttons in the nav — restore transparency.
- * ------------------------------------------------------------------------- */
-/* Bootstrap's reboot sets `summary { display: list-item }` which both
- * re-enables the browser default disclosure triangle (creating a doubled
- * caret next to Starlight's own) AND collapses Starlight's flex layout so
- * the caret drops below the heading. Force the intended flex layout and
- * strip the default marker in both Blink and Gecko. */
-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  list-style: none;
+/* MDX prose styling. Mostly a thin wrapper on Bootstrap typography. */
+.docs-content :where(h2, h3, h4) {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  scroll-margin-top: 5rem;
 }
-summary::-webkit-details-marker {
-  display: none;
+.docs-content :where(p, ul, ol, table) {
+  margin-bottom: 1rem;
 }
-summary::marker {
-  content: '';
+.docs-content code:not(pre code) {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-code-color);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
 }
-
-/* Bootstrap's `button` reboot adds cursor styling + a default appearance
- * that leaks a white background onto Starlight's nav chrome in dark mode.
- * Keep Starlight's own button styling authoritative. */
-starlight-menu-button button,
-site-search button,
-starlight-theme-select button {
+.docs-content pre {
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+.docs-content pre code {
   background: transparent;
-  border: 0;
+  padding: 0;
   color: inherit;
 }
+.docs-content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.docs-content th,
+.docs-content td {
+  border: 1px solid var(--bs-border-color);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.docs-content th {
+  background-color: var(--bs-secondary-bg);
+  font-weight: 600;
+}
+.docs-content blockquote {
+  border-left: 4px solid var(--bs-primary);
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  background-color: var(--bs-secondary-bg);
+  border-radius: 0.25rem;
+}
 
-/* ---------------------------------------------------------------------------
- * Navigation items — shadcn.ui-style.
- *
- * Bootstrap's global `a { color: var(--bs-link-color); text-decoration:
- * underline; }` was painting every Starlight sidebar / table-of-contents
- * entry blue-underlined. Override for Starlight's three nav regions with a
- * muted, underline-free link that gains a subtle accent background on
- * hover and becomes foreground-colored when it's the current page.
- * ------------------------------------------------------------------------- */
-#starlight__sidebar a,
-nav[aria-label='Main'] a,
-starlight-toc a {
-  color: var(--sl-color-gray-2);
+/* Sidebar nav: shadcn-style muted items with active pill. */
+aside nav .list-group-item,
+bs-offcanvas .list-group-item {
+  color: var(--bs-body-color);
   text-decoration: none;
-  font-weight: 400;
+  font-size: 0.9rem;
+  background-color: transparent;
   border-radius: 0.375rem;
-  transition: color 120ms ease, background-color 120ms ease;
 }
-
-:root[data-theme='light'] #starlight__sidebar a,
-:root[data-theme='light'] nav[aria-label='Main'] a,
-:root[data-theme='light'] starlight-toc a {
-  color: var(--sl-color-gray-3);
+aside nav .list-group-item:hover,
+bs-offcanvas .list-group-item:hover {
+  background-color: var(--bs-secondary-bg);
+  color: var(--bs-body-emphasis-color);
 }
-
-#starlight__sidebar a:hover,
-nav[aria-label='Main'] a:hover,
-starlight-toc a:hover {
-  color: var(--sl-color-white);
-  background-color: var(--sl-color-gray-6);
-  text-decoration: none;
-}
-
-:root[data-theme='light'] #starlight__sidebar a:hover,
-:root[data-theme='light'] nav[aria-label='Main'] a:hover,
-:root[data-theme='light'] starlight-toc a:hover {
-  color: var(--sl-color-black);
-  background-color: var(--sl-color-gray-6);
-}
-
-/* Current page — slightly stronger than hover. Starlight marks it with
- * `aria-current="page"`. */
-#starlight__sidebar a[aria-current='page'],
-starlight-toc a[aria-current='true'] {
-  color: var(--sl-color-white);
-  background-color: var(--sl-color-accent-low);
+aside nav .list-group-item.active,
+bs-offcanvas .list-group-item.active {
+  background-color: var(--bs-primary-bg-subtle);
+  color: var(--bs-primary-text-emphasis);
   font-weight: 500;
-}
-
-:root[data-theme='light'] #starlight__sidebar a[aria-current='page'],
-:root[data-theme='light'] starlight-toc a[aria-current='true'] {
-  color: var(--sl-color-accent-high);
-  background-color: var(--sl-color-accent-low);
+  border-color: transparent;
 }

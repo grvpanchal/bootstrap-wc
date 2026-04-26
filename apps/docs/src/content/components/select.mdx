@@ -1,0 +1,123 @@
+---
+title: Select
+description: Form-associated select.
+---
+
+import Example from '../../components/Example.astro';
+
+`<bs-select>` is a **form-associated custom element** that wraps Bootstrap's `.form-select`. Author `<option>` / `<optgroup>` children directly, or drive the list from a property for data-driven use — either way the component participates in native `<form>` submission, reset, and validation.
+
+## Default
+
+<Example code={`<bs-select aria-label="Default select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</bs-select>`} />
+
+## Sizing
+
+You may also choose from small and large selects to match our similarly sized text inputs with the `size` attribute (`sm` or `lg`).
+
+<Example code={`<bs-select size="lg" aria-label="Large select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</bs-select>
+<bs-select size="sm" aria-label="Small select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</bs-select>`} />
+
+The `multiple` boolean attribute is also supported:
+
+<Example code={`<bs-select multiple aria-label="Multiple select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</bs-select>`} />
+
+As is the `rows` attribute (mirrors the native `size` attribute to show a list of that many rows):
+
+<Example code={`<bs-select rows="3" aria-label="Size 3 select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</bs-select>`} />
+
+## Disabled
+
+Add the `disabled` boolean attribute on a select to give it a greyed-out appearance and prevent user interaction.
+
+<Example code={`<bs-select disabled aria-label="Disabled select example">
+  <option selected>Open this select menu</option>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+  <option value="3">Three</option>
+</bs-select>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add select
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/select';
+```
+
+```html
+<bs-select>
+  <option value="1">One</option>
+  <option value="2">Two</option>
+</bs-select>
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `value` | `string` | `''` | Current value. Reflects to form data. |
+| `name` | `string` | `''` | Form field name. |
+| `options` | `SelectOption[]` | `[]` | Data-driven option list (alternative to light-DOM `<option>` children). |
+| `size` | `sm` \| `md` \| `lg` | `md` | Bootstrap visual size (`.form-select-sm` / `.form-select-lg`). |
+| `rows` | `number` | — | Sets the native `size` attribute — number of rows shown. |
+| `multiple` | `boolean` | `false` | Allows multiple selection. |
+| `disabled` | `boolean` | `false` | Disables the select. |
+| `required` | `boolean` | `false` | Required. |
+| `invalid` | `boolean` | `false` | Applies `.is-invalid`. |
+| `valid` | `boolean` | `false` | Applies `.is-valid`. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-change` | `{ value }` | Fires when the selection changes. |
+
+### Forms
+
+```html
+<form onsubmit="event.preventDefault(); console.log(new FormData(event.target))">
+  <bs-select name="color" required>
+    <option value="">Pick one…</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+  </bs-select>
+  <bs-button type="submit">Submit</bs-button>
+</form>
+```
+
+> Safari < 16.4 lacks `ElementInternals`. Test your form flows on older Safari if you support it.

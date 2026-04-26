@@ -1,0 +1,261 @@
+---
+title: Modal
+description: Modal dialog with backdrop, focus trap, and ESC-to-close.
+---
+{/* handwritten */}
+
+import Example from '../../components/Example.astro';
+
+A modal dialog with backdrop, focus trap, and keyboard dismissal — implemented with [`focus-trap`](https://github.com/focus-trap/focus-trap).
+
+## Modal components
+
+Below is a **static** modal rendering (meaning its `position` is overridden and it's shown inline). Use the `static-preview` attribute so the dialog sits in normal document flow with no backdrop — handy for visual previews without triggering the show/hide lifecycle.
+
+<Example code={`<bs-modal static-preview heading="Modal title">
+  <p>Modal body text goes here.</p>
+  <div slot="footer">
+    <bs-button variant="secondary">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>`} />
+
+## Modal title
+
+A real modal is launched from a trigger — clicking the button below calls `show()` on the `bs-modal` via an inline handler. This live demo matches Bootstrap's **Live demo**, **Static backdrop**, and **Scrolling long content** examples.
+
+<Example code={`<bs-modal id="demo-live" heading="Modal title">
+  <p>Woo-hoo, you're reading this text in a modal!</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-live').hide()">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-live').show()">Launch demo modal</bs-button>`} />
+
+When the backdrop is static, clicking outside the modal won't close it. Pair `static-backdrop` with `no-close-on-escape` if you also want to disable ESC-to-close.
+
+<Example code={`<bs-modal id="demo-static" static-backdrop no-close-on-escape heading="Modal title">
+  <p>I will not close if you click outside of me. Don't even try to press escape key.</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-static').hide()">Close</bs-button>
+    <bs-button variant="primary">Understood</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-static').show()">Launch static backdrop modal</bs-button>`} />
+
+When modals become too long for the user's viewport, they scroll independently of the page itself.
+
+<Example code={`<bs-modal id="demo-long" heading="Modal title">
+  <p>This is some placeholder content to show the scrolling behavior for modals. Instead of repeating the text, we use an inline style to set a minimum height, thereby extending the length of the overall modal and demonstrating the overflow scrolling. When content becomes longer than the height of the viewport, scrolling will move the modal as needed.</p>
+  <p>This content should appear at the bottom after you scroll.</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-long').hide()">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-long').show()">Launch demo modal</bs-button>`} />
+
+You can also create a scrollable modal that allows scroll the modal body by adding the `scrollable` attribute.
+
+<Example code={`<bs-modal id="demo-scroll" scrollable heading="Modal title">
+  <p>This is some placeholder content to show the scrolling behavior for modals. We use repeated line breaks to demonstrate how content can exceed minimum inner height, thereby showing inner scrolling. When content becomes longer than the predefined max-height of modal, content will be cropped and scrollable within the modal.</p>
+  <br/><br/><br/><br/><br/><br/><br/><br/>
+  <p>This content should appear at the bottom after you scroll.</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-scroll').hide()">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-scroll').show()">Launch demo modal</bs-button>`} />
+
+## Vertically centered
+
+Add the `centered` attribute to vertically center the modal. Combine with `scrollable` for a vertically centered + scrollable dialog.
+
+<Example code={`<bs-modal id="demo-center" centered heading="Modal title">
+  <p>This is a vertically centered modal.</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-center').hide()">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>
+<bs-modal id="demo-center-scroll" centered scrollable heading="Modal title">
+  <p>This is some placeholder content to show a vertically centered modal. We've added some extra copy here to show how vertically centering the modal works when combined with scrollable modals. We also use some repeated line breaks to quickly extend the height of the content, thereby triggering the scrolling. When content becomes longer than the predefined max-height of modal, content will be cropped and scrollable within the modal.</p>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <p>Just like that.</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-center-scroll').hide()">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-center').show()">Vertically centered modal</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-center-scroll').show()">Vertically centered scrollable modal</bs-button>`} />
+
+## Tooltips and popovers
+
+Tooltips and popovers can be placed within modals as needed. When a modal is closed, any tooltips and popovers within are also automatically dismissed.
+
+<Example code={`<bs-modal id="demo-popovers" heading="Modal title">
+  <h2 class="fs-5">Popover in a modal</h2>
+  <p>This <bs-button variant="secondary">button</bs-button> triggers a popover on click.</p>
+  <hr/>
+  <h2 class="fs-5">Tooltips in a modal</h2>
+  <p><a href="#">This link</a> and <a href="#">that link</a> have tooltips on hover.</p>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-popovers').hide()">Close</bs-button>
+    <bs-button variant="primary">Save changes</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-popovers').show()">Launch demo modal</bs-button>`} />
+
+## Grids in modals
+
+Utilize the Bootstrap grid system within a modal by nesting `.container-fluid` within the modal body. Then, use the normal grid system classes as you would anywhere else.
+
+<Example code={`<bs-modal id="demo-grid" heading="Grids in modals">
+  <div class="container-fluid bd-example-row">
+    <div class="row">
+      <div class="col-md-4">.col-md-4</div>
+      <div class="col-md-4 ms-auto">.col-md-4 .ms-auto</div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 ms-auto">.col-md-3 .ms-auto</div>
+      <div class="col-md-2 ms-auto">.col-md-2 .ms-auto</div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 ms-auto">.col-md-6 .ms-auto</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-9">
+        Level 1: .col-sm-9
+        <div class="row">
+          <div class="col-8 col-sm-6">Level 2: .col-8 .col-sm-6</div>
+          <div class="col-4 col-sm-6">Level 2: .col-4 .col-sm-6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-grid').show()">Launch demo modal</bs-button>`} />
+
+## Varying modal content
+
+Have a bunch of buttons that all trigger the same modal with slightly different contents? Listen for the `bs-show` event on the modal and swap content in the handler.
+
+<Example code={`<bs-modal id="demo-varying" heading="New message">
+  <form>
+    <div class="mb-3">
+      <label for="recipient-name" class="col-form-label">Recipient:</label>
+      <bs-input id="recipient-name" type="text"></bs-input>
+    </div>
+    <div class="mb-3">
+      <label for="message-text" class="col-form-label">Message:</label>
+      <bs-input id="message-text" type="text"></bs-input>
+    </div>
+  </form>
+  <div slot="footer">
+    <bs-button variant="secondary" onclick="document.getElementById('demo-varying').hide()">Close</bs-button>
+    <bs-button variant="primary">Send message</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('recipient-name').value='@mdo'; document.getElementById('demo-varying').show()">Open modal for @mdo</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('recipient-name').value='@fat'; document.getElementById('demo-varying').show()">Open modal for @fat</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('recipient-name').value='@getbootstrap'; document.getElementById('demo-varying').show()">Open modal for @getbootstrap</bs-button>`} />
+
+## Toggle between modals
+
+Toggle between multiple modals by opening the next one and closing the current. Swap content by chaining `show()` on the target modal and `hide()` on the current.
+
+<Example code={`<bs-modal id="demo-toggle-1" centered heading="Modal 1">
+  Show a second modal and hide this one with the button below.
+  <div slot="footer">
+    <bs-button variant="primary" onclick="document.getElementById('demo-toggle-1').hide(); document.getElementById('demo-toggle-2').show()">Open second modal</bs-button>
+  </div>
+</bs-modal>
+<bs-modal id="demo-toggle-2" centered heading="Modal 2">
+  Hide this modal and show the first with the button below.
+  <div slot="footer">
+    <bs-button variant="primary" onclick="document.getElementById('demo-toggle-2').hide(); document.getElementById('demo-toggle-1').show()">Back to first</bs-button>
+  </div>
+</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-toggle-1').show()">Open first modal</bs-button>`} />
+
+## Optional sizes
+
+Modals have three optional sizes, available via the `size` attribute. These sizes kick in at certain breakpoints to avoid horizontal scrollbars on narrower viewports.
+
+<Example code={`<bs-modal id="demo-xl" size="xl" heading="Extra large modal">Extra large modal body.</bs-modal>
+<bs-modal id="demo-lg" size="lg" heading="Large modal">Large modal body.</bs-modal>
+<bs-modal id="demo-sm" size="sm" heading="Small modal">Small modal body.</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-xl').show()">Extra large modal</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-lg').show()">Large modal</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-sm').show()">Small modal</bs-button>`} />
+
+## Fullscreen Modal
+
+Another override is the option to pop up a modal that covers the user viewport, available via the `fullscreen` attribute. It accepts a boolean (always fullscreen) or a breakpoint modifier (`sm-down`, `md-down`, `lg-down`, `xl-down`, `xxl-down`) to only go fullscreen below the chosen breakpoint.
+
+<Example code={`<bs-modal id="demo-fs" fullscreen heading="Full screen modal">Fullscreen modal body.</bs-modal>
+<bs-modal id="demo-fs-sm" fullscreen="sm-down" heading="Full screen below sm">Fullscreen below sm.</bs-modal>
+<bs-modal id="demo-fs-md" fullscreen="md-down" heading="Full screen below md">Fullscreen below md.</bs-modal>
+<bs-modal id="demo-fs-lg" fullscreen="lg-down" heading="Full screen below lg">Fullscreen below lg.</bs-modal>
+<bs-modal id="demo-fs-xl" fullscreen="xl-down" heading="Full screen below xl">Fullscreen below xl.</bs-modal>
+<bs-modal id="demo-fs-xxl" fullscreen="xxl-down" heading="Full screen below xxl">Fullscreen below xxl.</bs-modal>
+<bs-button variant="primary" onclick="document.getElementById('demo-fs').show()">Full screen</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-fs-sm').show()">Full screen below sm</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-fs-md').show()">Full screen below md</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-fs-lg').show()">Full screen below lg</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-fs-xl').show()">Full screen below xl</bs-button>
+<bs-button variant="primary" onclick="document.getElementById('demo-fs-xxl').show()">Full screen below xxl</bs-button>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | `false` | Controls visibility. Reflected. |
+| `heading` | `string` | — | Title text (slot `title` available for rich content). |
+| `size` | `sm` \| `md` \| `lg` \| `xl` | `md` | Dialog width. |
+| `centered` | `boolean` | `false` | Vertically center the dialog. |
+| `scrollable` | `boolean` | `false` | Scrollable body. |
+| `static-backdrop` | `boolean` | `false` | Clicking the backdrop doesn't close the modal. |
+| `no-backdrop` | `boolean` | `false` | Hide the backdrop entirely. |
+| `no-close-on-escape` | `boolean` | `false` | Disable ESC-to-close. |
+| `no-close-button` | `boolean` | `false` | Hide the header close button. |
+| `fullscreen` | `boolean` \| `sm-down` \| `md-down` \| `lg-down` \| `xl-down` \| `xxl-down` | `false` | Apply `.modal-fullscreen` (or breakpoint-scoped variant). |
+| `static-preview` | `boolean` | `false` | Render the dialog inline (for docs previews); suppresses backdrop and fixed positioning. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `show()` | Open the modal. |
+| `hide()` | Close the modal. |
+| `toggle()` | Toggle open state. |
+
+### Events
+
+| Event | Description |
+|---|---|
+| `bs-show` | Before the modal opens. Cancelable. |
+| `bs-shown` | After open animation completes. |
+| `bs-hide` | Before the modal closes. Cancelable. |
+| `bs-hidden` | After close animation completes. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| default | Modal body content. |
+| `title` | Rich title markup (overrides `heading`). |
+| `footer` | Modal footer. Header is omitted if empty. |
+
+## Install
+
+```sh
+npm install @bootstrap-wc/components focus-trap
+# or
+npx bwc add modal
+```

@@ -1,0 +1,201 @@
+---
+title: Tabs
+description: Dynamic tabbed interfaces with panels, matching Bootstrap 5.3's JavaScript tab plugin.
+---
+
+import Example from '../../components/Example.astro';
+
+`<bs-tabs>` is the interactive, JavaScript-driven counterpart to
+[`<bs-nav>`](/components/nav/). It renders a `.nav` tablist on its host
+shadow plus a `.tab-content` region whose visibility is switched as the
+user selects a tab. Declare panels as `<bs-tab-panel>` children — each
+panel's `name` becomes the identifier used by `active` and the
+`bs-tab-change` event.
+
+For plain, static nav styling (no panels, no tab switching) use
+[`<bs-nav>`](/components/nav/) instead.
+
+## Tabs
+
+Matches Bootstrap's "Using data attributes" example with `.nav-tabs`.
+
+<Example code={`<bs-tabs active="home">
+  <bs-tab-panel name="home" label="Home">
+    <p>This is some placeholder content for the <strong>Home tab's</strong> associated content. Clicking another tab will toggle the visibility of this one for the next.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">
+    <p>This is some placeholder content for the <strong>Profile tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="contact" label="Contact">
+    <p>This is some placeholder content for the <strong>Contact tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="disabled" label="Disabled" disabled>
+    <p>This is some placeholder content for the <strong>Disabled tab's</strong> associated content.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+## Pills
+
+Use `nav-style="pills"` for Bootstrap's pill-shaped active state.
+
+<Example code={`<bs-tabs nav-style="pills" active="home">
+  <bs-tab-panel name="home" label="Home">
+    <p>This is some placeholder content for the <strong>Home tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">
+    <p>This is some placeholder content for the <strong>Profile tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="contact" label="Contact">
+    <p>This is some placeholder content for the <strong>Contact tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="disabled" label="Disabled" disabled>
+    <p>This is some placeholder content for the <strong>Disabled tab's</strong> associated content.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+## Underline
+
+Use `nav-style="underline"` for Bootstrap 5.3's underline-style active
+indicator.
+
+<Example code={`<bs-tabs nav-style="underline" active="home">
+  <bs-tab-panel name="home" label="Home">
+    <p>This is some placeholder content for the <strong>Home tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">
+    <p>This is some placeholder content for the <strong>Profile tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="contact" label="Contact">
+    <p>This is some placeholder content for the <strong>Contact tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="disabled" label="Disabled" disabled>
+    <p>This is some placeholder content for the <strong>Disabled tab's</strong> associated content.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+## Fade animation
+
+Panels receive Bootstrap's `.fade` and `.show` classes by default, so
+switching tabs cross-fades their contents. Opt out with the `no-fade`
+attribute for an instant switch:
+
+<Example code={`<bs-tabs no-fade active="home">
+  <bs-tab-panel name="home" label="Home">
+    <p>This content appears without fade when tabs are switched.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">
+    <p>Switching is instant because <code>no-fade</code> is set on <code>bs-tabs</code>.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+## Vertical tabs
+
+Set the `vertical` attribute to stack tabs on the left and render panels
+to their right. Combines Bootstrap's `.d-flex`, `.flex-column`, and
+`aria-orientation="vertical"`.
+
+<Example code={`<bs-tabs nav-style="pills" vertical active="home">
+  <bs-tab-panel name="home" label="Home">
+    <p>This is some placeholder content for the <strong>Home tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">
+    <p>This is some placeholder content for the <strong>Profile tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="disabled" label="Disabled" disabled>
+    <p>This is some placeholder content for the <strong>Disabled tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="messages" label="Messages">
+    <p>This is some placeholder content for the <strong>Messages tab's</strong> associated content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="settings" label="Settings">
+    <p>This is some placeholder content for the <strong>Settings tab's</strong> associated content.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+## Fill and justify
+
+Use `fill="fill"` so tab links proportionally fill the container:
+
+<Example code={`<bs-tabs nav-style="pills" fill="fill" active="home">
+  <bs-tab-panel name="home" label="Active">
+    <p>Home content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Much longer nav link">
+    <p>Profile content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="contact" label="Link">
+    <p>Contact content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="disabled" label="Disabled" disabled>
+    <p>Disabled content.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+Use `fill="justified"` for equal-width tabs:
+
+<Example code={`<bs-tabs nav-style="pills" fill="justified" active="home">
+  <bs-tab-panel name="home" label="Active">
+    <p>Home content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="profile" label="Much longer nav link">
+    <p>Profile content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="contact" label="Link">
+    <p>Contact content.</p>
+  </bs-tab-panel>
+  <bs-tab-panel name="disabled" label="Disabled" disabled>
+    <p>Disabled content.</p>
+  </bs-tab-panel>
+</bs-tabs>`} />
+
+## API
+
+### `<bs-tabs>` attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `active` | `string` | first panel's `name` | Name of the panel that's currently active. |
+| `nav-style` | `tabs` \| `pills` \| `underline` | `tabs` | Visual style of the tablist. |
+| `fill` | `none` \| `fill` \| `justified` | `none` | Tab item distribution. |
+| `vertical` | `boolean` | `false` | Stacks the tablist vertically with panels to its right. |
+| `no-fade` | `boolean` | `false` | Disables the default `.fade` / `.show` cross-fade on tab panels. |
+
+### `<bs-tabs>` events
+
+| Name | Detail | Description |
+|---|---|---|
+| `bs-tab-change` | `{ active: string }` | Fires after `active` updates. |
+
+### `<bs-tab-panel>` attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `name` | `string` | — | Stable identifier — matched against `bs-tabs[active]`. |
+| `label` | `string` | `name` | Text shown on the tab button. |
+| `active` | `boolean` | `false` | Reflected. Managed by the parent `<bs-tabs>`. |
+| `disabled` | `boolean` | `false` | Disables the tab button for this panel. |
+| `no-fade` | `boolean` | `false` | Disables `.fade` on just this panel (normally set by the parent). |
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add tabs
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/tabs';
+```
+
+```html
+<bs-tabs active="home">
+  <bs-tab-panel name="home" label="Home">Home panel</bs-tab-panel>
+  <bs-tab-panel name="profile" label="Profile">Profile panel</bs-tab-panel>
+</bs-tabs>
+```
+
+See `packages/components/src/tabs/` in the source for the complete property / event list.

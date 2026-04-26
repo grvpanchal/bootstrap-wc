@@ -1,0 +1,214 @@
+---
+title: Toast
+description: Transient notification toast.
+---
+
+import Example from '../../components/Example.astro';
+
+Toasts are lightweight notifications designed to mimic the push notifications
+popularized by mobile and desktop operating systems. `<bs-toast>` renders the
+full `.toast` structure and manages show / hide + optional autohide for you.
+
+## Basic
+
+Set `open` to reveal the toast. The `heading` attribute renders a header row;
+slot `icon` to place an icon before the heading, and use `timestamp` for the
+small metadata on the right. A close button is included automatically — pass
+`no-close-button` to omit it.
+
+<Example code={`<bs-toast open heading="Bootstrap" timestamp="11 mins ago">
+  <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+  Hello, world! This is a toast message.
+</bs-toast>`} />
+
+## Live example
+
+Click the button to show a transient toast. By default `autohide` is on, so
+the toast self-closes after `delay` milliseconds (5000 by default).
+
+<Example code={`<div id="liveToastHost"></div>
+<bs-button variant="primary" onclick="(() => {
+  const host = document.getElementById('liveToastHost');
+  host.innerHTML = '';
+  const t = document.createElement('bs-toast');
+  t.setAttribute('heading', 'Bootstrap');
+  t.setAttribute('timestamp', 'just now');
+  t.textContent = 'Hello, world! This is a toast message.';
+  host.appendChild(t);
+  requestAnimationFrame(() => t.show());
+})()">Show live toast</bs-button>`} />
+
+## Translucent
+
+Toasts are slightly translucent so they blend over whatever they're on top of.
+Drop one on a dark surface to see the effect.
+
+<Example code={`<div class="bg-dark p-3">
+  <bs-toast open heading="Bootstrap" timestamp="11 mins ago" no-autohide>
+    <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+    Hello, world! This is a toast message.
+  </bs-toast>
+</div>`} />
+
+## Stacking
+
+When multiple toasts live inside `<bs-toast-container static>` they stack
+naturally with vertical spacing and occupy layout flow instead of floating
+over the page.
+
+<Example code={`<bs-toast-container static>
+  <bs-toast open heading="Bootstrap" timestamp="just now" no-autohide>
+    <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+    See? Just like this.
+  </bs-toast>
+  <bs-toast open heading="Bootstrap" timestamp="2 seconds ago" no-autohide>
+    <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+    Heads up, toasts will stack automatically
+  </bs-toast>
+</bs-toast-container>`} />
+
+## Custom content
+
+Skip the `heading` entirely and pass `dismissible` to render a bare
+`.toast-body` with an inline close button — useful for short, single-line
+notifications.
+
+<Example code={`<bs-toast open dismissible no-autohide>
+  Hello, world! This is a toast message.
+</bs-toast>`} />
+
+Or drop in your own action buttons inside the body.
+
+<Example code={`<bs-toast open no-close-button no-autohide>
+  Hello, world! This is a toast message.
+  <div class="mt-2 pt-2 border-top">
+    <bs-button variant="primary" size="sm">Take action</bs-button>
+    <bs-button variant="secondary" size="sm" onclick="this.closest('bs-toast').hide()">Close</bs-button>
+  </div>
+</bs-toast>`} />
+
+## Color schemes
+
+Pair the `variant` attribute with `dismissible` to produce the colored toast
+variants from Bootstrap's docs. The border is removed automatically and the
+close button is swapped for `btn-close-white`.
+
+<Example code={`<bs-toast open variant="primary" dismissible no-autohide>
+  Hello, world! This is a toast message.
+</bs-toast>`} />
+
+## Placement
+
+Wrap `<bs-toast>` elements in `<bs-toast-container>` with a `placement`
+attribute to pin them to a corner or edge. The container is fixed-positioned
+with a high z-index so it stays above other content.
+
+<Example code={`<div class="bg-body-secondary position-relative rounded-3" style="min-height:180px">
+  <bs-toast-container placement="top-end" absolute>
+    <bs-toast open no-close-button no-autohide heading="Bootstrap" timestamp="11 mins ago">
+      <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+      Hello, world! This is a toast message.
+    </bs-toast>
+  </bs-toast-container>
+</div>`} />
+
+Stack multiple toasts in the same container and they'll flow vertically.
+
+<Example code={`<div class="bg-body-secondary position-relative rounded-3" style="min-height:260px">
+  <bs-toast-container placement="top-end" absolute>
+    <bs-toast open heading="Bootstrap" timestamp="just now" no-autohide>
+      <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+      See? Just like this.
+    </bs-toast>
+    <bs-toast open heading="Bootstrap" timestamp="2 seconds ago" no-autohide>
+      <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+      Heads up, toasts will stack automatically
+    </bs-toast>
+  </bs-toast-container>
+</div>`} />
+
+Center it with `placement="middle-center"` to pin to the middle of the viewport.
+
+<Example code={`<div class="bg-body-secondary position-relative rounded-3" style="min-height:220px">
+  <bs-toast-container placement="middle-center" absolute>
+    <bs-toast open heading="Bootstrap" timestamp="11 mins ago" no-autohide>
+      <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+      Hello, world! This is a toast message.
+    </bs-toast>
+  </bs-toast-container>
+</div>`} />
+
+## Accessibility
+
+Toasts are intended to be small interruptions for your visitors, so keep
+messages short. Pass `no-autohide` to keep the toast around until the
+user dismisses it — useful when the message conveys an action to take.
+
+<Example code={`<bs-toast open no-autohide heading="Bootstrap" timestamp="11 mins ago">
+  <svg slot="icon" aria-hidden="true" class="rounded me-2" width="20" height="20" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#007aff"/></svg>
+  Hello, world! This is a toast message.
+</bs-toast>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add toast
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/toast';
+```
+
+```html
+<bs-toast open heading="Hello">This is a toast.</bs-toast>
+```
+
+## API
+
+### `<bs-toast>` attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | `false` | Controls visibility (reflected). |
+| `autohide` | `boolean` | `true` | Auto-dismiss after `delay` ms. |
+| `no-autohide` | `boolean` | `false` | Disables auto-hide via attribute (escape for Lit's truthy-boolean attribute semantics). |
+| `delay` | `number` | `5000` | Autohide delay in milliseconds. |
+| `variant` | Bootstrap variant | — | Adds `text-bg-{variant}` + `border-0`. |
+| `heading` | `string` | — | When set, renders the `.toast-header`. |
+| `timestamp` | `string` | — | Small metadata shown in the header. |
+| `no-close-button` | `boolean` | `false` | Omit the automatic close button. |
+| `dismissible` | `boolean` | `false` | When no `heading` is set, renders a flex layout with close button beside the body. |
+
+### `<bs-toast>` slots
+
+| Name | Description |
+|---|---|
+| _(default)_ | Body content. |
+| `icon` | Optional element rendered before the heading text (icon, avatar, etc). |
+
+### `<bs-toast>` methods
+
+| Method | Description |
+|---|---|
+| `show()` | Set `open = true`. |
+| `hide()` | Set `open = false`. |
+
+### `<bs-toast>` events
+
+| Event | Description |
+|---|---|
+| `bs-show` | Fired when `open` becomes `true`. |
+| `bs-hide` | Fired when `open` becomes `false`. |
+
+### `<bs-toast-container>` attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `placement` | `top-start` \| `top-center` \| `top-end` \| `middle-start` \| `middle-center` \| `middle-end` \| `bottom-start` \| `bottom-center` \| `bottom-end` | `top-end` | Corner or edge to pin the container to. |
+| `static` | `boolean` | `false` | Use `position-static` (flows in document order) instead of `position-fixed`. |
+| `absolute` | `boolean` | `false` | Use `position-absolute` (anchored to nearest positioned ancestor) instead of `position-fixed`. |

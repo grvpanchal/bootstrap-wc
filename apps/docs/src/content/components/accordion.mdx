@@ -1,0 +1,111 @@
+---
+title: Accordion
+description: Expandable accordion with single- or multi-open behavior.
+---
+
+import Example from '../../components/Example.astro';
+
+Expandable accordion with single- or multi-open behavior.
+
+## Example
+
+Click the accordions below to expand/collapse the accordion content.
+
+<Example code={`<bs-accordion>
+  <bs-accordion-item heading="Accordion Item #1" open>
+    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  </bs-accordion-item>
+  <bs-accordion-item heading="Accordion Item #2">
+    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  </bs-accordion-item>
+  <bs-accordion-item heading="Accordion Item #3">
+    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  </bs-accordion-item>
+</bs-accordion>`} />
+
+## Flush
+
+Add the `flush` attribute to remove the default `background-color`, some borders, and some rounded corners to render accordions edge-to-edge with their parent container.
+
+<Example code={`<bs-accordion flush>
+  <bs-accordion-item heading="Accordion Item #1">
+    Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.
+  </bs-accordion-item>
+  <bs-accordion-item heading="Accordion Item #2">
+    Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.
+  </bs-accordion-item>
+  <bs-accordion-item heading="Accordion Item #3">
+    Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.
+  </bs-accordion-item>
+</bs-accordion>`} />
+
+## Always open
+
+Add the `always-open` attribute to make accordion items stay open when another item is opened.
+
+<Example code={`<bs-accordion always-open>
+  <bs-accordion-item heading="Accordion Item #1" open>
+    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  </bs-accordion-item>
+  <bs-accordion-item heading="Accordion Item #2">
+    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  </bs-accordion-item>
+  <bs-accordion-item heading="Accordion Item #3">
+    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+  </bs-accordion-item>
+</bs-accordion>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add accordion
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/accordion';
+```
+
+```html
+<bs-accordion>
+  <bs-accordion-item heading="Item #1" open>First panel content.</bs-accordion-item>
+  <bs-accordion-item heading="Item #2">Second panel content.</bs-accordion-item>
+</bs-accordion>
+```
+
+## API
+
+### `bs-accordion`
+
+#### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `flush` | `boolean` | `false` | Render edge-to-edge without outer borders / rounded corners. |
+| `always-open` | `boolean` | `false` | Allow multiple items to be expanded simultaneously. |
+
+### `bs-accordion-item`
+
+#### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `open` | `boolean` | `false` | Whether the panel is expanded (reflected). |
+| `heading` | `string` | — | Convenience label for the collapsed-state button. Use the `header` slot for rich content. |
+
+#### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | Panel body content. |
+| `header` | Button label (use instead of `heading` for rich content). |
+
+#### Events
+
+| Event | Description |
+|---|---|
+| `bs-accordion-item-toggle` | Fires on state change. `detail: { open: boolean }`. Bubbles. |
