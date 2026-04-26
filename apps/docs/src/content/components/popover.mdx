@@ -1,0 +1,145 @@
+---
+title: Popover
+description: Rich floating panel with title + body, positioned with @floating-ui/dom.
+---
+
+import Example from '../../components/Example.astro';
+
+The `<bs-popover>` element renders a Bootstrap popover — a richer floating panel that pairs an optional heading with body content. Positioning is handled internally by `@floating-ui/dom`, so the element works anywhere on the page without any container wiring. Slot the trigger (usually a `<bs-button>`) into the default slot.
+
+## Overview
+
+Unlike Bootstrap's plugin-based popovers, `<bs-popover>` is a self-activating custom element — no separate initialization script is required. Drop the element into your markup and it's live.
+
+<Example code={`<bs-popover heading="Popover" content="And here's some amazing content. It's very engaging. Right?" trigger="click">
+  <bs-button variant="danger" size="lg">Click to toggle popover</bs-button>
+</bs-popover>`} />
+
+## Examples
+
+### Live demo
+
+Use `trigger="click"` (the default) to toggle the popover on activation. Clicking outside the host closes it again.
+
+<Example code={`<bs-popover heading="Popover title" content="And here's some amazing content. It's very engaging. Right?">
+  <bs-button variant="danger" size="lg">Click to toggle popover</bs-button>
+</bs-popover>`} />
+
+### Four directions
+
+Set `placement` to position the popover in one of four directions relative to its trigger.
+
+<Example code={`<bs-popover placement="top" content="Top popover">
+  <bs-button variant="secondary">Popover on top</bs-button>
+</bs-popover>
+<bs-popover placement="right" content="Right popover">
+  <bs-button variant="secondary">Popover on right</bs-button>
+</bs-popover>
+<bs-popover placement="bottom" content="Bottom popover">
+  <bs-button variant="secondary">Popover on bottom</bs-button>
+</bs-popover>
+<bs-popover placement="left" content="Left popover">
+  <bs-button variant="secondary">Popover on left</bs-button>
+</bs-popover>`} />
+
+### Custom popovers
+
+Pass `custom-class` to add an arbitrary class to the rendered popover element. The class can then be used to override Bootstrap's popover CSS variables — `--bs-popover-max-width`, `--bs-popover-border-color`, `--bs-popover-header-bg`, and so on — to theme an individual popover.
+
+<Example code={`<style>
+  .custom-popover {
+    --bs-popover-max-width: 200px;
+    --bs-popover-border-color: #712cf9;
+    --bs-popover-header-bg: #712cf9;
+    --bs-popover-header-color: var(--bs-white);
+    --bs-popover-body-padding-x: 1rem;
+    --bs-popover-body-padding-y: .5rem;
+  }
+</style>
+<bs-popover placement="right" custom-class="custom-popover" heading="Custom popover" content="This popover is themed via CSS variables.">
+  <bs-button variant="secondary">Custom popover</bs-button>
+</bs-popover>`} />
+
+## Dismiss on next click
+
+Set `trigger="focus"` to open the popover on focus and close it as soon as the trigger loses focus — the "dismiss on next click" pattern. Render the trigger so it is focusable (for example, `<bs-button href="#">` or any element with `tabindex="0"`).
+
+<Example code={`<bs-popover trigger="focus" heading="Dismissible popover" content="And here's some amazing content. It's very engaging. Right?">
+  <bs-button href="#" variant="danger" size="lg">Dismissible popover</bs-button>
+</bs-popover>`} />
+
+## HTML content
+
+Use the named slots — `heading` for a custom header and `content` for a custom body — to embed arbitrary HTML instead of plain text.
+
+<Example code={`<bs-popover trigger="click">
+  <span slot="heading">HTML <em>heading</em></span>
+  <div slot="content">
+    <p class="mb-2">This popover has <strong>HTML content</strong>.</p>
+    <bs-button size="sm" variant="primary">Action</bs-button>
+  </div>
+  <bs-button variant="secondary">Click for HTML</bs-button>
+</bs-popover>`} />
+
+## Disabled elements
+
+Elements with the `disabled` attribute aren't interactive, so they can't trigger popovers themselves. Wrap them in a focusable host (any `<bs-popover>` already provides one) and set `trigger="hover focus"` equivalent behavior via `trigger="hover"` or `trigger="focus"`. The popover itself remains fully interactive.
+
+<Example code={`<bs-popover trigger="hover" content="Disabled popover">
+  <bs-button variant="primary" disabled>Disabled button</bs-button>
+</bs-popover>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `heading` | `string` | `''` | Header text. Rendered inside `.popover-header`. Omit to use the `heading` slot. |
+| `content` | `string` | `''` | Body text. Rendered inside `.popover-body`. Omit to use the `content` slot. |
+| `placement` | `top` \| `right` \| `bottom` \| `left` (and `-start` / `-end` variants) | `right` | Position of the popover relative to the trigger. |
+| `trigger` | `click` \| `hover` \| `focus` \| `manual` | `click` | How the popover opens. `manual` disables automatic triggers — use `show()` / `hide()` / `toggle()`. |
+| `open` | `boolean` | `false` | Reflects and controls open state. |
+| `custom-class` | `string` | `''` | Extra class applied to the rendered popover element. Mirrors Bootstrap's `data-bs-custom-class` for CSS-variable theming. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | The trigger element. |
+| `heading` | Custom header HTML (overrides `heading` attribute). |
+| `content` | Custom body HTML (appended after `content` attribute if both are provided). |
+
+### CSS parts
+
+| Part | Description |
+|---|---|
+| `reference` | The inline wrapper around the trigger. |
+| `popover` | The floating popover element. |
+| `header` | The popover header (when `heading` is set). |
+| `body` | The popover body. |
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add popover
+```
+
+Additional peer deps: `@floating-ui/dom`
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/popover';
+```
+
+```html
+<bs-popover heading="Popover" content="Rich content here." trigger="click">
+  <bs-button>Click me</bs-button>
+</bs-popover>
+```
+
+See `packages/components/src/popover/` in the source for the complete property / event list.

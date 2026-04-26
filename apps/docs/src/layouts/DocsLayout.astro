@@ -1,0 +1,123 @@
+---
+// Custom docs layout — built with @bootstrap-wc/components.
+// No Starlight; everything chrome (navbar, mobile sidebar, theme toggle,
+// in-page nav) is a bs-* element from this library.
+import '../styles/bootstrap.css';
+import '../styles/custom.css';
+import SidebarNav from '../components/SidebarNav.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** Slug of the active page within the sidebar tree (e.g. `components/button`). */
+  activeSlug?: string;
+}
+
+const { title, description, activeSlug } = Astro.props;
+const fullTitle = title === 'Bootstrap Web Components'
+  ? title
+  : `${title} | Bootstrap Web Components`;
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <script is:inline>
+      // Restore saved theme before paint to avoid FOUC. Defaults to system
+      // preference, falls back to light.
+      (function () {
+        try {
+          var saved = localStorage.getItem('bwc-theme');
+          var theme =
+            saved ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-bs-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+    <script>
+      // Register every bs-* custom element on first page load.
+      import '@bootstrap-wc/components';
+    </script>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <bs-navbar class="navbar navbar-expand-lg border-bottom sticky-top bg-body" aria-label="Main">
+      <div class="container-fluid gap-2 px-3 px-lg-4">
+        <bs-button
+          variant="none"
+          class="btn btn-outline-secondary border-0 d-lg-none"
+          aria-label="Open navigation"
+          onclick="document.querySelector('#mobile-sidebar').open = true"
+        >
+          <i class="bi bi-list fs-4"></i>
+        </bs-button>
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+          <span class="badge bg-primary fs-6">B</span>
+          <span class="fw-semibold">Bootstrap Web Components</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-2">
+          <a
+            class="btn btn-outline-secondary border-0"
+            href="https://github.com/grvpanchal/bootstrap-wc"
+            aria-label="GitHub"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="bi bi-github fs-5"></i>
+          </a>
+          <bs-button
+            id="theme-toggle"
+            variant="none"
+            class="btn btn-outline-secondary border-0"
+            aria-label="Toggle theme"
+            onclick="(function(){var r=document.documentElement;var n=r.getAttribute('data-bs-theme')==='dark'?'light':'dark';r.setAttribute('data-bs-theme',n);try{localStorage.setItem('bwc-theme',n)}catch(e){}})()"
+          >
+            <i class="bi bi-circle-half fs-5"></i>
+          </bs-button>
+        </div>
+      </div>
+    </bs-navbar>
+
+    <div class="container-fluid flex-grow-1">
+      <div class="row flex-grow-1">
+        <!-- Desktop sidebar -->
+        <aside class="col-lg-3 col-xl-2 d-none d-lg-block border-end pt-4">
+          <div class="position-sticky" style="top: 5rem">
+            <SidebarNav activeSlug={activeSlug} />
+          </div>
+        </aside>
+
+        <!-- Mobile sidebar (offcanvas) -->
+        <bs-offcanvas
+          id="mobile-sidebar"
+          placement="start"
+          heading="Bootstrap Web Components"
+          class="d-lg-none"
+        >
+          <SidebarNav activeSlug={activeSlug} />
+        </bs-offcanvas>
+
+        <!-- Main content -->
+        <main class="col-12 col-lg-9 col-xl-10 px-3 px-lg-5 py-4">
+          <article class="docs-content mx-auto" style="max-width: 56rem">
+            <slot />
+          </article>
+        </main>
+      </div>
+    </div>
+
+    <footer class="border-top py-3 mt-auto text-body-secondary small">
+      <div class="container-fluid text-center">
+        Built with <a href="/components/" class="link-primary">@bootstrap-wc/components</a>.
+      </div>
+    </footer>
+  </body>
+</html>

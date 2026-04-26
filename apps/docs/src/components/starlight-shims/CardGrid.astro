@@ -1,0 +1,17 @@
+---
+// Drop-in replacement for Starlight's <CardGrid>. Renders its children as a
+// responsive Bootstrap row.
+---
+
+<div class="row g-3 my-4">
+  <slot />
+</div>
+
+<style>
+  /* CardGrid: each direct child gets a column. */
+  div.row > :global(*) {
+    flex: 1 1 18rem;
+    min-width: 18rem;
+    max-width: 100%;
+  }
+</style>

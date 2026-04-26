@@ -1,0 +1,12 @@
+---
+// Drop-in replacement for Starlight's <TabItem>. Renders as a bs-tab-panel.
+export interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+const name = label.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+---
+
+<bs-tab-panel name={name} label={label}>
+  <slot />
+</bs-tab-panel>

@@ -1,0 +1,39 @@
+---
+// Drop-in replacement for Starlight's <Card>. Lets MDX pages keep their
+// `import { Card } from '@astrojs/starlight/components'` line working after
+// the Starlight removal.
+export interface Props {
+  title?: string;
+  icon?: string;
+}
+const { title, icon } = Astro.props;
+
+// Map Starlight's icon names to Bootstrap Icons.
+const ICON_MAP: Record<string, string> = {
+  rocket: 'rocket-takeoff',
+  'open-book': 'book',
+  star: 'star-fill',
+  document: 'file-earmark-text',
+  setting: 'gear',
+  pencil: 'pencil',
+  bars: 'list',
+  github: 'github',
+  external: 'box-arrow-up-right',
+  'right-arrow': 'arrow-right',
+};
+const biClass = icon ? `bi bi-${ICON_MAP[icon] ?? icon}` : null;
+---
+
+<bs-card class="card h-100">
+  <div class="card-body">
+    {title && (
+      <h3 class="card-title h5 d-flex align-items-center gap-2 mb-3">
+        {biClass && <i class={biClass} aria-hidden="true"></i>}
+        <span>{title}</span>
+      </h3>
+    )}
+    <div class="card-text">
+      <slot />
+    </div>
+  </div>
+</bs-card>

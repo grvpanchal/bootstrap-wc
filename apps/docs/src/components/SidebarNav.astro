@@ -1,0 +1,73 @@
+---
+// Auto-generated sidebar built from the `getting-started` and `components`
+// content collections. Renders as <bs-list-group> with one <bs-list-group-item
+// href> per page; the active page gets `active` for the Bootstrap pill
+// treatment.
+import { getCollection } from 'astro:content';
+
+export interface Props {
+  activeSlug?: string;
+}
+const { activeSlug } = Astro.props;
+
+const gettingStartedOrder = [
+  'introduction',
+  'installation',
+  'cli',
+  'theming',
+  'typescript',
+  'frameworks',
+];
+
+const gs = (await getCollection('getting-started')).sort((a, b) => {
+  const ai = gettingStartedOrder.indexOf(a.slug);
+  const bi = gettingStartedOrder.indexOf(b.slug);
+  return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+});
+
+const components = (await getCollection('components')).sort((a, b) =>
+  a.slug.localeCompare(b.slug),
+);
+
+function labelFor(entry: { data: { title: string; sidebar?: { label?: string } } }) {
+  return entry.data.sidebar?.label ?? entry.data.title;
+}
+---
+
+<nav aria-label="Documentation">
+  <h6 class="text-uppercase fw-semibold text-body-secondary small mb-2">Getting started</h6>
+  <bs-list-group flush class="list-group list-group-flush mb-4">
+    {
+      gs.map((entry) => {
+        const slug = `getting-started/${entry.slug}`;
+        return (
+          <bs-list-group-item
+            href={`/${slug}/`}
+            active={activeSlug === slug || undefined}
+            class={`list-group-item list-group-item-action px-2 py-1 border-0 ${activeSlug === slug ? 'active' : ''}`}
+          >
+            {labelFor(entry)}
+          </bs-list-group-item>
+        );
+      })
+    }
+  </bs-list-group>
+
+  <h6 class="text-uppercase fw-semibold text-body-secondary small mb-2">Components</h6>
+  <bs-list-group flush class="list-group list-group-flush">
+    {
+      components.map((entry) => {
+        const slug = `components/${entry.slug}`;
+        return (
+          <bs-list-group-item
+            href={`/${slug}/`}
+            active={activeSlug === slug || undefined}
+            class={`list-group-item list-group-item-action px-2 py-1 border-0 ${activeSlug === slug ? 'active' : ''}`}
+          >
+            {labelFor(entry)}
+          </bs-list-group-item>
+        );
+      })
+    }
+  </bs-list-group>
+</nav>

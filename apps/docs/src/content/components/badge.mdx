@@ -1,0 +1,126 @@
+---
+title: Badge
+description: Inline label or counter.
+---
+
+import Example from '../../components/Example.astro';
+
+Documentation and examples for badges, our small count and labeling component.
+
+## Example
+
+<Example code={`<bs-badge variant="primary">New</bs-badge>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add badge
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/badge';
+```
+
+```html
+<bs-badge variant="primary">New</bs-badge>
+```
+
+## Examples
+
+Badges scale to match the size of the immediate parent element by using relative
+font sizing and `em` units. As of v5, badges no longer have focus or hover
+styles for links.
+
+### Headings
+
+<Example code={`<h1>Example heading <bs-badge>New</bs-badge></h1>
+<h2>Example heading <bs-badge>New</bs-badge></h2>
+<h3>Example heading <bs-badge>New</bs-badge></h3>
+<h4>Example heading <bs-badge>New</bs-badge></h4>
+<h5>Example heading <bs-badge>New</bs-badge></h5>
+<h6>Example heading <bs-badge>New</bs-badge></h6>`} />
+
+### Buttons
+
+Badges can be used as part of links or buttons to provide a counter.
+
+<Example code={`<bs-button variant="primary">
+  Notifications <bs-badge>4</bs-badge>
+</bs-button>`} />
+
+Note that depending on how they are used, badges may be confusing for users of
+screen readers and similar assistive technologies. While the styling of badges
+provides a visual cue as to their purpose, these users will simply be presented
+with the content of the badge. Depending on the specific situation, these
+badges may seem like random additional words or numbers at the end of a
+sentence, link, or button.
+
+Unless the context is clear, consider including additional context with a
+visually hidden piece of additional text.
+
+## Positioned
+
+Use utilities to modify a `bs-badge` and position it in the corner of a link
+or button.
+
+<Example code={`<bs-button variant="primary" class="position-relative">
+  Inbox
+  <bs-badge variant="danger" pill class="position-absolute top-0 start-100 translate-middle">
+    99+
+    <span class="visually-hidden">unread messages</span>
+  </bs-badge>
+</bs-button>`} />
+
+You can also replace the `bs-badge` with a few more utilities without a count
+for a more generic indicator.
+
+<Example code={`<bs-button variant="primary" class="position-relative">
+  Profile
+  <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+    <span class="visually-hidden">New alerts</span>
+  </span>
+</bs-button>`} />
+
+## Background colors
+
+Set a `background-color` with contrasting foreground `color` via the `variant`
+attribute, which applies Bootstrap's `.text-bg-{color}` helper.
+
+<Example code={`<bs-badge variant="primary">Primary</bs-badge>
+<bs-badge variant="secondary">Secondary</bs-badge>
+<bs-badge variant="success">Success</bs-badge>
+<bs-badge variant="danger">Danger</bs-badge>
+<bs-badge variant="warning">Warning</bs-badge>
+<bs-badge variant="info">Info</bs-badge>
+<bs-badge variant="light">Light</bs-badge>
+<bs-badge variant="dark">Dark</bs-badge>`} />
+
+## Pill badges
+
+Use the `pill` attribute to make badges more rounded with a larger
+`border-radius`.
+
+<Example code={`<bs-badge variant="primary" pill>Primary</bs-badge>
+<bs-badge variant="secondary" pill>Secondary</bs-badge>
+<bs-badge variant="success" pill>Success</bs-badge>
+<bs-badge variant="danger" pill>Danger</bs-badge>
+<bs-badge variant="warning" pill>Warning</bs-badge>
+<bs-badge variant="info" pill>Info</bs-badge>
+<bs-badge variant="light" pill>Light</bs-badge>
+<bs-badge variant="dark" pill>Dark</bs-badge>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `variant` | Bootstrap variant | `secondary` | Applies `text-bg-{variant}` color. |
+| `pill` | `boolean` | `false` | Renders a rounded-pill badge. |
+
+See `packages/components/src/badge/` in the source for the complete property / event list.

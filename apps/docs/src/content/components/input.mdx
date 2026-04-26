@@ -1,0 +1,125 @@
+---
+title: Input
+description: Form-associated text input that participates in native form submission.
+---
+{/* handwritten */}
+
+import Example from '../../components/Example.astro';
+
+`<bs-input>` is a **form-associated custom element** — it participates in native `<form>` submission, reset, and validation just like a plain `<input>`.
+
+## Example
+
+<Example code={`<bs-form-label for="exampleFormControlInput1">Email address</bs-form-label>
+<bs-input id="exampleFormControlInput1" type="email" placeholder="name@example.com"></bs-input>`} />
+
+## Sizing
+
+Use `size="sm"` or `size="lg"` to get a smaller or larger input.
+
+<Example code={`<bs-input size="lg" type="text" placeholder=".form-control-lg" aria-label=".form-control-lg example"></bs-input>
+<bs-input type="text" placeholder="Default input" aria-label="default input example"></bs-input>
+<bs-input size="sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"></bs-input>`} />
+
+## Disabled
+
+Add the `disabled` boolean attribute to prevent user interaction and make the input appear lighter. Disabled inputs can also be marked `readonly`.
+
+<Example code={`<bs-input type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled></bs-input>
+<bs-input type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly></bs-input>`} />
+
+## Readonly
+
+Add the `readonly` boolean attribute to prevent modification of the value. Read-only inputs look like a normal input, but are not editable.
+
+<Example code={`<bs-input type="text" value="Readonly input here..." aria-label="readonly input example" readonly></bs-input>`} />
+
+## Readonly plain text
+
+Add the `plaintext` boolean attribute to render an input that looks like plain text (no borders, no background) while preserving the standard vertical spacing. Useful for read-only fields inside a form.
+
+<Example code={`<div class="mb-3 row">
+  <bs-form-label for="staticEmail" class="col-sm-2 col-form-label">Email</bs-form-label>
+  <div class="col-sm-10">
+    <bs-input id="staticEmail" type="text" value="email@example.com" readonly plaintext></bs-input>
+  </div>
+</div>
+<div class="mb-3 row">
+  <bs-form-label for="inputPassword" class="col-sm-2 col-form-label">Password</bs-form-label>
+  <div class="col-sm-10">
+    <bs-input id="inputPassword" type="password"></bs-input>
+  </div>
+</div>`} />
+
+It can also be used inline with other content:
+
+<Example code={`<form class="row g-3">
+  <div class="col-auto">
+    <bs-form-label for="staticEmail2" class="visually-hidden">Email</bs-form-label>
+    <bs-input id="staticEmail2" type="text" value="email@example.com" readonly plaintext></bs-input>
+  </div>
+  <div class="col-auto">
+    <bs-form-label for="inputPassword2" class="visually-hidden">Password</bs-form-label>
+    <bs-input id="inputPassword2" type="password" placeholder="Password"></bs-input>
+  </div>
+  <div class="col-auto">
+    <bs-button type="submit" variant="primary" class="mb-3">Confirm identity</bs-button>
+  </div>
+</form>`} />
+
+## Color
+
+Set `type="color"` to get a color picker. The component renders with Bootstrap's `.form-control-color` styling automatically.
+
+<Example code={`<bs-form-label for="exampleColorInput">Color picker</bs-form-label>
+<bs-input id="exampleColorInput" type="color" value="#563d7c" title="Choose your color"></bs-input>`} />
+
+## With a label
+
+<Example code={`<bs-form-label for="nickname" required>Nickname</bs-form-label>
+<bs-input id="nickname" placeholder="e.g. alice" minlength="2"></bs-input>
+<bs-form-text>Must be at least 2 characters.</bs-form-text>`} />
+
+## Validation states
+
+<Example code={`<bs-input valid value="looks good"></bs-input>
+<bs-input invalid value="bad"></bs-input>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `type` | HTML input types | `text` | `text` / `email` / `password` / `number` / `search` / `tel` / `url` / `date` / … |
+| `value` | `string` | `''` | Current value. |
+| `name` | `string` | `''` | Form field name. |
+| `placeholder` | `string` | `''` | Placeholder. |
+| `size` | `sm` \| `md` \| `lg` | `md` | Size modifier. |
+| `disabled` | `boolean` | `false` | Disables the input. |
+| `readonly` | `boolean` | `false` | Read-only. |
+| `required` | `boolean` | `false` | Required. |
+| `invalid` | `boolean` | `false` | Applies `.is-invalid`. |
+| `valid` | `boolean` | `false` | Applies `.is-valid`. |
+| `plaintext` | `boolean` | `false` | Applies `.form-control-plaintext`. |
+| `pattern` / `min` / `max` / `step` / `minlength` / `maxlength` | — | — | Standard validation attrs. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-input` | `{ value }` | Fires on every keystroke. |
+| `bs-change` | `{ value }` | Fires on commit (blur or Enter). |
+
+### Forms
+
+```html
+<form onsubmit="event.preventDefault(); console.log(new FormData(event.target))">
+  <bs-input name="email" type="email" required></bs-input>
+  <bs-button type="submit">Submit</bs-button>
+</form>
+```
+
+The submitted FormData will contain `email` — no JS state management needed.
+
+> Safari < 16.4 lacks `ElementInternals`. Test your form flows on older Safari if you support it.

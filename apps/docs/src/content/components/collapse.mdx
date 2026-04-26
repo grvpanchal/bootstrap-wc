@@ -1,0 +1,122 @@
+---
+title: Collapse
+description: Animated show/hide container.
+---
+
+import Example from '../../components/Example.astro';
+
+Animated show/hide container. Toggle visibility of any content with a smooth
+height (or width) animation via the `open` boolean attribute, or by calling
+`show()`, `hide()`, or `toggle()` on the element.
+
+## Example
+
+Click either trigger below to show and hide the collapse. Both toggle the same
+`<bs-collapse>` element.
+
+<Example code={`<p class="d-inline-flex gap-1">
+  <bs-button variant="primary" onclick="document.getElementById('collapseExample').toggle()">
+    Link with href
+  </bs-button>
+  <bs-button variant="primary" onclick="document.getElementById('collapseExample').toggle()">
+    Button with data-bs-target
+  </bs-button>
+</p>
+<bs-collapse id="collapseExample">
+  <bs-card>
+    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+  </bs-card>
+</bs-collapse>`} />
+
+## Horizontal
+
+Add the `horizontal` attribute to animate width instead of height. The
+collapse's child should have a fixed `width` (not `max-width`).
+
+<Example code={`<p>
+  <bs-button variant="primary" onclick="document.getElementById('collapseWidthExample').toggle()">
+    Toggle width collapse
+  </bs-button>
+</p>
+<div style="min-height: 120px;">
+  <bs-collapse horizontal id="collapseWidthExample">
+    <bs-card style="width: 300px;">
+      This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+    </bs-card>
+  </bs-collapse>
+</div>`} />
+
+## Multiple toggles and targets
+
+A single trigger can toggle multiple `<bs-collapse>` elements by iterating
+over a selector — just call `toggle()` on each target.
+
+<Example code={`<p class="d-inline-flex gap-1">
+  <bs-button variant="primary" onclick="document.getElementById('multiCollapseExample1').toggle()">Toggle first element</bs-button>
+  <bs-button variant="primary" onclick="document.getElementById('multiCollapseExample2').toggle()">Toggle second element</bs-button>
+  <bs-button variant="primary" onclick="document.querySelectorAll('.multi-collapse').forEach(c => c.toggle())">Toggle both elements</bs-button>
+</p>
+<div class="row">
+  <div class="col">
+    <bs-collapse class="multi-collapse" id="multiCollapseExample1">
+      <bs-card>
+        Some placeholder content for the first collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+      </bs-card>
+    </bs-collapse>
+  </div>
+  <div class="col">
+    <bs-collapse class="multi-collapse" id="multiCollapseExample2">
+      <bs-card>
+        Some placeholder content for the second collapse component of this multi-collapse example. This panel is hidden by default but revealed when the user activates the relevant trigger.
+      </bs-card>
+    </bs-collapse>
+  </div>
+</div>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add collapse
+```
+
+
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/collapse';
+```
+
+```html
+<bs-button onclick="this.nextElementSibling.toggle()">Toggle</bs-button>
+<bs-collapse>Hidden content revealed on click.</bs-collapse>
+```
+
+## API
+
+| Attribute    | Type    | Default | Description                                           |
+| ------------ | ------- | ------- | ----------------------------------------------------- |
+| `open`       | boolean | `false` | Whether the collapse is expanded.                     |
+| `horizontal` | boolean | `false` | Animate width instead of height.                      |
+
+### Methods
+
+| Method     | Description            |
+| ---------- | ---------------------- |
+| `show()`   | Open the collapse.     |
+| `hide()`   | Close the collapse.    |
+| `toggle()` | Toggle the open state. |
+
+### Events
+
+| Event        | When                       |
+| ------------ | -------------------------- |
+| `bs-show`    | Before the open animation. |
+| `bs-shown`   | After the open animation.  |
+| `bs-hide`    | Before the close animation. |
+| `bs-hidden`  | After the close animation. |
+
+See `packages/components/src/collapse/` in the source for the complete property / event list.
