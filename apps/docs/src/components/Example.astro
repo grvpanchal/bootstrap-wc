@@ -2,9 +2,17 @@
 // Wraps a live web-component example + its source code.
 // Usage:
 //   <Example code={`<bs-button>Click</bs-button>`} />
+//
+// The source listing is rendered through Astro's built-in <Code>
+// component (Shiki under the hood), so it picks up the same syntax
+// highlighting theme as fenced code blocks in MDX. Without this the
+// example would be a plain `<pre><code class="language-html">…</code></pre>`
+// with the `language-…` class but no highlighter wired up to act on it.
+import { Code } from 'astro:components';
+
 export interface Props {
   code: string;
-  lang?: string;
+  lang?: 'html' | 'js' | 'ts' | 'css' | 'bash' | 'json' | 'jsx' | 'tsx';
 }
 const { code, lang = 'html' } = Astro.props;
 ---
@@ -12,7 +20,7 @@ const { code, lang = 'html' } = Astro.props;
 <div class="bwc-example not-content">
   <Fragment set:html={code} />
 </div>
-<pre><code class={`language-${lang}`}>{code}</code></pre>
+<Code code={code} lang={lang} />
 
 <script>
   // Register every component so examples become interactive.
