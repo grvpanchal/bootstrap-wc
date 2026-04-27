@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { css, html } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { BootstrapElement, defineElement } from '@bootstrap-wc/core';
@@ -123,6 +123,22 @@ defineElement('bs-tabs', BsTabs);
 
 /** `<bs-tab-panel>` — a single panel. Requires `name` and `label` attrs. */
 export class BsTabPanel extends BootstrapElement {
+  /**
+   * Bootstrap's `.tab-content > .tab-pane { display: none }` selector can't
+   * reach across the shadow boundary to hide the inner `<div class="tab-
+   * pane">` here, so without this rule every panel host stays
+   * `display: block` and the inactive panels stack vertically below the
+   * active one — pushing the active panel's content far below the tablist
+   * and shifting it as the user switches tabs. Hide the host itself when
+   * `active` isn't set so the active panel always renders directly below
+   * the tabs nav.
+   */
+  static override styles = css`
+    :host(:not([active])) {
+      display: none;
+    }
+  `;
+
   @property({ type: String }) name = '';
   @property({ type: String }) label = '';
   @property({ type: Boolean, reflect: true }) active = false;
