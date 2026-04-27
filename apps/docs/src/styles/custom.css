@@ -30,7 +30,12 @@ body {
   margin-bottom: 0.75rem;
   scroll-margin-top: 5rem;
 }
-.docs-content :where(p, ul, ol, table) {
+/* Prose spacing — only for the surrounding article copy, never inside
+ * a live `.bwc-example` block. The example body is rendered Bootstrap
+ * markup whose component styling (e.g. `.card-header-tabs`'s negative
+ * `margin-bottom` so the active tab merges with the card body) gets
+ * stomped if this rule reaches descendants of `.bwc-example`. */
+.docs-content :where(p, ul, ol, table):not(.bwc-example *) {
   margin-bottom: 1rem;
 }
 .docs-content code:not(pre code) {
