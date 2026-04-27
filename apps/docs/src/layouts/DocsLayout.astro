@@ -64,7 +64,17 @@ const fullTitle = title === 'Bootstrap Web Components'
       class="navbar navbar-expand border-bottom sticky-top bg-body"
       aria-label="Main"
     >
-      <div class="container-fluid gap-2 px-3 px-lg-4">
+      <!--
+        `flex-grow-1 d-flex` makes this slotted container fill the navbar's
+        full width inside bs-navbar's shadow `.navbar-collapse` (which has
+        Bootstrap's `flex-basis: auto`). Without it, the container would
+        only size to its content (~480 px) and the `ms-auto` GitHub+theme
+        cluster would end up "right-aligned" inside that narrow box rather
+        than at the actual viewport edge. Pairs with the
+        `bs-navbar::part(nav)` / `::part(collapse) { flex-grow: 1 }` rules
+        in custom.css that let the shadow chrome fill the host first.
+      -->
+      <div class="container-fluid flex-grow-1 d-flex align-items-center gap-2 px-3 px-lg-4">
         <bs-button
           variant="none"
           class="btn btn-outline-secondary border-0 d-lg-none"
