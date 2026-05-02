@@ -150,7 +150,7 @@ function collectDocs() {
   // than the content collection (e.g. `examples.astro`). Hashed against
   // the .astro source so the memory file invalidates on edits.
   const PAGES_DIR = path.join(DOCS_DIR, 'src/pages');
-  const standalonePages = ['examples'];
+  const standalonePages = ['examples', 'examples/album', 'examples/headers', 'examples/pricing'];
   for (const slug of standalonePages) {
     const candidates = [
       path.join(PAGES_DIR, `${slug}.astro`),
