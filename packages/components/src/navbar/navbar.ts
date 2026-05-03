@@ -1,6 +1,5 @@
-import { css, html, nothing } from 'lit';
+import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
-import { classMap } from 'lit/directives/class-map.js';
 import { BootstrapElement, defineElement } from '@bootstrap-wc/core';
 
 export type NavbarExpand = 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'always' | 'never';
@@ -22,33 +21,32 @@ export type NavbarContainer =
   | 'none';
 
 /**
- * `<bs-navbar>` — Bootstrap navbar with responsive collapse.
+ * `<bs-navbar>` — Bootstrap navbar chrome.
  *
- * The host IS the `.navbar`. `.navbar`, `.navbar-expand-{x}`, `bg-{x}`, and
- * the placement class (`fixed-top` etc.) are mirrored onto the host via
- * `hostClasses()`, so:
- *   1. The host fills its row like a native `<nav class="navbar">` and
- *      author classes like `mb-4` apply normally.
- *   2. Bootstrap's descendant selectors (`.navbar-expand-lg .navbar-nav`,
- *      `.navbar > .container-fluid`) match against slotted children and the
- *      single shadow `[part="container"]` directly.
+ * The host IS the `.navbar`. Bootstrap's `.navbar`, `.navbar-expand-{x}`,
+ * `bg-{x}`, the placement class (`fixed-top` etc.), and the legacy
+ * `.navbar-dark` / `.navbar-light` (for `theme="dark"` / `"light"`) are
+ * mirrored onto the host via `hostClasses()`. Children rendered in light DOM
+ * — typically `<a class="navbar-brand">`, `<button class="navbar-toggler">`,
+ * `<div class="collapse navbar-collapse">`, `<bs-offcanvas>`, or anything
+ * else — are projected through the inner `[part="container"]` wrapper so
+ * Bootstrap's `.navbar > .container-fluid { display: flex; ... }` rule
+ * still applies.
  *
- * @slot brand - Brand area (logo/title) rendered inside `.navbar-brand`.
- * @slot - Nav content (rendered inside the collapsible container).
- * @slot end - Content aligned to the end (e.g. auth actions, search).
+ * The toggle behavior (collapse / offcanvas / external collapse) is left to
+ * the author's markup so the full set of Bootstrap navbar patterns work as
+ * documented — wire the toggler with `data-bs-toggle` / `data-bs-target`
+ * and load `bootstrap.bundle.min.js` (or use `<bs-collapse>` /
+ * `<bs-offcanvas>` directly).
  *
  * @csspart container - The `.container-fluid` (or sized container) wrapper.
- * @csspart toggler - The hamburger toggle button.
- * @csspart collapse - The `.collapse.navbar-collapse` wrapper.
+ *                      Suppress with `container="none"` to project content
+ *                      directly into the host.
  */
 export class BsNavbar extends BootstrapElement {
-  // Shadow-scoped reproductions of Bootstrap navbar selectors that can't
-  // reach across the shadow boundary from the document-scope stylesheet:
-  //   1. `.navbar > .container-fluid { display: flex; ... }`
-  //   2. `.navbar-expand-{x} .navbar-toggler { display: none; }` at the
-  //      breakpoint
-  //   3. `.navbar-expand-{x} .navbar-collapse { display: flex !important;
-  //      flex-basis: auto; }` at the breakpoint
+  // The shadow `[part="container"]` mirrors Bootstrap's
+  // `.navbar > .container-fluid { display: flex; ... }` rule, which can't
+  // reach across the shadow boundary from the document-scope stylesheet.
   static override styles = [
     css`
       :host > [part='container'] {
@@ -56,58 +54,6 @@ export class BsNavbar extends BootstrapElement {
         flex-wrap: inherit;
         align-items: center;
         justify-content: space-between;
-      }
-      :host(.navbar-expand) [part='toggler'] {
-        display: none;
-      }
-      :host(.navbar-expand) [part='collapse'] {
-        display: flex !important;
-        flex-basis: auto;
-      }
-      @media (min-width: 576px) {
-        :host(.navbar-expand-sm) [part='toggler'] {
-          display: none;
-        }
-        :host(.navbar-expand-sm) [part='collapse'] {
-          display: flex !important;
-          flex-basis: auto;
-        }
-      }
-      @media (min-width: 768px) {
-        :host(.navbar-expand-md) [part='toggler'] {
-          display: none;
-        }
-        :host(.navbar-expand-md) [part='collapse'] {
-          display: flex !important;
-          flex-basis: auto;
-        }
-      }
-      @media (min-width: 992px) {
-        :host(.navbar-expand-lg) [part='toggler'] {
-          display: none;
-        }
-        :host(.navbar-expand-lg) [part='collapse'] {
-          display: flex !important;
-          flex-basis: auto;
-        }
-      }
-      @media (min-width: 1200px) {
-        :host(.navbar-expand-xl) [part='toggler'] {
-          display: none;
-        }
-        :host(.navbar-expand-xl) [part='collapse'] {
-          display: flex !important;
-          flex-basis: auto;
-        }
-      }
-      @media (min-width: 1400px) {
-        :host(.navbar-expand-xxl) [part='toggler'] {
-          display: none;
-        }
-        :host(.navbar-expand-xxl) [part='collapse'] {
-          display: flex !important;
-          flex-basis: auto;
-        }
       }
     `,
   ];
@@ -120,9 +66,6 @@ export class BsNavbar extends BootstrapElement {
   @property({ type: String }) placement: NavbarPlacement = 'static';
   @property({ type: Boolean }) sticky = false;
   @property({ type: Boolean }) fixed = false;
-  @property({ type: String, attribute: 'brand-href' }) brandHref = '#';
-
-  @property({ type: Boolean, reflect: true }) expanded = false;
 
   private _resolvedPlacement(): NavbarPlacement {
     if (this.placement !== 'static') return this.placement;
@@ -136,26 +79,12 @@ export class BsNavbar extends BootstrapElement {
     if (this.expand === 'always') parts.push('navbar-expand');
     else if (this.expand !== 'never') parts.push(`navbar-expand-${this.expand}`);
     if (this.background) parts.push(`bg-${this.background}`);
-    // Use the legacy `.navbar-dark` / `.navbar-light` classes for theme. Both
-    // resolve to the same CSS variables as `.navbar[data-bs-theme="..."]` in
-    // Bootstrap 5.3 but stay scoped to the navbar element — they don't cascade
-    // theme to slotted children like a `data-bs-theme` attribute would, which
-    // matters for form-control inputs that should keep light backgrounds even
-    // inside a dark navbar (matching upstream behavior).
     if (this.theme === 'dark') parts.push('navbar-dark');
     else if (this.theme === 'light') parts.push('navbar-light');
     const placement = this._resolvedPlacement();
     if (placement !== 'static') parts.push(placement);
     return parts.join(' ');
   }
-
-  override updated(changed: Map<string, unknown>) {
-    super.updated(changed);
-  }
-
-  private _toggle = () => {
-    this.expanded = !this.expanded;
-  };
 
   override render() {
     const containerClass =
@@ -168,33 +97,9 @@ export class BsNavbar extends BootstrapElement {
             : this.container
               ? `container-${this.container}`
               : 'container';
-    const collapseClasses = classMap({
-      'navbar-collapse': true,
-      collapse: true,
-      show: this.expanded,
-    });
-    const inner = html`
-      ${this.querySelector('[slot="brand"]')
-        ? html`<a class="navbar-brand" href=${this.brandHref}><slot name="brand"></slot></a>`
-        : nothing}
-      <button
-        part="toggler"
-        class="navbar-toggler"
-        type="button"
-        aria-expanded=${this.expanded ? 'true' : 'false'}
-        aria-label="Toggle navigation"
-        @click=${this._toggle}
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div part="collapse" class=${collapseClasses}>
-        <slot></slot>
-        ${this.querySelector('[slot="end"]') ? html`<slot name="end"></slot>` : nothing}
-      </div>
-    `;
     return containerClass
-      ? html`<div part="container" class=${containerClass}>${inner}</div>`
-      : inner;
+      ? html`<div part="container" class=${containerClass}><slot></slot></div>`
+      : html`<slot></slot>`;
   }
 }
 
