@@ -1,11 +1,25 @@
 ---
 title: Navbar
-description: Responsive navigation bar with collapse toggler.
+description: Responsive navigation bar styling on the host element.
 ---
 
 import Example from '../../components/Example.astro';
 
-Responsive navigation bar with brand, nav, forms, text and a collapse toggler.
+`<bs-navbar>` is the chrome of a Bootstrap navbar — it mirrors `.navbar`,
+`.navbar-expand-{x}`, `bg-{x}`, `.navbar-dark` / `.navbar-light`, and the
+placement class onto the host so author classes (`mb-4`, `shadow-sm`,
+`rounded`) and Bootstrap's `.navbar > .container-fluid` selector all work
+naturally on the host element.
+
+The toggler, the `.collapse.navbar-collapse`, and any `.offcanvas` drawer
+are **author-supplied light-DOM children**. They go directly inside
+`<bs-navbar>` and are wired with the standard `data-bs-toggle` /
+`data-bs-target` attributes, so every Bootstrap navbar pattern works
+exactly as documented upstream — internal collapse, offcanvas, external
+collapse target, responsive offcanvas, dropdowns. Load
+`bootstrap.bundle.min.js` for the toggle behavior and the height-animation;
+the pixel-diff comparator pages also pair it with `bs-nav` and `bs-button`
+inside the collapse so the items themselves are framework components.
 
 ## Install
 
@@ -22,60 +36,70 @@ npx bwc add navbar
 import '@bootstrap-wc/components/navbar';
 ```
 
+```html
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+```
+
 ## Supported content
 
-A responsive navbar that collapses at the `lg` breakpoint with brand, nav,
-a dropdown and a search form.
+A responsive navbar that collapses at the `lg` breakpoint with brand,
+nav, and a search form.
 
 <Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Navbar</span>
-  <bs-nav>
-    <bs-nav-item href="#" active>Home</bs-nav-item>
-    <bs-nav-item href="#">Link</bs-nav-item>
-    <bs-nav-item disabled>Disabled</bs-nav-item>
-  </bs-nav>
-  <form slot="end" class="d-flex" role="search">
-    <bs-input type="search" placeholder="Search" aria-label="Search" class="me-2"></bs-input>
-    <bs-button variant="success" button-style="outline" type="submit">Search</bs-button>
-  </form>
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-supported" aria-controls="nav-supported" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav-supported">
+    <bs-nav class="me-auto">
+      <bs-nav-item href="#" active>Home</bs-nav-item>
+      <bs-nav-item href="#">Link</bs-nav-item>
+      <bs-nav-item disabled>Disabled</bs-nav-item>
+    </bs-nav>
+    <form class="d-flex" role="search">
+      <bs-input type="search" placeholder="Search" aria-label="Search" class="me-2"></bs-input>
+      <bs-button variant="success" button-style="outline" type="submit">Search</bs-button>
+    </form>
+  </div>
 </bs-navbar>`} />
 
 ## Brand
 
-The brand is slotted via `slot="brand"` and automatically wrapped in an
-anchor with `.navbar-brand`. The target is configured via `brand-href`.
+Place an `<a class="navbar-brand">` (or a `<span>`) directly inside
+`<bs-navbar>`. Bootstrap's `.navbar-brand` styling applies in light DOM.
 
 ### Text
 
 <Example code={`<bs-navbar background="body-tertiary" expand="never">
-  <span slot="brand">Navbar</span>
+  <a class="navbar-brand" href="#">Navbar</a>
 </bs-navbar>`} />
 
 ### Image
 
-Drop an `<img>` into the brand slot for an image-only brand.
-
 <Example code={`<bs-navbar background="body-tertiary" expand="never">
-  <img slot="brand" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24" />
+  <a class="navbar-brand" href="#">
+    <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24" />
+  </a>
 </bs-navbar>`} />
 
 ### Image and text
 
 <Example code={`<bs-navbar background="body-tertiary" expand="never">
-  <span slot="brand" class="d-inline-flex align-items-center">
+  <a class="navbar-brand d-inline-flex align-items-center" href="#">
     <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24" class="d-inline-block align-text-top me-2" />
     Bootstrap
-  </span>
+  </a>
 </bs-navbar>`} />
 
 ## Nav
 
 Use `<bs-nav>` with `<bs-nav-item>` children for the primary navigation.
-Hosts carry `.nav-link`, `.active`, and `.disabled` so Bootstrap's selectors
-apply across the shadow boundary.
+Hosts carry `.nav-link`, `.active`, and `.disabled` so Bootstrap's
+selectors apply across the shadow boundary. When nested inside
+`<bs-navbar>` `<bs-nav>` automatically picks up `.navbar-nav` too.
 
-<Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Navbar</span>
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
+  <a class="navbar-brand" href="#">Navbar</a>
   <bs-nav>
     <bs-nav-item href="#" active>Home</bs-nav-item>
     <bs-nav-item href="#">Features</bs-nav-item>
@@ -86,26 +110,15 @@ apply across the shadow boundary.
 
 ## Forms
 
-Slot any `<form>` into the `end` slot (or as a default child) to place it
-inside the collapsible content.
+Drop a `<form>` into `<bs-navbar>` (typically inside the
+`.collapse.navbar-collapse`) and Bootstrap's flex layout takes care of the
+rest. Use `me-auto` on the leading nav to push the form to the right.
 
-<Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Navbar</span>
-  <form slot="end" class="d-flex" role="search">
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <form class="d-flex ms-auto" role="search">
     <bs-input type="search" placeholder="Search" aria-label="Search" class="me-2"></bs-input>
     <bs-button variant="success" button-style="outline" type="submit">Search</bs-button>
-  </form>
-</bs-navbar>`} />
-
-Input groups work too:
-
-<Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Navbar</span>
-  <form slot="end" class="d-flex" role="search">
-    <bs-input-group>
-      <bs-input-text>@</bs-input-text>
-      <bs-input type="text" placeholder="Username" aria-label="Username"></bs-input>
-    </bs-input-group>
   </form>
 </bs-navbar>`} />
 
@@ -113,30 +126,33 @@ Input groups work too:
 
 `.navbar-text` aligns strings of text vertically inside the navbar.
 
-<Example code={`<bs-navbar background="body-tertiary">
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
   <span class="navbar-text">Navbar text with an inline element</span>
 </bs-navbar>`} />
 
 Mix navs and text:
 
-<Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Navbar w/ text</span>
-  <bs-nav>
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
+  <a class="navbar-brand" href="#">Navbar w/ text</a>
+  <bs-nav class="me-auto">
     <bs-nav-item href="#" active>Home</bs-nav-item>
     <bs-nav-item href="#">Features</bs-nav-item>
     <bs-nav-item href="#">Pricing</bs-nav-item>
   </bs-nav>
-  <span slot="end" class="navbar-text">Navbar text with an inline element</span>
+  <span class="navbar-text">Navbar text with an inline element</span>
 </bs-navbar>`} />
 
 ## Color schemes
 
-Navbars inherit their color mode from the document by default. Set
-`theme="dark"` to force dark mode (adds `data-bs-theme="dark"` to the
-`.navbar`) and combine with `background="*"` utilities for the final hue.
+`theme="dark"` adds `.navbar-dark` to the host (`theme="light"` adds
+`.navbar-light`). Both pull in Bootstrap's navbar-scoped dark / light CSS
+variables for colors, borders, and the toggler icon — but unlike
+`data-bs-theme="dark"` they don't cascade dark theme to slotted content
+(so a `<bs-input>` inside a dark navbar keeps a light background, matching
+upstream behavior). Combine with `background="*"` for the final hue.
 
-<Example code={`<bs-navbar background="dark" theme="dark">
-  <span slot="brand">Navbar</span>
+<Example code={`<bs-navbar background="dark" theme="dark" expand="always">
+  <a class="navbar-brand" href="#">Navbar</a>
   <bs-nav>
     <bs-nav-item href="#" active>Home</bs-nav-item>
     <bs-nav-item href="#">Features</bs-nav-item>
@@ -144,8 +160,8 @@ Navbars inherit their color mode from the document by default. Set
   </bs-nav>
 </bs-navbar>`} />
 
-<Example code={`<bs-navbar background="primary" theme="dark">
-  <span slot="brand">Navbar</span>
+<Example code={`<bs-navbar background="primary" theme="dark" expand="always">
+  <a class="navbar-brand" href="#">Navbar</a>
   <bs-nav>
     <bs-nav-item href="#" active>Home</bs-nav-item>
     <bs-nav-item href="#">Features</bs-nav-item>
@@ -153,8 +169,8 @@ Navbars inherit their color mode from the document by default. Set
   </bs-nav>
 </bs-navbar>`} />
 
-<Example code={`<bs-navbar theme="light" style="background-color: #e3f2fd">
-  <span slot="brand">Navbar</span>
+<Example code={`<bs-navbar theme="light" style="background-color: #e3f2fd" expand="always">
+  <a class="navbar-brand" href="#">Navbar</a>
   <bs-nav>
     <bs-nav-item href="#" active>Home</bs-nav-item>
     <bs-nav-item href="#">Features</bs-nav-item>
@@ -164,19 +180,24 @@ Navbars inherit their color mode from the document by default. Set
 
 ## Containers
 
-Set `container="sm|md|lg|xl|xxl"` to swap the default `.container-fluid`
-for a responsive container. Use `container="none"` to skip the inner
-wrapper entirely when you need to nest the navbar inside your own outer
-`.container`.
+The default container is `.container-fluid` (full width). Set
+`container="default"` for the responsive `.container` (max-width per
+breakpoint), `container="sm|md|lg|xl|xxl"` for a fixed-breakpoint
+container, or `container="none"` to skip the inner wrapper entirely
+when nesting `<bs-navbar>` inside your own outer `.container`.
 
 <Example code={`<div class="container">
-  <bs-navbar background="body-tertiary" container="none">
-    <span slot="brand">Navbar</span>
+  <bs-navbar background="body-tertiary" container="none" expand="never">
+    <a class="navbar-brand" href="#">Navbar (container outside)</a>
   </bs-navbar>
 </div>`} />
 
-<Example code={`<bs-navbar background="body-tertiary" container="md">
-  <span slot="brand">Navbar</span>
+<Example code={`<bs-navbar background="body-tertiary" container="default" expand="never">
+  <a class="navbar-brand" href="#">Navbar (responsive container)</a>
+</bs-navbar>`} />
+
+<Example code={`<bs-navbar background="body-tertiary" container="md" expand="never">
+  <a class="navbar-brand" href="#">Navbar (container-md)</a>
 </bs-navbar>`} />
 
 ## Placement
@@ -186,33 +207,24 @@ are `static` (default), `fixed-top`, `fixed-bottom`, `sticky-top` and
 `sticky-bottom`. The legacy `fixed` / `sticky` booleans still work as
 shorthands for `fixed-top` / `sticky-top`.
 
-<Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Default</span>
+<Example code={`<bs-navbar background="body-tertiary" expand="never">
+  <a class="navbar-brand" href="#">Default</a>
 </bs-navbar>`} />
 
-<Example code={`<bs-navbar background="body-tertiary" placement="fixed-top">
-  <span slot="brand">Fixed top</span>
+<Example code={`<bs-navbar background="body-tertiary" placement="sticky-top" expand="never">
+  <a class="navbar-brand" href="#">Sticky top</a>
 </bs-navbar>`} />
 
-<Example code={`<bs-navbar background="body-tertiary" placement="fixed-bottom">
-  <span slot="brand">Fixed bottom</span>
-</bs-navbar>`} />
-
-<Example code={`<bs-navbar background="body-tertiary" placement="sticky-top">
-  <span slot="brand">Sticky top</span>
-</bs-navbar>`} />
-
-<Example code={`<bs-navbar background="body-tertiary" placement="sticky-bottom">
-  <span slot="brand">Sticky bottom</span>
-</bs-navbar>`} />
+(`fixed-top` / `fixed-bottom` / `sticky-bottom` work the same way — they
+pin the navbar to the viewport edge.)
 
 ## Scrolling
 
 Add the `.navbar-nav-scroll` class to the slotted `<bs-nav>` to cap its
 height and scroll overflow.
 
-<Example code={`<bs-navbar background="body-tertiary">
-  <span slot="brand">Navbar scroll</span>
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
+  <a class="navbar-brand" href="#">Navbar scroll</a>
   <bs-nav class="navbar-nav-scroll" style="--bs-scroll-height: 100px;">
     <bs-nav-item href="#" active>Home</bs-nav-item>
     <bs-nav-item href="#">Link</bs-nav-item>
@@ -228,69 +240,101 @@ Choose the breakpoint at which the navbar collapses with `expand`.
 Acceptable values are `sm`, `md`, `lg` (default), `xl`, `xxl`, `always`
 (never collapses) and `never` (always collapsed).
 
-<Example code={`<bs-navbar background="body-tertiary" expand="sm">
-  <span slot="brand">Expand sm</span>
-  <bs-nav>
-    <bs-nav-item href="#" active>Home</bs-nav-item>
-    <bs-nav-item href="#">Features</bs-nav-item>
-  </bs-nav>
-</bs-navbar>`} />
-
-<Example code={`<bs-navbar background="body-tertiary" expand="always">
-  <span slot="brand">Always expanded</span>
-  <bs-nav>
-    <bs-nav-item href="#" active>Home</bs-nav-item>
-    <bs-nav-item href="#">Features</bs-nav-item>
-  </bs-nav>
-</bs-navbar>`} />
+Below the breakpoint Bootstrap hides the `.collapse.navbar-collapse` and
+shows the `.navbar-toggler`. Above the breakpoint the collapse becomes a
+flex row and the toggler is hidden. Bootstrap's bundle JS animates the
+height transition with the `.collapsing` class — there's no extra wiring
+on `<bs-navbar>`'s side.
 
 ### Toggler
 
-By default the toggler sits to the right. Reorder via the standard
-`order-*` utilities on slotted content. The built-in toggler icon uses
-the `.navbar-toggler-icon` span and toggles the `.show` class on the
-collapsible region.
+A toggler is a regular `<button class="navbar-toggler">` with
+`data-bs-toggle="collapse"` and `data-bs-target="#…"` pointing at the
+`.collapse` element it controls.
 
-<Example code={`<bs-navbar background="body-tertiary" expand="never">
-  <span slot="brand">Hidden brand</span>
-  <bs-nav>
-    <bs-nav-item href="#" active>Home</bs-nav-item>
-    <bs-nav-item href="#">Link</bs-nav-item>
-  </bs-nav>
+<Example code={`<bs-navbar background="body-tertiary" expand="lg">
+  <a class="navbar-brand" href="#">Expand at lg</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-toggler-demo" aria-controls="nav-toggler-demo" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="nav-toggler-demo">
+    <bs-nav class="me-auto">
+      <bs-nav-item href="#" active>Home</bs-nav-item>
+      <bs-nav-item href="#">Link</bs-nav-item>
+      <bs-nav-item disabled>Disabled</bs-nav-item>
+    </bs-nav>
+  </div>
 </bs-navbar>`} />
+
+### External content
+
+Point a toggler at any `.collapse` element on the page — it doesn't have
+to live inside the navbar. The Album example template uses this pattern
+to slide an About / Contact panel out from above the brand bar.
+
+```html
+<header>
+  <div class="collapse text-bg-dark" id="navbarHeader">
+    …about, contact, etc.
+  </div>
+  <bs-navbar background="dark" theme="dark" container="default" expand="never" class="shadow-sm">
+    <a class="navbar-brand" href="#">Album</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </bs-navbar>
+</header>
+```
+
+### Offcanvas
+
+Swap `data-bs-toggle="collapse"` for `data-bs-toggle="offcanvas"` and
+target an `.offcanvas` element to slide the menu in from the side
+instead of expanding inline. Pair with `expand="lg"` (or another
+breakpoint) for the responsive-offcanvas pattern: drawer below the
+breakpoint, inline column at and above it.
+
+```html
+<bs-navbar background="dark" theme="dark" expand="lg" container="fluid">
+  <a class="navbar-brand" href="#">Responsive offcanvas navbar</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navOffcanvas" aria-controls="navOffcanvas" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="navOffcanvas" aria-labelledby="navOffcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="navOffcanvasLabel">Offcanvas</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <bs-nav class="justify-content-end flex-grow-1 pe-3">
+        <bs-nav-item href="#" active>Home</bs-nav-item>
+        <bs-nav-item href="#">Link</bs-nav-item>
+      </bs-nav>
+    </div>
+  </div>
+</bs-navbar>
+```
 
 ## API
 
-| Attribute     | Type                                                               | Default   | Notes                                                                                                            |
-| ------------- | ------------------------------------------------------------------ | --------- | ---------------------------------------------------------------------------------------------------------------- |
-| `expand`      | `sm` \| `md` \| `lg` \| `xl` \| `xxl` \| `always` \| `never`       | `lg`      | Breakpoint at which the navbar becomes horizontal.                                                               |
-| `theme`       | `light` \| `dark` \| `auto`                                        | `auto`    | Sets `data-bs-theme` on the inner `<nav>`. `auto` inherits.                                                      |
-| `background`  | `primary` \| `dark` \| `body-tertiary` \| ...                      | `—`       | Applies `bg-{value}`.                                                                                            |
-| `placement`   | `static` \| `fixed-top` \| `fixed-bottom` \| `sticky-top` \| `sticky-bottom` | `static`  | Pins the navbar to the viewport.                                                                                 |
-| `container`   | `fluid` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` \| `none`         | `fluid`   | Inner wrapper. `none` skips it so you can nest inside your own container.                                        |
-| `fluid`       | `boolean`                                                          | `true`    | Legacy shorthand — `fluid=false` is equivalent to `container="sm"`-ish `.container`.                              |
-| `fixed`       | `boolean`                                                          | `false`   | Legacy shorthand for `placement="fixed-top"`.                                                                    |
-| `sticky`      | `boolean`                                                          | `false`   | Legacy shorthand for `placement="sticky-top"`.                                                                   |
-| `brand-href`  | `string`                                                           | `#`       | Anchor target for the brand slot wrapper.                                                                        |
-| `expanded`    | `boolean` (reflected)                                              | `false`   | Current toggler state. Toggled by clicks on the built-in toggler.                                                |
+| Attribute     | Type                                                                          | Default   | Notes                                                                                            |
+| ------------- | ----------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------------------------ |
+| `expand`      | `sm` \| `md` \| `lg` \| `xl` \| `xxl` \| `always` \| `never`                  | `lg`      | Breakpoint at which the navbar becomes horizontal.                                               |
+| `theme`       | `light` \| `dark` \| `auto`                                                   | `auto`    | Adds `.navbar-light` / `.navbar-dark` to the host. `auto` inherits the document's color mode.    |
+| `background`  | `primary` \| `dark` \| `body-tertiary` \| any Bootstrap bg utility            | `—`       | Adds `bg-{value}` to the host.                                                                   |
+| `placement`   | `static` \| `fixed-top` \| `fixed-bottom` \| `sticky-top` \| `sticky-bottom`  | `static`  | Pins the navbar to the viewport.                                                                 |
+| `container`   | `fluid` \| `default` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` \| `none`       | `fluid`   | Inner wrapper. `default` = `.container` (responsive max-width). `none` skips the wrapper.        |
+| `fluid`       | `boolean`                                                                     | `true`    | Legacy shorthand — when `false` and `container` is unset, renders `.container` instead of fluid. |
+| `fixed`       | `boolean`                                                                     | `false`   | Legacy shorthand for `placement="fixed-top"`.                                                    |
+| `sticky`      | `boolean`                                                                     | `false`   | Legacy shorthand for `placement="sticky-top"`.                                                   |
 
-| Slot      | Purpose                                                        |
-| --------- | -------------------------------------------------------------- |
-| (default) | Main content — rendered inside the collapsible region.         |
-| `brand`   | Brand area; wrapped in `<a class="navbar-brand">`.             |
-| `end`     | Trailing content (e.g. a search form) after the default slot.  |
+| Slot      | Purpose                                                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------ |
+| (default) | Everything — brand link, toggler, `.collapse.navbar-collapse`, `.offcanvas`. Projected through         |
+|           | `[part="container"]` so Bootstrap's `.navbar > .container-fluid` flex layout applies.                  |
 
-See `packages/components/src/navbar/` in the source for the complete
-property / event list.
+| Part        | Purpose                                                  |
+| ----------- | -------------------------------------------------------- |
+| `container` | The `.container-fluid` (or sized) wrapper. Suppress with `container="none"` to project directly. |
 
-{/*
-  Deferred / out-of-scope vs. Bootstrap's docs:
-  - Offcanvas toggler integration (Responsive behaviors → Offcanvas). Requires
-    a dedicated offcanvas trigger attribute + wiring to <bs-offcanvas>.
-  - External content toggler (Responsive behaviors → External content):
-    controlling a non-navbar collapse region by id. Requires exposing the
-    toggler's `controls` attribute and optional `data-bs-target` behavior.
-  - Alternate markup (<div> based nav) is already achievable by skipping
-    <bs-nav>/<bs-nav-item> and slotting raw markup; not documented separately.
-  Track these as follow-ups — add examples once the attributes land.
-*/}
+See `packages/components/src/navbar/` in the source for the implementation.
