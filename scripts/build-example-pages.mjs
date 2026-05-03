@@ -35,6 +35,10 @@ const SLUGS = [
   ['list-groups', 'List groups'],
   ['modals', 'Modals'],
   ['jumbotrons', 'Jumbotrons'],
+  ['carousel', 'Carousel'],
+  ['blog', 'Blog'],
+  ['dashboard', 'Dashboard'],
+  ['sidebars', 'Sidebars'],
 ];
 
 for (const [slug, title] of SLUGS) {
