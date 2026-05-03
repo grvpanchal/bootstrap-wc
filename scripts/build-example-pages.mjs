@@ -28,6 +28,9 @@ const SLUGS = [
   ['jumbotron', 'Jumbotron'],
   ['navbar-bottom', 'Navbar bottom'],
   ['offcanvas-navbar', 'Offcanvas navbar'],
+  ['badges', 'Badges'],
+  ['breadcrumbs', 'Breadcrumbs'],
+  ['buttons', 'Buttons'],
 ];
 
 for (const [slug, title] of SLUGS) {
