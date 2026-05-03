@@ -22,6 +22,12 @@ const SLUGS = [
   ['navbar-static', 'Navbar static'],
   ['navbar-fixed', 'Navbar fixed'],
   ['cover', 'Cover'],
+  ['sign-in', 'Sign-in'],
+  ['sticky-footer', 'Sticky footer'],
+  ['sticky-footer-navbar', 'Sticky footer navbar'],
+  ['jumbotron', 'Jumbotron'],
+  ['navbar-bottom', 'Navbar bottom'],
+  ['offcanvas-navbar', 'Offcanvas navbar'],
 ];
 
 for (const [slug, title] of SLUGS) {
