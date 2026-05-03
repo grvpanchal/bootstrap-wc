@@ -1,0 +1,174 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro';
+
+// Examples landing page — mirrors the layout of
+// https://getbootstrap.com/docs/5.3/examples/ at a smaller scale,
+// adapted for bootstrap-wc and rendered with <bs-card>.
+
+const PREVIEW_BASE = 'https://getbootstrap.com/docs/5.3/examples';
+
+// `built` flag drives both the inner-link wrapper and the "Built" badge.
+// Update when promoting more templates from /compare/ to real pages.
+const customComponents = [
+  { slug: 'album', title: 'Album', desc: 'Simple one-page template for photo galleries and portfolios.', built: true },
+  { slug: 'pricing', title: 'Pricing', desc: 'Pricing page built with cards and a custom header and footer.', built: true },
+  { slug: 'checkout', title: 'Checkout', desc: 'Custom checkout form showing form components and validation.', built: false },
+  { slug: 'product', title: 'Product', desc: 'Lean product-focused marketing page with grid and image work.', built: false },
+];
+
+const snippets = [
+  { slug: 'headers', title: 'Headers', desc: 'Display branding, navigation, search, and more.', built: true },
+  { slug: 'heroes', title: 'Heroes', desc: 'Set the stage on your homepage with a clear call to action.', built: false },
+  { slug: 'features', title: 'Features', desc: 'Explain features, benefits, or other marketing details.', built: false },
+  { slug: 'footers', title: 'Footers', desc: 'Finish every page strong with a footer, big or small.', built: false },
+];
+
+const navbars = [
+  { slug: 'navbars', title: 'Navbars', desc: 'Demonstration of all responsive and container options.', built: false },
+  { slug: 'navbars-offcanvas', title: 'Navbars offcanvas', desc: 'Same as Navbars, but with the offcanvas component.', built: false },
+  { slug: 'navbar-static', title: 'Navbar static', desc: 'Static top navbar with some additional content.', built: false },
+  { slug: 'navbar-fixed', title: 'Navbar fixed', desc: 'Fixed top navbar with some additional content.', built: false },
+];
+---
+
+<DocsLayout title="Examples" description="Get started fast with example layouts and snippets built on Bootstrap Web Components." activeSlug="examples">
+  <header class="pb-4 border-bottom mb-5">
+    <h1 class="display-5 fw-bold mb-3">Examples</h1>
+    <p class="lead text-body-secondary mb-0">
+      Quickly get a project started with any of our examples ranging from
+      using parts of the framework to custom components and layouts.
+    </p>
+  </header>
+
+  <section class="mb-5">
+    <h2 class="pb-2 mb-3">Custom components</h2>
+    <p class="text-body-secondary mb-4">
+      Polished, production-quality templates for common page types.
+    </p>
+    <div class="row g-4">
+      {customComponents.map((ex) => (
+        <div class="col-sm-6 col-md-3">
+          <bs-card no-body class="h-100 shadow-sm">
+            {ex.built ? (
+              <a slot="image" href={`/examples/${ex.slug}/`} class="d-block text-reset text-decoration-none" aria-label={`Open ${ex.title} example`}>
+                <img
+                  src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                  alt={`${ex.title} example preview`}
+                  class="card-img-top"
+                  loading="lazy"
+                />
+              </a>
+            ) : (
+              <img
+                slot="image"
+                src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                alt={`${ex.title} example preview`}
+                class="card-img-top"
+                loading="lazy"
+              />
+            )}
+            <div class="card-body">
+              <h3 class="card-title h6 mb-1 d-flex align-items-center">
+                {ex.built ? (
+                  <a href={`/examples/${ex.slug}/`} class="text-reset text-decoration-none stretched-link">{ex.title}</a>
+                ) : (
+                  <span>{ex.title}</span>
+                )}
+                {ex.built && <span class="badge bg-success ms-2">Built</span>}
+              </h3>
+              <p class="card-text small text-body-secondary mb-0">{ex.desc}</p>
+            </div>
+          </bs-card>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="pb-2 mb-3">Snippets</h2>
+    <p class="text-body-secondary mb-4">
+      Drop-in pieces for common page sections.
+    </p>
+    <div class="row g-4">
+      {snippets.map((ex) => (
+        <div class="col-sm-6 col-md-3">
+          <bs-card no-body class="h-100 shadow-sm">
+            {ex.built ? (
+              <a slot="image" href={`/examples/${ex.slug}/`} class="d-block text-reset text-decoration-none" aria-label={`Open ${ex.title} example`}>
+                <img
+                  src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                  alt={`${ex.title} example preview`}
+                  class="card-img-top"
+                  loading="lazy"
+                />
+              </a>
+            ) : (
+              <img
+                slot="image"
+                src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                alt={`${ex.title} example preview`}
+                class="card-img-top"
+                loading="lazy"
+              />
+            )}
+            <div class="card-body">
+              <h3 class="card-title h6 mb-1 d-flex align-items-center">
+                {ex.built ? (
+                  <a href={`/examples/${ex.slug}/`} class="text-reset text-decoration-none stretched-link">{ex.title}</a>
+                ) : (
+                  <span>{ex.title}</span>
+                )}
+                {ex.built && <span class="badge bg-success ms-2">Built</span>}
+              </h3>
+              <p class="card-text small text-body-secondary mb-0">{ex.desc}</p>
+            </div>
+          </bs-card>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="pb-2 mb-3">Navbars</h2>
+    <p class="text-body-secondary mb-4">
+      Layouts and configurations of the navbar component.
+    </p>
+    <div class="row g-4">
+      {navbars.map((ex) => (
+        <div class="col-sm-6 col-md-3">
+          <bs-card no-body class="h-100 shadow-sm">
+            {ex.built ? (
+              <a slot="image" href={`/examples/${ex.slug}/`} class="d-block text-reset text-decoration-none" aria-label={`Open ${ex.title} example`}>
+                <img
+                  src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                  alt={`${ex.title} example preview`}
+                  class="card-img-top"
+                  loading="lazy"
+                />
+              </a>
+            ) : (
+              <img
+                slot="image"
+                src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                alt={`${ex.title} example preview`}
+                class="card-img-top"
+                loading="lazy"
+              />
+            )}
+            <div class="card-body">
+              <h3 class="card-title h6 mb-1 d-flex align-items-center">
+                {ex.built ? (
+                  <a href={`/examples/${ex.slug}/`} class="text-reset text-decoration-none stretched-link">{ex.title}</a>
+                ) : (
+                  <span>{ex.title}</span>
+                )}
+                {ex.built && <span class="badge bg-success ms-2">Built</span>}
+              </h3>
+              <p class="card-text small text-body-secondary mb-0">{ex.desc}</p>
+            </div>
+          </bs-card>
+        </div>
+      ))}
+    </div>
+  </section>
+</DocsLayout>

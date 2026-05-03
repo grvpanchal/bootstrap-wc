@@ -53,6 +53,17 @@ function labelFor(entry: { data: { title: string; sidebar?: { label?: string } }
     }
   </bs-list-group>
 
+  <h6 class="text-uppercase fw-semibold text-body-secondary small mb-2">Resources</h6>
+  <bs-list-group flush class="list-group list-group-flush mb-4">
+    <bs-list-group-item
+      href="/examples/"
+      active={activeSlug === 'examples' || undefined}
+      class={`list-group-item list-group-item-action px-2 py-1 border-0 ${activeSlug === 'examples' ? 'active' : ''}`}
+    >
+      Examples
+    </bs-list-group-item>
+  </bs-list-group>
+
   <h6 class="text-uppercase fw-semibold text-body-secondary small mb-2">Components</h6>
   <bs-list-group flush class="list-group list-group-flush">
     {

@@ -226,5 +226,29 @@
     "lastChecked": "2026-04-26T06:50:23.078Z",
     "status": "pass",
     "issues": []
+  },
+  "examples": {
+    "sha256": "eb46687bcfd55ca8",
+    "lastChecked": "2026-05-02T20:14:48.984Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/album": {
+    "sha256": "a63b42f2ac11eb2e",
+    "lastChecked": "2026-05-02T20:14:50.160Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/headers": {
+    "sha256": "f3ece65afacefb0d",
+    "lastChecked": "2026-05-02T20:14:51.297Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/pricing": {
+    "sha256": "cd81ab2b7810745d",
+    "lastChecked": "2026-05-02T20:14:52.445Z",
+    "status": "pass",
+    "issues": []
   }
 }

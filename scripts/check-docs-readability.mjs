@@ -146,6 +146,25 @@ function collectDocs() {
       sha256: createHash('sha256').update(body).digest('hex').slice(0, 16),
     });
   }
+  // Standalone top-level docs pages authored under `src/pages/` rather
+  // than the content collection (e.g. `examples.astro`). Hashed against
+  // the .astro source so the memory file invalidates on edits.
+  const PAGES_DIR = path.join(DOCS_DIR, 'src/pages');
+  const standalonePages = ['examples', 'examples/album', 'examples/headers', 'examples/pricing'];
+  for (const slug of standalonePages) {
+    const candidates = [
+      path.join(PAGES_DIR, `${slug}.astro`),
+      path.join(PAGES_DIR, slug, 'index.astro'),
+    ];
+    const filePath = candidates.find((p) => fs.existsSync(p));
+    if (!filePath) continue;
+    const body = fs.readFileSync(filePath, 'utf8');
+    out.push({
+      slug,
+      filePath,
+      sha256: createHash('sha256').update(body).digest('hex').slice(0, 16),
+    });
+  }
   return out;
 }
 
