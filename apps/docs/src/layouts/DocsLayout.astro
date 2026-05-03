@@ -50,31 +50,22 @@ const fullTitle = title === 'Bootstrap Web Components'
   </head>
   <body class="d-flex flex-column min-vh-100">
     <!--
-      `expand="always"` keeps the navbar's slotted content inline at every
-      viewport and suppresses bs-navbar's built-in `.navbar-toggler`. This
-      layout uses a separate offcanvas (mounted below) for mobile sidebar
-      navigation, so the navbar's collapse feature would just collide with
-      the custom hamburger trigger and produce a confusing doubled-button
-      UI. Keep all of: [offcanvas-trigger] [brand] [github + theme] on a
-      single row, and let the custom `bs-button` below own the
-      mobile-sidebar handoff.
+      `expand="always"` keeps the toolbar inline at every viewport — the
+      mobile sidebar uses its own `<bs-button>` trigger (below) to open
+      the offcanvas, so we don't want a second collapse-style toggler.
+      `container="none"` skips bs-navbar's default `.container-fluid`
+      wrapper since we already provide our own toolbar `<div>` with the
+      utility padding the layout wants.
     -->
     <bs-navbar
       expand="always"
-      class="navbar navbar-expand border-bottom sticky-top bg-body"
+      placement="sticky-top"
+      background="body"
+      container="none"
+      class="border-bottom"
       aria-label="Main"
     >
-      <!--
-        `flex-grow-1 d-flex` makes this slotted container fill the navbar's
-        full width inside bs-navbar's shadow `.navbar-collapse` (which has
-        Bootstrap's `flex-basis: auto`). Without it, the container would
-        only size to its content (~480 px) and the `ms-auto` GitHub+theme
-        cluster would end up "right-aligned" inside that narrow box rather
-        than at the actual viewport edge. Pairs with the
-        `bs-navbar::part(nav)` / `::part(collapse) { flex-grow: 1 }` rules
-        in custom.css that let the shadow chrome fill the host first.
-      -->
-      <div class="container-fluid flex-grow-1 d-flex align-items-center gap-2 px-3 px-lg-4">
+      <div class="d-flex align-items-center gap-2 w-100 px-3 px-lg-4">
         <bs-button
           variant="none"
           class="btn btn-outline-secondary border-0 d-lg-none"
