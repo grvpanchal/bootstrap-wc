@@ -18,3 +18,16 @@ Bug fixes against Bootstrap 5.3 visual parity.
 - **`bs-tabs`**: inactive panel hosts are hidden so the active panel sits
   flush below the tab strip instead of being pushed down by sibling panels
   consuming layout space.
+- **`bs-navbar`**: the host IS the `.navbar`. `.navbar`, `.navbar-expand-{x}`,
+  `bg-{x}`, and the placement class are now mirrored onto the host so author
+  classes like `mb-4` and Bootstrap's `.navbar` layout (display: flex, padding,
+  text-color via `data-bs-theme`) take effect on the host element itself.
+  Shadow-scoped CSS reproduces three Bootstrap selectors that can't reach
+  across the shadow boundary: `.navbar > .container-fluid` flex layout,
+  `.navbar-expand-{x} .navbar-toggler { display: none }` at breakpoint, and
+  `.navbar-expand-{x} .navbar-collapse { display: flex !important }` at
+  breakpoint. Adds a new `container="default"` value for the `.container`
+  (responsive max-width) variant alongside the existing
+  `fluid`/`sm`/`md`/`lg`/`xl`/`xxl`/`none`. The `theme` attribute now reflects
+  to `data-bs-theme` on the host so the dark navbar variants pick up
+  Bootstrap's theme-scoped CSS variables.

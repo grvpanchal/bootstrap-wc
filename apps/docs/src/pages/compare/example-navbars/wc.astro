@@ -1,12 +1,6 @@
 ---
 // `<bs-*>` port of ./reference.astro for the Navbars example template.
-//
-// These pages demonstrate Bootstrap navbar markup patterns at a range of
-// breakpoints. Both reference and wc use the same `<nav class="navbar">`
-// markup since the variants here are pure layout / utility-class
-// configurations — replacing them with `<bs-navbar>` would introduce
-// shadow-DOM container wrappers that don't match the reference structure
-// (a known framework gap covered by the bs-navbar component docs).
+// All 13 variants use <bs-navbar> with its built-in toggler / collapse.
 ---
 
 <!doctype html>
@@ -27,11 +21,10 @@
           sans-serif;
         padding-bottom: 20px;
       }
-      .navbar {
+      bs-navbar {
         margin-bottom: 20px;
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script>
       import('@bootstrap-wc/components');
     </script>
@@ -39,252 +32,167 @@
   <body data-compare-key="root">
     <main>
       <!-- 1. Never expand (always collapsed) -->
-      <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example" data-compare-key="nav-1">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-1-brand">Never expand</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-1-collapse" aria-controls="nav-1-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-1-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-1-collapse" data-compare-key="nav-1-collapse">
-            <ul class="navbar-nav me-auto mb-2" data-compare-key="nav-1-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-            </ul>
-            <form class="d-flex" role="search" data-compare-key="nav-1-form">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-              <bs-button variant="success" button-style="outline" type="submit" data-compare-key="nav-1-submit">Search</bs-button>
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="never" theme="dark" background="dark" aria-label="First navbar example" data-compare-key="nav-1">
+        <span slot="brand">Never expand</span>
+        <bs-nav class="me-auto mb-2" data-compare-key="nav-1-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item disabled>Disabled</bs-nav-item>
+        </bs-nav>
+        <form class="d-flex" role="search" data-compare-key="nav-1-form">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <bs-button variant="success" button-style="outline" type="submit" data-compare-key="nav-1-submit">Search</bs-button>
+        </form>
+      </bs-navbar>
 
       <!-- 2. Always expand -->
-      <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example" data-compare-key="nav-2">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-2-brand">Always expand</a>
-          <ul class="navbar-nav me-auto" data-compare-key="nav-2-nav">
-            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-          </ul>
-          <form role="search" data-compare-key="nav-2-form">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-          </form>
-        </div>
-      </nav>
+      <bs-navbar expand="always" theme="dark" background="dark" aria-label="Second navbar example" data-compare-key="nav-2">
+        <span slot="brand">Always expand</span>
+        <bs-nav class="me-auto" data-compare-key="nav-2-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-2-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <!-- 3. Expand at sm -->
-      <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example" data-compare-key="nav-3">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-3-brand">Expand at sm</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-3-collapse" aria-controls="nav-3-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-3-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-3-collapse" data-compare-key="nav-3-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-sm-0" data-compare-key="nav-3-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-3-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="sm" theme="dark" background="dark" aria-label="Third navbar example" data-compare-key="nav-3">
+        <span slot="brand">Expand at sm</span>
+        <bs-nav class="me-auto mb-2 mb-sm-0" data-compare-key="nav-3-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item disabled>Disabled</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-3-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <!-- 4. Expand at md -->
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example" data-compare-key="nav-4">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-4-brand">Expand at md</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-4-collapse" aria-controls="nav-4-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-4-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-4-collapse" data-compare-key="nav-4-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0" data-compare-key="nav-4-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-4-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="md" theme="dark" background="dark" aria-label="Fourth navbar example" data-compare-key="nav-4">
+        <span slot="brand">Expand at md</span>
+        <bs-nav class="me-auto mb-2 mb-md-0" data-compare-key="nav-4-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item disabled>Disabled</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-4-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <!-- 5. Expand at lg -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Fifth navbar example" data-compare-key="nav-5">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-5-brand">Expand at lg</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-5-collapse" aria-controls="nav-5-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-5-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-5-collapse" data-compare-key="nav-5-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-5-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-5-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="lg" theme="dark" background="dark" aria-label="Fifth navbar example" data-compare-key="nav-5">
+        <span slot="brand">Expand at lg</span>
+        <bs-nav class="me-auto mb-2 mb-lg-0" data-compare-key="nav-5-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item disabled>Disabled</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-5-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <!-- 6. Expand at xl -->
-      <nav class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example" data-compare-key="nav-6">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-6-brand">Expand at xl</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-6-collapse" aria-controls="nav-6-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-6-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-6-collapse" data-compare-key="nav-6-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-xl-0" data-compare-key="nav-6-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-6-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="xl" theme="dark" background="dark" aria-label="Sixth navbar example" data-compare-key="nav-6">
+        <span slot="brand">Expand at xl</span>
+        <bs-nav class="me-auto mb-2 mb-xl-0" data-compare-key="nav-6-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item disabled>Disabled</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-6-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <!-- 7. Expand at xxl -->
-      <nav class="navbar navbar-expand-xxl navbar-dark bg-dark" aria-label="Seventh navbar example" data-compare-key="nav-7">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="nav-7-brand">Expand at xxl</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-7-collapse" aria-controls="nav-7-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-7-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-7-collapse" data-compare-key="nav-7-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-xl-0" data-compare-key="nav-7-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-7-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="xxl" theme="dark" background="dark" aria-label="Seventh navbar example" data-compare-key="nav-7">
+        <span slot="brand">Expand at xxl</span>
+        <bs-nav class="me-auto mb-2 mb-xl-0" data-compare-key="nav-7-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item disabled>Disabled</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-7-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
-      <!-- 8. Container -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Eighth navbar example" data-compare-key="nav-8">
-        <div class="container">
-          <a class="navbar-brand" href="#" data-compare-key="nav-8-brand">Container</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-8-collapse" aria-controls="nav-8-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-8-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-8-collapse" data-compare-key="nav-8-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-8-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-8-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <!-- 8. Container (responsive) -->
+      <bs-navbar expand="lg" theme="dark" background="dark" container="default" aria-label="Eighth navbar example" data-compare-key="nav-8">
+        <span slot="brand">Container</span>
+        <bs-nav class="me-auto mb-2 mb-lg-0" data-compare-key="nav-8-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-8-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <!-- 9. Container XL -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Ninth navbar example" data-compare-key="nav-9">
-        <div class="container-xl">
-          <a class="navbar-brand" href="#" data-compare-key="nav-9-brand">Container XL</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-9-collapse" aria-controls="nav-9-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-9-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav-9-collapse" data-compare-key="nav-9-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-9-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-            </ul>
-            <form role="search" data-compare-key="nav-9-form">
-              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-            </form>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="lg" theme="dark" background="dark" container="xl" aria-label="Ninth navbar example" data-compare-key="nav-9">
+        <span slot="brand">Container XL</span>
+        <bs-nav class="me-auto mb-2 mb-lg-0" data-compare-key="nav-9-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+        </bs-nav>
+        <form slot="end" role="search" data-compare-key="nav-9-form">
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+        </form>
+      </bs-navbar>
 
       <div class="container-xl mb-4" data-compare-key="container-xl-note">
         <p>Matching .container-xl...</p>
       </div>
 
       <!-- 10. Centered nav only (dark) -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example" data-compare-key="nav-10">
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-10-collapse" aria-controls="nav-10-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-10-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse justify-content-md-center" id="nav-10-collapse" data-compare-key="nav-10-collapse">
-            <ul class="navbar-nav" data-compare-key="nav-10-nav">
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Centered nav only</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="lg" theme="dark" background="dark" aria-label="Tenth navbar example" data-compare-key="nav-10">
+        <bs-nav class="justify-content-md-center w-100">
+          <bs-nav-item href="#" active>Centered nav only</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+        </bs-nav>
+      </bs-navbar>
 
-      <!-- 11. Light tertiary in container -->
+      <!-- 11-13 wrapped in a .container -->
       <div class="container">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Eleventh navbar example" data-compare-key="nav-11">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#" data-compare-key="nav-11-brand">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-11-collapse" aria-controls="nav-11-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-11-toggler">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="nav-11-collapse" data-compare-key="nav-11-collapse">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-11-nav">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              </ul>
-              <form role="search" data-compare-key="nav-11-form">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
-              </form>
-            </div>
-          </div>
-        </nav>
+        <!-- 11. Light tertiary in container -->
+        <bs-navbar expand="lg" background="body-tertiary" class="rounded" aria-label="Eleventh navbar example" data-compare-key="nav-11">
+          <span slot="brand">Navbar</span>
+          <bs-nav class="me-auto mb-2 mb-lg-0" data-compare-key="nav-11-nav">
+            <bs-nav-item href="#" active>Home</bs-nav-item>
+            <bs-nav-item href="#">Link</bs-nav-item>
+          </bs-nav>
+          <form slot="end" role="search" data-compare-key="nav-11-form">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </bs-navbar>
 
         <!-- 12. Centered nav only (light) -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mt-3" aria-label="Twelfth navbar example" data-compare-key="nav-12">
-          <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-12-collapse" aria-controls="nav-12-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-12-toggler">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-md-center" id="nav-12-collapse" data-compare-key="nav-12-collapse">
-              <ul class="navbar-nav" data-compare-key="nav-12-nav">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Centered nav only</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+        <bs-navbar expand="lg" background="body-tertiary" class="rounded mt-3" aria-label="Twelfth navbar example" data-compare-key="nav-12">
+          <bs-nav class="justify-content-md-center w-100">
+            <bs-nav-item href="#" active>Centered nav only</bs-nav-item>
+            <bs-nav-item href="#">Link</bs-nav-item>
+            <bs-nav-item href="#">Link</bs-nav-item>
+          </bs-nav>
+        </bs-navbar>
 
         <!-- 13. Centered nav with brand split -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mt-3" aria-label="Thirteenth navbar example" data-compare-key="nav-13">
-          <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-13-collapse" aria-controls="nav-13-collapse" aria-expanded="false" aria-label="Toggle navigation" data-compare-key="nav-13-toggler">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-lg-flex" id="nav-13-collapse" data-compare-key="nav-13-collapse">
-              <a class="navbar-brand col-lg-3 me-0" href="#" data-compare-key="nav-13-brand">Centered nav</a>
-              <ul class="navbar-nav col-lg-6 justify-content-lg-center" data-compare-key="nav-13-nav">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-              </ul>
-              <ul class="nav col-lg-3 justify-content-lg-end" data-compare-key="nav-13-nav-right">
-                <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+        <bs-navbar expand="lg" background="body-tertiary" class="rounded mt-3" aria-label="Thirteenth navbar example" data-compare-key="nav-13">
+          <a class="navbar-brand col-lg-3 me-0" href="#">Centered nav</a>
+          <bs-nav class="col-lg-6 justify-content-lg-center" data-compare-key="nav-13-nav">
+            <bs-nav-item href="#" active>Home</bs-nav-item>
+            <bs-nav-item href="#">Link</bs-nav-item>
+          </bs-nav>
+          <bs-nav slot="end" class="col-lg-3 justify-content-lg-end" data-compare-key="nav-13-nav-right">
+            <bs-nav-item href="#">Sign up</bs-nav-item>
+          </bs-nav>
+        </bs-navbar>
       </div>
 
       <div class="container my-5" data-compare-key="hero-wrap">
