@@ -14,6 +14,7 @@ const TAGS = [
   'bs-collapse',
   'bs-dropdown',
   'bs-dropdown-item',
+  'bs-dropdown-menu',
   'bs-form',
   'bs-form-check',
   'bs-form-label',

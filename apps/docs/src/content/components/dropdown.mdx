@@ -345,6 +345,32 @@ All [floating-ui placements](https://floating-ui.com/docs/computePosition#placem
 | `header` | `boolean` | Render as a menu header. |
 | `text` | `boolean` | Render as non-interactive item text. |
 
+## Static menu shell with `<bs-dropdown-menu>`
+
+For documentation pages, mega-menus, or composing your own toggle around the
+menu surface, use `<bs-dropdown-menu>` — a sibling component that renders
+just the open `.dropdown-menu` shell with no toggle, no JS lifecycle, and no
+positioning logic. Defaults: `show=true`, `position-static=true`,
+`display-block=false` (so authors can mix in `.d-grid` etc.).
+
+<Example code={`<bs-dropdown-menu class="d-grid gap-1 p-2 rounded-3 mx-0 shadow" style="width:220px">
+  <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
+  <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
+  <li><a class="dropdown-item rounded-2" href="#">Something else</a></li>
+  <li><hr class="dropdown-divider" /></li>
+  <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li>
+</bs-dropdown-menu>`} />
+
+### `<bs-dropdown-menu>` attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `show` | `boolean` | `true` | Adds `.show` so the menu participates in normal flow. |
+| `position-static` | `boolean` | `true` | Adds `.position-static` (clear `position: absolute`). |
+| `display-block` | `boolean` | `false` | Adds `.d-block` to force `display: block`. Off by default so authors can use `.d-grid`. |
+| `menu-end` | `boolean` | `false` | Right-align (`.dropdown-menu-end`). |
+| `menu-dark` | `boolean` | `false` | Dark variant (`.dropdown-menu-dark`). |
+
 ## Install
 
 ```sh

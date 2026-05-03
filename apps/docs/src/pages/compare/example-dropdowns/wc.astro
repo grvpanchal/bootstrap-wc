@@ -1,11 +1,10 @@
 ---
 // `<bs-*>` port of ./reference.astro for the Dropdowns snippet page.
-// The upstream example shows open .dropdown-menu shells styled in
-// various ways (no toggle). <bs-dropdown> implements the toggle
-// + menu pattern, not the open-menu-only variant — so we keep the
-// native <ul class="dropdown-menu position-static d-block"> markup
-// to demonstrate the snippet patterns work unchanged inside a
-// bootstrap-wc page.
+// Uses the new <bs-dropdown-menu> shell component (host = .dropdown-menu
+// .show .position-static, no toggle / JS lifecycle) so authors can drop
+// open menus in any context — the search-filterable variant slots a
+// non-list <form> + <ul> directly because <bs-dropdown-menu> doesn't
+// require <li> children.
 ---
 
 <!doctype html>
@@ -49,25 +48,25 @@
   </head>
   <body data-compare-key="root">
     <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center" data-compare-key="row-basic">
-      <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px" data-bs-theme="light" data-compare-key="menu-basic-light">
+      <bs-dropdown-menu class="d-grid gap-1 p-2 rounded-3 mx-0 shadow w-220px" data-bs-theme="light" data-compare-key="menu-basic-light">
         <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
         <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
         <li><a class="dropdown-item rounded-2" href="#">Something else here</a></li>
         <li><hr class="dropdown-divider" /></li>
         <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li>
-      </ul>
-      <ul class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark" data-compare-key="menu-basic-dark">
+      </bs-dropdown-menu>
+      <bs-dropdown-menu class="d-grid gap-1 p-2 rounded-3 mx-0 border-0 shadow w-220px" data-bs-theme="dark" data-compare-key="menu-basic-dark">
         <li><a class="dropdown-item rounded-2 active" href="#">Action</a></li>
         <li><a class="dropdown-item rounded-2" href="#">Another action</a></li>
         <li><a class="dropdown-item rounded-2" href="#">Something else here</a></li>
         <li><hr class="dropdown-divider" /></li>
         <li><a class="dropdown-item rounded-2" href="#">Separated link</a></li>
-      </ul>
+      </bs-dropdown-menu>
     </div>
     <div class="b-example-divider"></div>
 
     <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center" data-compare-key="row-search">
-      <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="light" data-compare-key="menu-search-light">
+      <bs-dropdown-menu display-block class="pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="light" data-compare-key="menu-search-light">
         <form class="p-2 mb-2 bg-body-tertiary border-bottom">
           <input type="search" class="form-control" autocomplete="off" placeholder="Type to filter..." />
         </form>
@@ -77,8 +76,8 @@
           <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-circle p-1"></span>Something else here</a></li>
           <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-info rounded-circle p-1"></span>Separated link</a></li>
         </ul>
-      </div>
-      <div class="dropdown-menu d-block position-static border-0 pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="dark" data-compare-key="menu-search-dark">
+      </bs-dropdown-menu>
+      <bs-dropdown-menu display-block class="border-0 pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px" data-bs-theme="dark" data-compare-key="menu-search-dark">
         <form class="p-2 mb-2 bg-dark border-bottom border-dark">
           <input type="search" class="form-control bg-dark" autocomplete="off" placeholder="Type to filter..." />
         </form>
@@ -88,7 +87,7 @@
           <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-danger rounded-circle p-1"></span>Something else here</a></li>
           <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#"><span class="d-inline-block bg-info rounded-circle p-1"></span>Separated link</a></li>
         </ul>
-      </div>
+      </bs-dropdown-menu>
     </div>
     <div class="b-example-divider"></div>
   </body>
