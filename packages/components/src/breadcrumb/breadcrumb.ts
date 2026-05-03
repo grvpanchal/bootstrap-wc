@@ -18,10 +18,29 @@ export class BsBreadcrumb extends BootstrapElement {
   @property({ type: Array }) items: BreadcrumbItem[] = [];
   @property({ type: String }) label = 'breadcrumb';
   @property({ type: String }) divider?: string;
+  /**
+   * When set, the shadow renders `<nav aria-label=...><ol class="breadcrumb"
+   * part="list"><slot/></ol></nav>` and the host carries no Bootstrap
+   * classes itself. Use this when you need a true `<nav>` landmark wrapper
+   * (e.g. for the `breadcrumb-chevron` / `breadcrumb-custom` patterns whose
+   * CSS lives _outside_ of `<bs-breadcrumb>`'s shadow). Otherwise, the host
+   * itself is the `.breadcrumb` container and announces as a navigation
+   * landmark via `role="navigation"`.
+   */
+  @property({ type: Boolean, attribute: 'wrap-in-nav' }) wrapInNav = false;
+  /**
+   * In `wrap-in-nav` mode, extra classes added to the inner `<ol class=
+   * "breadcrumb">`. Use this for chevron / custom variants whose CSS lives
+   * outside the shadow but which must live on the `.breadcrumb` element
+   * (e.g. `breadcrumb-chevron p-3 bg-body-tertiary rounded-3`). Ignored
+   * when `wrap-in-nav` is unset.
+   */
+  @property({ type: String, attribute: 'list-class' }) listClass = '';
 
   override connectedCallback(): void {
     super.connectedCallback();
     if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', this.label);
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'navigation');
   }
 
   override updated(changed: Map<string, unknown>): void {
@@ -48,20 +67,24 @@ export class BsBreadcrumb extends BootstrapElement {
   }
 
   protected override hostClasses(): string {
-    return 'breadcrumb';
+    return this.wrapInNav ? '' : 'breadcrumb';
   }
 
   override render() {
-    if (this.items.length) {
-      return html`${this.items.map(
-        (item) =>
-          html`<bs-breadcrumb-item
-            ?active=${!!item.active}
-            href=${item.href ?? ''}
-          >${item.label}</bs-breadcrumb-item>`,
-      )}`;
+    const itemsContent = this.items.length
+      ? html`${this.items.map(
+          (item) =>
+            html`<bs-breadcrumb-item
+              ?active=${!!item.active}
+              href=${item.href ?? ''}
+            >${item.label}</bs-breadcrumb-item>`,
+        )}`
+      : html`<slot></slot>`;
+    if (this.wrapInNav) {
+      const listClasses = ['breadcrumb', this.listClass].filter(Boolean).join(' ');
+      return html`<ol part="list" class=${listClasses}>${itemsContent}</ol>`;
     }
-    return html`<slot></slot>`;
+    return itemsContent;
   }
 }
 
