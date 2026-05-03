@@ -31,6 +31,10 @@ const SLUGS = [
   ['badges', 'Badges'],
   ['breadcrumbs', 'Breadcrumbs'],
   ['buttons', 'Buttons'],
+  ['dropdowns', 'Dropdowns'],
+  ['list-groups', 'List groups'],
+  ['modals', 'Modals'],
+  ['jumbotrons', 'Jumbotrons'],
 ];
 
 for (const [slug, title] of SLUGS) {
