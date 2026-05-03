@@ -1,9 +1,15 @@
 ---
 // Plain Bootstrap reference for the Features example template.
-// Mirrors https://getbootstrap.com/docs/5.3/examples/features/ — the
-// columns-with-icons, hanging icons, icon grid, and features-with-title
-// sections. Custom-cards block is omitted (depends on external Unsplash
-// background images that wouldn't load deterministically).
+// Mirrors https://getbootstrap.com/docs/5.3/examples/features/ — all five
+// blocks: columns-with-icons, hanging icons, custom cards (with gradient
+// backgrounds in lieu of Unsplash images), icon grid, and features-with-
+// title.
+
+const customCards = [
+  { title: 'Short title, long jacket', meta: 'Earth', dur: '3d', textShadow: 'text-shadow-1', extraText: 'text-white' },
+  { title: 'Much longer title that wraps to multiple lines', meta: 'Pakistan', dur: '4d', textShadow: 'text-shadow-1', extraText: 'text-white' },
+  { title: 'Another longer title belongs here', meta: 'California', dur: '5d', textShadow: 'text-shadow-1', extraText: '' },
+];
 ---
 
 <!doctype html>
@@ -46,6 +52,23 @@
         width: 3rem;
         height: 3rem;
         border-radius: 0.75rem;
+      }
+      .text-shadow-1 {
+        text-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
+      }
+      .card-cover {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+      }
+      .card-cover-1 {
+        background-image: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+      }
+      .card-cover-2 {
+        background-image: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+      }
+      .card-cover-3 {
+        background-image: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
       }
     </style>
   </head>
@@ -104,6 +127,47 @@
               <a href="#" class="btn btn-primary" data-compare-key="hanging-icons-col-3-cta">Primary button</a>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="b-example-divider"></div>
+
+      <div class="container px-4 py-5" data-compare-key="custom-cards">
+        <h2 class="pb-2 border-bottom" data-compare-key="custom-cards-title">Custom cards</h2>
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5" data-compare-key="custom-cards-row">
+          {customCards.map((c, i) => (
+            <div class="col" data-compare-key={`custom-cards-col-${i + 1}`}>
+              <div class={`card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg card-cover-${i + 1}`} data-compare-key={`custom-cards-card-${i + 1}`}>
+                <div class={`d-flex flex-column h-100 p-5 pb-3 ${c.extraText} ${c.textShadow}`}>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" data-compare-key={`custom-cards-title-${i + 1}`}>{c.title}</h3>
+                  <ul class="d-flex list-unstyled mt-auto" data-compare-key={`custom-cards-meta-${i + 1}`}>
+                    <li class="me-auto">
+                      <span class="d-inline-block rounded-circle border border-white" style="width: 32px; height: 32px; background: #6c757d;"></span>
+                    </li>
+                    <li class="d-flex align-items-center me-3"><small>{c.meta}</small></li>
+                    <li class="d-flex align-items-center"><small>{c.dur}</small></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="b-example-divider"></div>
+
+      <div class="container px-4 py-5" data-compare-key="icon-grid">
+        <h2 class="pb-2 border-bottom" data-compare-key="icon-grid-title">Icon grid</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5" data-compare-key="icon-grid-row">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+            <div class="col d-flex align-items-start" data-compare-key={`icon-grid-col-${n}`}>
+              <div class="bi text-body-secondary flex-shrink-0 me-3 bg-body-secondary rounded-circle" style="width: 1.75em; height: 1.75em;"></div>
+              <div>
+                <h3 class="fw-bold mb-0 fs-4 text-body-emphasis" data-compare-key={`icon-grid-title-${n}`}>Featured title</h3>
+                <p data-compare-key={`icon-grid-text-${n}`}>Paragraph of text beneath the heading to explain the heading.</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

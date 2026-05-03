@@ -186,6 +186,66 @@
       </header>
 
       <div class="b-example-divider"></div>
+
+      <!-- 7. Grid layout: brand "dropdown" + search + avatar + content panels -->
+      <header class="py-3 mb-3 border-bottom">
+        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+          <div>
+            <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" aria-label="Bootstrap menu">
+              <svg class="bi me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap"/></svg>
+            </a>
+          </div>
+          <div class="d-flex align-items-center">
+            <form class="w-100 me-3" role="search">
+              <input type="search" class="form-control" placeholder="Search..." aria-label="Search" />
+            </form>
+            <div class="flex-shrink-0">
+              <span class="d-block rounded-circle" style="width: 32px; height: 32px; background: #6c757d;"></span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container-fluid pb-3">
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;">
+          <div class="bg-body-tertiary border rounded-3" style="min-height: 220px;"></div>
+          <div class="bg-body-tertiary border rounded-3" style="min-height: 220px;"></div>
+        </div>
+      </div>
+
+      <div class="b-example-divider"></div>
+
+      <!-- 8. Multi-row dark header with icons -->
+      <header>
+        <div class="px-3 py-2 text-bg-dark border-bottom">
+          <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+              <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+              </a>
+              <bs-nav class="col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                <li><a href="#" class="nav-link text-secondary">Home</a></li>
+                <li><a href="#" class="nav-link text-white">Dashboard</a></li>
+                <li><a href="#" class="nav-link text-white">Orders</a></li>
+                <li><a href="#" class="nav-link text-white">Products</a></li>
+                <li><a href="#" class="nav-link text-white">Customers</a></li>
+              </bs-nav>
+            </div>
+          </div>
+        </div>
+        <div class="px-3 py-2 border-bottom mb-3">
+          <div class="container d-flex flex-wrap justify-content-center">
+            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+              <input type="search" class="form-control" placeholder="Search..." aria-label="Search" />
+            </form>
+            <div class="text-end">
+              <bs-button variant="light" class="text-dark me-2">Login</bs-button>
+              <bs-button variant="primary">Sign-up</bs-button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="b-example-divider"></div>
     </main>
   </body>
 </html>

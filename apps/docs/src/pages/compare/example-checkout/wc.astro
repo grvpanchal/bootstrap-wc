@@ -33,14 +33,15 @@
     <div class="container" data-compare-key="root">
       <main>
         <div class="py-5 text-center" data-compare-key="hero">
-          <h2 data-compare-key="hero-title">Checkout form</h2>
-          <p class="lead" data-compare-key="hero-lead">Below is an example form built entirely with Bootstrap's form controls.</p>
+          <svg xmlns="http://www.w3.org/2000/svg" class="d-block mx-auto mb-4" width="72" height="57" viewBox="0 0 118 94" role="img" data-compare-key="hero-logo"><title>Bootstrap</title><path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z" fill="currentColor"></path></svg>
+          <h1 class="h2" data-compare-key="hero-title">Checkout form</h1>
+          <p class="lead" data-compare-key="hero-lead">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
         </div>
 
         <div class="row g-5" data-compare-key="layout-row">
           <div class="col-md-5 col-lg-4 order-md-last" data-compare-key="cart-col">
             <h4 class="d-flex justify-content-between align-items-center mb-3" data-compare-key="cart-heading">
-              <span>Your cart</span>
+              <span class="text-primary">Your cart</span>
               <span class="badge bg-primary rounded-pill" data-compare-key="cart-count">3</span>
             </h4>
             <ul class="list-group mb-3" data-compare-key="cart-list">
@@ -66,11 +67,11 @@
                 <span class="text-body-secondary">$5</span>
               </li>
               <li class="list-group-item d-flex justify-content-between bg-body-tertiary" data-compare-key="cart-promo">
-                <div>
+                <div class="text-success">
                   <h6 class="my-0">Promo code</h6>
                   <small>EXAMPLECODE</small>
                 </div>
-                <span>−$5</span>
+                <span class="text-success">−$5</span>
               </li>
               <li class="list-group-item d-flex justify-content-between" data-compare-key="cart-total">
                 <span>Total (USD)</span>
@@ -78,7 +79,7 @@
               </li>
             </ul>
 
-            <form data-compare-key="promo-form">
+            <form class="card p-2" data-compare-key="promo-form">
               <div class="input-group" data-compare-key="promo-input-group">
                 <input type="text" class="form-control" placeholder="Promo code" aria-label="Promo code" data-compare-key="promo-input" />
                 <bs-button variant="secondary" type="submit" data-compare-key="promo-submit">Redeem</bs-button>
@@ -111,7 +112,11 @@
                 </div>
                 <div class="col-12" data-compare-key="field-address">
                   <label for="address" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="address" required />
+                  <input type="text" class="form-control" id="address" placeholder="1234 Main St" required />
+                </div>
+                <div class="col-12" data-compare-key="field-address2">
+                  <label for="address2" class="form-label">Address 2 <span class="text-body-secondary">(Optional)</span></label>
+                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" />
                 </div>
                 <div class="col-md-5" data-compare-key="field-country">
                   <label for="country" class="form-label">Country</label>
@@ -149,23 +154,26 @@
 
               <h4 class="mb-3" data-compare-key="payment-heading">Payment</h4>
 
-              <div class="form-check" data-compare-key="radio-credit">
-                <input class="form-check-input" type="radio" name="paymentMethod" id="credit" value="credit" checked />
-                <label class="form-check-label" for="credit">Credit card</label>
-              </div>
-              <div class="form-check" data-compare-key="radio-debit">
-                <input class="form-check-input" type="radio" name="paymentMethod" id="debit" value="debit" />
-                <label class="form-check-label" for="debit">Debit card</label>
-              </div>
-              <div class="form-check" data-compare-key="radio-paypal">
-                <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal" />
-                <label class="form-check-label" for="paypal">PayPal</label>
+              <div class="my-3" data-compare-key="payment-radios">
+                <div class="form-check" data-compare-key="radio-credit">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="credit" value="credit" checked />
+                  <label class="form-check-label" for="credit">Credit card</label>
+                </div>
+                <div class="form-check" data-compare-key="radio-debit">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="debit" value="debit" />
+                  <label class="form-check-label" for="debit">Debit card</label>
+                </div>
+                <div class="form-check" data-compare-key="radio-paypal">
+                  <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal" />
+                  <label class="form-check-label" for="paypal">PayPal</label>
+                </div>
               </div>
 
               <div class="row gy-3" data-compare-key="cc-row">
                 <div class="col-md-6" data-compare-key="field-cc-name">
                   <label for="cc-name" class="form-label">Name on card</label>
                   <input type="text" class="form-control" id="cc-name" required />
+                  <small class="text-body-secondary">Full name as displayed on card</small>
                 </div>
                 <div class="col-md-6" data-compare-key="field-cc-number">
                   <label for="cc-number" class="form-label">Credit card number</label>
