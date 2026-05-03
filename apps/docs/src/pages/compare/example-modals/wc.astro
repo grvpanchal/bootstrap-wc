@@ -1,10 +1,12 @@
 ---
 // `<bs-*>` port of ./reference.astro for the Modals snippet page.
-// The upstream variants are open modal shells in static position
-// (modal-sheet style). <bs-modal> renders a managed open/close modal
-// with backdrop — its host shape doesn't match the static modal-sheet
-// pattern. We keep native .modal markup and swap the buttons for
-// <bs-button>.
+// Uses <bs-modal static-display modal-class content-class header-class
+// body-class footer-class heading="..."> for both open-modal-shell variants.
+// static-display turns on .modal.position-static.d-block (no backdrop, no
+// focus trap, no portal). The new *-class attributes thread Bootstrap
+// utility classes onto the inner .modal/.modal-content/.modal-header/
+// .modal-body/.modal-footer divs so the modal-sheet / choice patterns
+// render exactly like the reference.
 ---
 
 <!doctype html>
@@ -41,39 +43,38 @@
     </script>
   </head>
   <body data-compare-key="root">
-    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSheet" data-compare-key="modal-sheet">
-      <div class="modal-dialog">
-        <div class="modal-content rounded-4 shadow">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5" data-compare-key="modal-sheet-title">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body py-0">
-            <p data-compare-key="modal-sheet-body">This is a modal sheet, a variation of the modal that docks itself to the bottom of the viewport like the newer share sheets in iOS.</p>
-          </div>
-          <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0" data-compare-key="modal-sheet-footer">
-            <bs-button variant="primary" size="lg" data-compare-key="modal-sheet-save">Save changes</bs-button>
-            <bs-button variant="secondary" size="lg" data-bs-dismiss="modal" data-compare-key="modal-sheet-close">Close</bs-button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <bs-modal
+      static-display
+      heading="Modal title"
+      modal-class="modal-sheet bg-body-secondary p-4 py-md-5"
+      content-class="rounded-4 shadow"
+      header-class="border-bottom-0"
+      body-class="py-0"
+      footer-class="flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0"
+      id="modalSheet"
+      data-compare-key="modal-sheet"
+    >
+      <p data-compare-key="modal-sheet-body">This is a modal sheet, a variation of the modal that docks itself to the bottom of the viewport like the newer share sheets in iOS.</p>
+      <bs-button slot="footer" variant="primary" size="lg" data-compare-key="modal-sheet-save">Save changes</bs-button>
+      <bs-button slot="footer" variant="secondary" size="lg" data-bs-dismiss="modal" data-compare-key="modal-sheet-close">Close</bs-button>
+    </bs-modal>
     <div class="b-example-divider"></div>
 
-    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalChoice" data-compare-key="modal-choice">
-      <div class="modal-dialog">
-        <div class="modal-content rounded-3 shadow">
-          <div class="modal-body p-4 text-center">
-            <h5 class="mb-0" data-compare-key="modal-choice-title">Enable this setting?</h5>
-            <p class="mb-0" data-compare-key="modal-choice-body">You can always change your mind in your account settings.</p>
-          </div>
-          <div class="modal-footer flex-nowrap p-0" data-compare-key="modal-choice-footer">
-            <bs-button variant="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end" data-compare-key="modal-choice-yes"><strong>Yes, enable</strong></bs-button>
-            <bs-button variant="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal" data-compare-key="modal-choice-no">No thanks</bs-button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <bs-modal
+      static-display
+      no-close-button
+      modal-class="modal-sheet bg-body-secondary p-4 py-md-5"
+      content-class="rounded-3 shadow"
+      body-class="p-4 text-center"
+      footer-class="flex-nowrap p-0"
+      id="modalChoice"
+      data-compare-key="modal-choice"
+    >
+      <h5 class="mb-0" data-compare-key="modal-choice-title">Enable this setting?</h5>
+      <p class="mb-0" data-compare-key="modal-choice-body">You can always change your mind in your account settings.</p>
+      <bs-button slot="footer" button-style="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end" data-compare-key="modal-choice-yes"><strong>Yes, enable</strong></bs-button>
+      <bs-button slot="footer" button-style="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal" data-compare-key="modal-choice-no">No thanks</bs-button>
+    </bs-modal>
     <div class="b-example-divider"></div>
   </body>
 </html>

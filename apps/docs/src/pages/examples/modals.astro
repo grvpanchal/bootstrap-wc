@@ -39,39 +39,36 @@
     </script>
   </head>
   <body>
-    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSheet">
-      <div class="modal-dialog">
-        <div class="modal-content rounded-4 shadow">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body py-0">
-            <p>This is a modal sheet, a variation of the modal that docks itself to the bottom of the viewport like the newer share sheets in iOS.</p>
-          </div>
-          <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-            <bs-button variant="primary" size="lg">Save changes</bs-button>
-            <bs-button variant="secondary" size="lg" data-bs-dismiss="modal">Close</bs-button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <bs-modal
+      static-display
+      heading="Modal title"
+      modal-class="modal-sheet bg-body-secondary p-4 py-md-5"
+      content-class="rounded-4 shadow"
+      header-class="border-bottom-0"
+      body-class="py-0"
+      footer-class="flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0"
+      id="modalSheet"
+    >
+      <p>This is a modal sheet, a variation of the modal that docks itself to the bottom of the viewport like the newer share sheets in iOS.</p>
+      <bs-button slot="footer" variant="primary" size="lg">Save changes</bs-button>
+      <bs-button slot="footer" variant="secondary" size="lg" data-bs-dismiss="modal">Close</bs-button>
+    </bs-modal>
     <div class="b-example-divider"></div>
 
-    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalChoice">
-      <div class="modal-dialog">
-        <div class="modal-content rounded-3 shadow">
-          <div class="modal-body p-4 text-center">
-            <h5 class="mb-0">Enable this setting?</h5>
-            <p class="mb-0">You can always change your mind in your account settings.</p>
-          </div>
-          <div class="modal-footer flex-nowrap p-0">
-            <bs-button variant="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Yes, enable</strong></bs-button>
-            <bs-button variant="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">No thanks</bs-button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <bs-modal
+      static-display
+      no-close-button
+      modal-class="modal-sheet bg-body-secondary p-4 py-md-5"
+      content-class="rounded-3 shadow"
+      body-class="p-4 text-center"
+      footer-class="flex-nowrap p-0"
+      id="modalChoice"
+    >
+      <h5 class="mb-0">Enable this setting?</h5>
+      <p class="mb-0">You can always change your mind in your account settings.</p>
+      <bs-button slot="footer" button-style="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Yes, enable</strong></bs-button>
+      <bs-button slot="footer" button-style="link" size="lg" class="fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">No thanks</bs-button>
+    </bs-modal>
     <div class="b-example-divider"></div>
   </body>
 </html>

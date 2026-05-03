@@ -225,7 +225,13 @@ Another override is the option to pop up a modal that covers the user viewport, 
 | `no-close-on-escape` | `boolean` | `false` | Disable ESC-to-close. |
 | `no-close-button` | `boolean` | `false` | Hide the header close button. |
 | `fullscreen` | `boolean` \| `sm-down` \| `md-down` \| `lg-down` \| `xl-down` \| `xxl-down` | `false` | Apply `.modal-fullscreen` (or breakpoint-scoped variant). |
-| `static-preview` | `boolean` | `false` | Render the dialog inline (for docs previews); suppresses backdrop and fixed positioning. |
+| `static-preview` | `boolean` | `false` | Render the dialog inline (for docs previews); suppresses backdrop and fixed positioning. The host carries `.modal.show.position-static.d-block` so layout utility classes can target it directly. |
+| `static-display` | `boolean` | `false` | Alias for `static-preview` (matches the docs spelling for the static modal-sheet pattern). |
+| `modal-class` | `string` | — | Extra classes for the outer `.modal` (e.g. `modal-sheet bg-body-secondary p-4`). In `static-display` mode these land directly on the host. |
+| `content-class` | `string` | — | Extra classes for the `.modal-content` wrapper (e.g. `rounded-4 shadow`). |
+| `header-class` | `string` | — | Extra classes for the `.modal-header` (e.g. `border-bottom-0`). |
+| `body-class` | `string` | — | Extra classes for the `.modal-body` (e.g. `p-4 text-center`). |
+| `footer-class` | `string` | — | Extra classes for the `.modal-footer` (e.g. `flex-column gap-2 border-top-0`). |
 
 ### Methods
 
