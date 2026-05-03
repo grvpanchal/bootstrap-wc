@@ -10,6 +10,8 @@ const TAGS = [
   'bs-button',
   'bs-button-group',
   'bs-card',
+  'bs-carousel',
+  'bs-carousel-item',
   'bs-close-button',
   'bs-collapse',
   'bs-dropdown',

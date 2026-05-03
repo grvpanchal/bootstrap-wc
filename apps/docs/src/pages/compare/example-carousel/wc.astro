@@ -1,10 +1,9 @@
 ---
 // `<bs-*>` port of ./reference.astro for the Carousel example template.
-// bs-navbar provides the .navbar.fixed-top dark chrome; <bs-nav>/<bs-nav-item>
-// for the nav list; <bs-button> for the search and marketing CTAs. The
-// .carousel itself stays native — bs-* doesn't have a carousel
-// component yet, so Bootstrap's data-bs-ride / data-bs-target hooks
-// drive the slider directly.
+// Uses the new <bs-carousel> + <bs-carousel-item> components — the
+// component owns its own slide / interval / focus / keyboard logic, so no
+// bootstrap.bundle.min.js is required for cycling. data-bs-ride is no
+// longer needed; auto-cycling is on by default via the `interval` prop.
 ---
 
 <!doctype html>
@@ -94,47 +93,38 @@
     </header>
 
     <main>
-      <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel" data-compare-key="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active" data-compare-key="slide-1">
-            <svg aria-hidden="true" class="bd-placeholder-img w-100 h-100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="var(--bs-secondary-color)" /></svg>
-            <div class="container">
-              <div class="carousel-caption text-start" data-compare-key="slide-1-caption">
-                <h1>Example headline.</h1>
-                <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p>
-                <p><bs-button variant="primary" size="lg" href="#" data-compare-key="slide-1-cta">Sign up today</bs-button></p>
-              </div>
+      <bs-carousel id="myCarousel" interval="0" class="mb-6" data-compare-key="carousel">
+        <bs-carousel-item active data-compare-key="slide-1">
+          <svg aria-hidden="true" class="bd-placeholder-img w-100 h-100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="var(--bs-secondary-color)" /></svg>
+          <div class="container">
+            <div class="carousel-caption text-start" data-compare-key="slide-1-caption">
+              <h1>Example headline.</h1>
+              <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p>
+              <p><bs-button variant="primary" size="lg" href="#" data-compare-key="slide-1-cta">Sign up today</bs-button></p>
             </div>
           </div>
-          <div class="carousel-item" data-compare-key="slide-2">
-            <svg aria-hidden="true" class="bd-placeholder-img w-100 h-100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="var(--bs-secondary-color)" /></svg>
-            <div class="container">
-              <div class="carousel-caption" data-compare-key="slide-2-caption">
-                <h1>Another example headline.</h1>
-                <p>Some representative placeholder content for the second slide of the carousel.</p>
-                <p><bs-button variant="primary" size="lg" href="/getting-started/installation/" data-compare-key="slide-2-cta">Learn more</bs-button></p>
-              </div>
+        </bs-carousel-item>
+        <bs-carousel-item data-compare-key="slide-2">
+          <svg aria-hidden="true" class="bd-placeholder-img w-100 h-100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="var(--bs-secondary-color)" /></svg>
+          <div class="container">
+            <div class="carousel-caption" data-compare-key="slide-2-caption">
+              <h1>Another example headline.</h1>
+              <p>Some representative placeholder content for the second slide of the carousel.</p>
+              <p><bs-button variant="primary" size="lg" href="/getting-started/installation/" data-compare-key="slide-2-cta">Learn more</bs-button></p>
             </div>
           </div>
-          <div class="carousel-item" data-compare-key="slide-3">
-            <svg aria-hidden="true" class="bd-placeholder-img w-100 h-100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="var(--bs-secondary-color)" /></svg>
-            <div class="container">
-              <div class="carousel-caption text-end" data-compare-key="slide-3-caption">
-                <h1>One more for good measure.</h1>
-                <p>Some representative placeholder content for the third slide of this carousel.</p>
-                <p><bs-button variant="primary" size="lg" href="#" data-compare-key="slide-3-cta">Browse gallery</bs-button></p>
-              </div>
+        </bs-carousel-item>
+        <bs-carousel-item data-compare-key="slide-3">
+          <svg aria-hidden="true" class="bd-placeholder-img w-100 h-100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="var(--bs-secondary-color)" /></svg>
+          <div class="container">
+            <div class="carousel-caption text-end" data-compare-key="slide-3-caption">
+              <h1>One more for good measure.</h1>
+              <p>Some representative placeholder content for the third slide of this carousel.</p>
+              <p><bs-button variant="primary" size="lg" href="#" data-compare-key="slide-3-cta">Browse gallery</bs-button></p>
             </div>
           </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
-      </div>
+        </bs-carousel-item>
+      </bs-carousel>
 
       <div class="container marketing" data-compare-key="marketing">
         <div class="row" data-compare-key="marketing-row">

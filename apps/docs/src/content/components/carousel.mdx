@@ -1,0 +1,122 @@
+---
+title: Carousel
+description: Cycling slideshow with previous/next controls, indicators, and keyboard / touch support.
+---
+
+import Example from '../../components/Example.astro';
+
+`<bs-carousel>` is a self-contained slideshow component. It owns its own
+slide cycling, focus, keyboard, and touch logic — no
+`bootstrap.bundle.min.js` is required. Auto-advance, hover-to-pause, and
+swipe-to-navigate are on by default.
+
+## Example
+
+<Example code={`<bs-carousel id="demoCarousel" interval="0" style="height:200px">
+  <bs-carousel-item active>
+    <svg class="d-block w-100" style="height:200px;background:#0d6efd"></svg>
+    <div class="carousel-caption d-none d-md-block"><h5>Slide 1</h5></div>
+  </bs-carousel-item>
+  <bs-carousel-item>
+    <svg class="d-block w-100" style="height:200px;background:#198754"></svg>
+    <div class="carousel-caption d-none d-md-block"><h5>Slide 2</h5></div>
+  </bs-carousel-item>
+  <bs-carousel-item>
+    <svg class="d-block w-100" style="height:200px;background:#6f42c1"></svg>
+    <div class="carousel-caption d-none d-md-block"><h5>Slide 3</h5></div>
+  </bs-carousel-item>
+</bs-carousel>`} />
+
+## Install
+
+```sh
+npm install @bootstrap-wc/components
+# or
+npx bwc add carousel
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/carousel';
+```
+
+```html
+<bs-carousel interval="3000">
+  <bs-carousel-item active>...</bs-carousel-item>
+  <bs-carousel-item>...</bs-carousel-item>
+</bs-carousel>
+```
+
+## Modifiers
+
+### Fade
+
+Use `fade` to swap the slide animation for a cross-fade:
+
+<Example code={`<bs-carousel id="fadeCarousel" interval="0" fade style="height:200px">
+  <bs-carousel-item active>
+    <svg class="d-block w-100" style="height:200px;background:#0d6efd"></svg>
+  </bs-carousel-item>
+  <bs-carousel-item>
+    <svg class="d-block w-100" style="height:200px;background:#198754"></svg>
+  </bs-carousel-item>
+</bs-carousel>`} />
+
+### Without controls / indicators
+
+Set `controls="false"` and / or `indicators="false"` to hide chrome:
+
+<Example code={`<bs-carousel id="bareCarousel" interval="0" controls="false" indicators="false" style="height:200px">
+  <bs-carousel-item active>
+    <svg class="d-block w-100" style="height:200px;background:#0d6efd"></svg>
+  </bs-carousel-item>
+  <bs-carousel-item>
+    <svg class="d-block w-100" style="height:200px;background:#198754"></svg>
+  </bs-carousel-item>
+</bs-carousel>`} />
+
+## API
+
+### `<bs-carousel>` attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `interval` | `number` | `5000` | Auto-advance interval in ms. `0` disables auto-cycling. |
+| `controls` | `boolean` | `true` | Render previous / next chrome buttons. |
+| `indicators` | `boolean` | `true` | Render indicator dots. |
+| `fade` | `boolean` | `false` | Use cross-fade instead of slide animation (`.carousel-fade`). |
+| `dark` | `boolean` | `false` | Dark variant chrome (`.carousel-dark`). Bootstrap 5.3 deprecated; prefer `data-bs-theme="dark"`. |
+| `pause-on-hover` | `boolean` | `true` | Pause auto-cycling while the user hovers. |
+| `wrap` | `boolean` | `true` | Cycle from last back to first when advancing past the end. |
+| `touch` | `boolean` | `true` | Enable swipe gestures. |
+
+### Methods
+
+| Method | Description |
+|---|---|
+| `next()` | Advance one slide. |
+| `prev()` | Go back one slide. |
+| `to(index)` | Jump to a specific 0-based index. |
+| `pause()` | Pause auto-cycling. |
+| `cycle()` | Resume auto-cycling. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-slide` | `{from, to, direction}` | Before a slide transition starts. Cancellable. |
+| `bs-slid` | `{from, to, direction}` | After a slide transition completes. |
+
+### `<bs-carousel-item>` attributes
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `active` | `boolean` | `false` | The currently visible slide. Exactly one item should be `active`. |
+| `transition-state` | string | `''` | Internal — set by the parent `<bs-carousel>` during animation. Maps to Bootstrap's `.carousel-item-next`, `.carousel-item-prev`, `.carousel-item-start`, `.carousel-item-end` host classes. |
+
+### Slots
+
+`<bs-carousel-item>` takes any slot content — typically an `<img class=
+"d-block w-100">` and an optional `<div class="carousel-caption d-none
+d-md-block">` (the standard Bootstrap structure).
