@@ -4,30 +4,33 @@ import DocsLayout from '../layouts/DocsLayout.astro';
 // Examples landing page — mirrors the layout of
 // https://getbootstrap.com/docs/5.3/examples/ at a smaller scale,
 // adapted for bootstrap-wc and rendered with <bs-card>.
+//
+// Preview thumbnails are copied locally under
+// `public/examples-previews/<slug>.png` (sourced from the Bootstrap
+// docs site one time, then committed) so the cards render reliably
+// without depending on third-party hotlinking.
 
-const PREVIEW_BASE = 'https://getbootstrap.com/docs/5.3/examples';
-
-// `built` flag drives both the inner-link wrapper and the "Built" badge.
-// Update when promoting more templates from /compare/ to real pages.
+// Every card is now a "Built" page; flip the flag back to false to
+// re-add a placeholder card.
 const customComponents = [
   { slug: 'album', title: 'Album', desc: 'Simple one-page template for photo galleries and portfolios.', built: true },
   { slug: 'pricing', title: 'Pricing', desc: 'Pricing page built with cards and a custom header and footer.', built: true },
-  { slug: 'checkout', title: 'Checkout', desc: 'Custom checkout form showing form components and validation.', built: false },
-  { slug: 'product', title: 'Product', desc: 'Lean product-focused marketing page with grid and image work.', built: false },
+  { slug: 'checkout', title: 'Checkout', desc: 'Custom checkout form showing form components and validation.', built: true },
+  { slug: 'product', title: 'Product', desc: 'Lean product-focused marketing page with grid and image work.', built: true },
 ];
 
 const snippets = [
   { slug: 'headers', title: 'Headers', desc: 'Display branding, navigation, search, and more.', built: true },
-  { slug: 'heroes', title: 'Heroes', desc: 'Set the stage on your homepage with a clear call to action.', built: false },
-  { slug: 'features', title: 'Features', desc: 'Explain features, benefits, or other marketing details.', built: false },
-  { slug: 'footers', title: 'Footers', desc: 'Finish every page strong with a footer, big or small.', built: false },
+  { slug: 'heroes', title: 'Heroes', desc: 'Set the stage on your homepage with a clear call to action.', built: true },
+  { slug: 'features', title: 'Features', desc: 'Explain features, benefits, or other marketing details.', built: true },
+  { slug: 'footers', title: 'Footers', desc: 'Finish every page strong with a footer, big or small.', built: true },
 ];
 
 const navbars = [
-  { slug: 'navbars', title: 'Navbars', desc: 'Demonstration of all responsive and container options.', built: false },
-  { slug: 'navbars-offcanvas', title: 'Navbars offcanvas', desc: 'Same as Navbars, but with the offcanvas component.', built: false },
-  { slug: 'navbar-static', title: 'Navbar static', desc: 'Static top navbar with some additional content.', built: false },
-  { slug: 'navbar-fixed', title: 'Navbar fixed', desc: 'Fixed top navbar with some additional content.', built: false },
+  { slug: 'navbars', title: 'Navbars', desc: 'Demonstration of all responsive and container options.', built: true },
+  { slug: 'navbars-offcanvas', title: 'Navbars offcanvas', desc: 'Same as Navbars, but with the offcanvas component.', built: true },
+  { slug: 'navbar-static', title: 'Navbar static', desc: 'Static top navbar with some additional content.', built: true },
+  { slug: 'navbar-fixed', title: 'Navbar fixed', desc: 'Fixed top navbar with some additional content.', built: true },
 ];
 ---
 
@@ -52,7 +55,7 @@ const navbars = [
             {ex.built ? (
               <a slot="image" href={`/examples/${ex.slug}/`} class="d-block text-reset text-decoration-none" aria-label={`Open ${ex.title} example`}>
                 <img
-                  src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                  src={`/examples-previews/${ex.slug}.png`}
                   alt={`${ex.title} example preview`}
                   class="card-img-top"
                   loading="lazy"
@@ -61,7 +64,7 @@ const navbars = [
             ) : (
               <img
                 slot="image"
-                src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                src={`/examples-previews/${ex.slug}.png`}
                 alt={`${ex.title} example preview`}
                 class="card-img-top"
                 loading="lazy"
@@ -96,7 +99,7 @@ const navbars = [
             {ex.built ? (
               <a slot="image" href={`/examples/${ex.slug}/`} class="d-block text-reset text-decoration-none" aria-label={`Open ${ex.title} example`}>
                 <img
-                  src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                  src={`/examples-previews/${ex.slug}.png`}
                   alt={`${ex.title} example preview`}
                   class="card-img-top"
                   loading="lazy"
@@ -105,7 +108,7 @@ const navbars = [
             ) : (
               <img
                 slot="image"
-                src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                src={`/examples-previews/${ex.slug}.png`}
                 alt={`${ex.title} example preview`}
                 class="card-img-top"
                 loading="lazy"
@@ -140,7 +143,7 @@ const navbars = [
             {ex.built ? (
               <a slot="image" href={`/examples/${ex.slug}/`} class="d-block text-reset text-decoration-none" aria-label={`Open ${ex.title} example`}>
                 <img
-                  src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                  src={`/examples-previews/${ex.slug}.png`}
                   alt={`${ex.title} example preview`}
                   class="card-img-top"
                   loading="lazy"
@@ -149,7 +152,7 @@ const navbars = [
             ) : (
               <img
                 slot="image"
-                src={`${PREVIEW_BASE}/${ex.slug}/preview.png`}
+                src={`/examples-previews/${ex.slug}.png`}
                 alt={`${ex.title} example preview`}
                 class="card-img-top"
                 loading="lazy"

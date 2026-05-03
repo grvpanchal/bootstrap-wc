@@ -1,0 +1,116 @@
+---
+// Standalone port of https://getbootstrap.com/docs/5.3/examples/navbars/
+// to bootstrap-wc components. Comparator pair lives at
+// apps/docs/src/pages/compare/example-navbars/.
+
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Navbars example · bootstrap-wc</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+    </style>
+    <script>
+      import('@bootstrap-wc/components');
+    </script>
+  </head>
+  <body>
+    <main>
+      <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Always expand">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Always expand</a>
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+          </ul>
+          <form role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Expand at sm">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Expand at sm</a>
+          <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+          </ul>
+          <form role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Expand at md">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Expand at md</a>
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+          </ul>
+          <form role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Expand at lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Expand at lg</a>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+          </ul>
+          <form role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Container">
+        <div class="container">
+          <a class="navbar-brand" href="#">Container</a>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+          </ul>
+          <form role="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </nav>
+
+      <div class="container">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mt-3" aria-label="Light tertiary">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            </ul>
+            <form role="search">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </nav>
+      </div>
+    </main>
+  </body>
+</html>

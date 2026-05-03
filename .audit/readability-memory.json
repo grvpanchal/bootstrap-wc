@@ -228,26 +228,80 @@
     "issues": []
   },
   "examples": {
-    "sha256": "eb46687bcfd55ca8",
-    "lastChecked": "2026-05-02T20:14:48.984Z",
+    "sha256": "b26e3d3f74896672",
+    "lastChecked": "2026-05-03T02:03:04.444Z",
     "status": "pass",
     "issues": []
   },
   "examples/album": {
     "sha256": "a63b42f2ac11eb2e",
-    "lastChecked": "2026-05-02T20:14:50.160Z",
+    "lastChecked": "2026-05-03T02:03:05.614Z",
     "status": "pass",
     "issues": []
   },
   "examples/headers": {
     "sha256": "f3ece65afacefb0d",
-    "lastChecked": "2026-05-02T20:14:51.297Z",
+    "lastChecked": "2026-05-03T02:03:10.209Z",
     "status": "pass",
     "issues": []
   },
   "examples/pricing": {
     "sha256": "cd81ab2b7810745d",
-    "lastChecked": "2026-05-02T20:14:52.445Z",
+    "lastChecked": "2026-05-03T02:03:17.141Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/checkout": {
+    "sha256": "c4d072d5c6305977",
+    "lastChecked": "2026-05-03T02:03:06.772Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/features": {
+    "sha256": "e4bec7b4aa4ce1fd",
+    "lastChecked": "2026-05-03T02:03:07.895Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/footers": {
+    "sha256": "0b50e19d8eda99ac",
+    "lastChecked": "2026-05-03T02:03:09.045Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/heroes": {
+    "sha256": "397b9119ebc47a8a",
+    "lastChecked": "2026-05-03T02:03:11.335Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/navbar-fixed": {
+    "sha256": "feb5c4b44a12e387",
+    "lastChecked": "2026-05-03T02:03:12.500Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/navbar-static": {
+    "sha256": "912da6292aff12f1",
+    "lastChecked": "2026-05-03T02:03:13.632Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/navbars": {
+    "sha256": "e134b77b355acde9",
+    "lastChecked": "2026-05-03T02:03:14.807Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/navbars-offcanvas": {
+    "sha256": "c3907575c98b28cd",
+    "lastChecked": "2026-05-03T02:03:15.951Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/product": {
+    "sha256": "556bb2f0a2e4b303",
+    "lastChecked": "2026-05-03T02:03:18.286Z",
     "status": "pass",
     "issues": []
   }

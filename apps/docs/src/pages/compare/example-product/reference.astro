@@ -1,0 +1,131 @@
+---
+// Plain Bootstrap reference for the Product example template.
+// Mirrors https://getbootstrap.com/docs/5.3/examples/product/ structurally.
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product reference</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      .product-device {
+        position: absolute;
+        right: 10%;
+        bottom: -30%;
+        width: 300px;
+        height: 540px;
+        background-color: #333;
+        border-radius: 21px;
+        transform: rotate(30deg);
+      }
+      .product-device::before {
+        position: absolute;
+        top: 10%;
+        right: 10px;
+        bottom: 10%;
+        left: 10px;
+        content: '';
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="d-flex flex-column min-vh-100" data-compare-key="root">
+      <main>
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary" data-compare-key="hero">
+          <div class="col-md-6 p-lg-5 mx-auto my-5" data-compare-key="hero-inner">
+            <h1 class="display-4 fw-normal" data-compare-key="hero-title">Punny headline</h1>
+            <p class="lead fw-normal" data-compare-key="hero-lead">And an even wittier subheading to boot. Jumpstart your marketing efforts with this example based on Apple's marketing pages.</p>
+            <a class="btn btn-outline-secondary" href="#" data-compare-key="hero-cta">Coming soon</a>
+          </div>
+          <div class="product-device shadow-sm d-none d-md-block" data-compare-key="hero-device-1"></div>
+          <div class="product-device product-device-2 shadow-sm d-none d-md-block" data-compare-key="hero-device-2"></div>
+        </div>
+
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3" data-compare-key="band-1">
+          <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" data-compare-key="band-1-card-1">
+            <div class="my-3 py-3" data-compare-key="band-1-card-1-text">
+              <h2 class="display-5">Another headline</h2>
+              <p class="lead">And an even wittier subheading.</p>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" data-compare-key="band-1-card-1-img"></div>
+          </div>
+          <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" data-compare-key="band-1-card-2">
+            <div class="my-3 p-3" data-compare-key="band-1-card-2-text">
+              <h2 class="display-5">Another headline</h2>
+              <p class="lead">And an even wittier subheading.</p>
+            </div>
+            <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" data-compare-key="band-1-card-2-img"></div>
+          </div>
+        </div>
+
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3" data-compare-key="band-2">
+          <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" data-compare-key="band-2-card-1">
+            <div class="my-3 p-3" data-compare-key="band-2-card-1-text">
+              <h2 class="display-5">Another headline</h2>
+              <p class="lead">And an even wittier subheading.</p>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" data-compare-key="band-2-card-1-img"></div>
+          </div>
+          <div class="bg-body-tertiary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" data-compare-key="band-2-card-2">
+            <div class="my-3 py-3" data-compare-key="band-2-card-2-text">
+              <h2 class="display-5">Another headline</h2>
+              <p class="lead">And an even wittier subheading.</p>
+            </div>
+            <div class="bg-body shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" data-compare-key="band-2-card-2-img"></div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="container py-5" data-compare-key="footer">
+        <div class="row" data-compare-key="footer-row">
+          <div class="col-12 col-md" data-compare-key="footer-brand">
+            <small class="d-block mb-3 text-body-secondary">&copy; 2017–2025</small>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-1">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-2">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-3">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
