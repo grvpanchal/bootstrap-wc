@@ -68,6 +68,7 @@ const bands = [
         background-color: #e5e5e5;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script>
       import('@bootstrap-wc/components');
     </script>
@@ -85,22 +86,33 @@ const bands = [
 
     <div class="d-flex flex-column min-vh-100">
       <bs-navbar expand="md" theme="dark" background="dark" placement="sticky-top" container="default" class="border-bottom">
-        <a slot="brand" class="d-md-none" href="#">
+        <a class="navbar-brand d-md-none" href="#">
           <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
           Aperture
         </a>
-        <bs-nav class="flex-grow-1 justify-content-between">
-          <bs-nav-item href="#" aria-label="Aperture">
-            <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
-          </bs-nav-item>
-          <bs-nav-item href="#">Tour</bs-nav-item>
-          <bs-nav-item href="#">Product</bs-nav-item>
-          <bs-nav-item href="#">Features</bs-nav-item>
-          <bs-nav-item href="#">Enterprise</bs-nav-item>
-          <bs-nav-item href="#">Support</bs-nav-item>
-          <bs-nav-item href="#">Pricing</bs-nav-item>
-          <bs-nav-item href="#" aria-label="Cart">Cart</bs-nav-item>
-        </bs-nav>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#productOffcanvas" aria-controls="productOffcanvas" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="productOffcanvas" aria-labelledby="productOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="productOffcanvasLabel">Aperture</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <bs-nav class="flex-grow-1 justify-content-between">
+              <bs-nav-item href="#" aria-label="Aperture">
+                <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
+              </bs-nav-item>
+              <bs-nav-item href="#">Tour</bs-nav-item>
+              <bs-nav-item href="#">Product</bs-nav-item>
+              <bs-nav-item href="#">Features</bs-nav-item>
+              <bs-nav-item href="#">Enterprise</bs-nav-item>
+              <bs-nav-item href="#">Support</bs-nav-item>
+              <bs-nav-item href="#">Pricing</bs-nav-item>
+              <bs-nav-item href="#" aria-label="Cart">Cart</bs-nav-item>
+            </bs-nav>
+          </div>
+        </div>
       </bs-navbar>
 
       <main>
