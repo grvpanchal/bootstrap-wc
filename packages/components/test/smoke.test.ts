@@ -61,11 +61,11 @@ describe('smoke: selected components reflect attributes', () => {
     expect(el.getAttribute('aria-disabled')).to.equal('true');
   });
 
-  it('bs-badge applies text-bg-{variant}', async () => {
+  it('bs-badge applies text-bg-{variant} on the host', async () => {
     const el = await fixture<HTMLElement>(html`<bs-badge variant="success">2</bs-badge>`);
     await new Promise((r) => requestAnimationFrame(r));
-    const span = el.shadowRoot!.querySelector('span')!;
-    expect(span.classList.contains('text-bg-success')).to.equal(true);
+    expect(el.classList.contains('badge')).to.equal(true);
+    expect(el.classList.contains('text-bg-success')).to.equal(true);
   });
 
   it('bs-progress computes percentage', async () => {

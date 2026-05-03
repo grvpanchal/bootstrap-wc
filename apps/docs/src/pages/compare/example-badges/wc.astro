@@ -1,9 +1,9 @@
 ---
 // `<bs-*>` port of ./reference.astro for the Badges snippet page.
-// The first row of solid pill badges uses <bs-badge variant="..." pill>;
-// the subtle / bordered / image / removable variants stay as native
-// <span class="badge"> markup because <bs-badge> doesn't expose those
-// variants today (see "framework gap" notes in the report).
+// Uses <bs-badge> for every variant: solid (default tone), subtle
+// (tone="subtle"), bordered subtle (tone="bordered"), with image
+// (slotted children + tone="bordered"), and dismissible (tone="solid"
+// or "subtle" with the dismissible attribute).
 ---
 
 <!doctype html>
@@ -47,42 +47,42 @@
     </svg>
 
     <div class="d-flex gap-2 justify-content-center py-5" data-compare-key="row-solid">
-      <span class="badge text-bg-primary rounded-pill">Primary</span>
-      <span class="badge text-bg-secondary rounded-pill">Secondary</span>
-      <span class="badge text-bg-success rounded-pill">Success</span>
-      <span class="badge text-bg-danger rounded-pill">Danger</span>
-      <span class="badge text-bg-warning rounded-pill">Warning</span>
-      <span class="badge text-bg-info rounded-pill">Info</span>
-      <span class="badge text-bg-light rounded-pill">Light</span>
-      <span class="badge text-bg-dark rounded-pill">Dark</span>
+      <bs-badge variant="primary" pill>Primary</bs-badge>
+      <bs-badge variant="secondary" pill>Secondary</bs-badge>
+      <bs-badge variant="success" pill>Success</bs-badge>
+      <bs-badge variant="danger" pill>Danger</bs-badge>
+      <bs-badge variant="warning" pill>Warning</bs-badge>
+      <bs-badge variant="info" pill>Info</bs-badge>
+      <bs-badge variant="light" pill>Light</bs-badge>
+      <bs-badge variant="dark" pill>Dark</bs-badge>
     </div>
     <div class="b-example-divider"></div>
     <div class="d-flex gap-2 justify-content-center py-5" data-compare-key="row-subtle">
-      <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill">Primary</span>
-      <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill">Secondary</span>
-      <span class="badge bg-success-subtle text-success-emphasis rounded-pill">Success</span>
-      <span class="badge bg-danger-subtle text-danger-emphasis rounded-pill">Danger</span>
-      <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill">Warning</span>
-      <span class="badge bg-info-subtle text-info-emphasis rounded-pill">Info</span>
-      <span class="badge bg-light-subtle text-light-emphasis rounded-pill">Light</span>
-      <span class="badge bg-dark-subtle text-dark-emphasis rounded-pill">Dark</span>
+      <bs-badge variant="primary" tone="subtle" pill>Primary</bs-badge>
+      <bs-badge variant="secondary" tone="subtle" pill>Secondary</bs-badge>
+      <bs-badge variant="success" tone="subtle" pill>Success</bs-badge>
+      <bs-badge variant="danger" tone="subtle" pill>Danger</bs-badge>
+      <bs-badge variant="warning" tone="subtle" pill>Warning</bs-badge>
+      <bs-badge variant="info" tone="subtle" pill>Info</bs-badge>
+      <bs-badge variant="light" tone="subtle" pill>Light</bs-badge>
+      <bs-badge variant="dark" tone="subtle" pill>Dark</bs-badge>
     </div>
     <div class="b-example-divider"></div>
     <div class="d-flex gap-2 justify-content-center py-5" data-compare-key="row-bordered">
-      <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill">Primary</span>
-      <span class="badge bg-secondary-subtle border border-secondary-subtle text-secondary-emphasis rounded-pill">Secondary</span>
-      <span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Success</span>
-      <span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Danger</span>
-      <span class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill">Warning</span>
-      <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">Info</span>
-      <span class="badge bg-light-subtle border border-light-subtle text-light-emphasis rounded-pill">Light</span>
-      <span class="badge bg-dark-subtle border border-dark-subtle text-dark-emphasis rounded-pill">Dark</span>
+      <bs-badge variant="primary" tone="bordered" pill>Primary</bs-badge>
+      <bs-badge variant="secondary" tone="bordered" pill>Secondary</bs-badge>
+      <bs-badge variant="success" tone="bordered" pill>Success</bs-badge>
+      <bs-badge variant="danger" tone="bordered" pill>Danger</bs-badge>
+      <bs-badge variant="warning" tone="bordered" pill>Warning</bs-badge>
+      <bs-badge variant="info" tone="bordered" pill>Info</bs-badge>
+      <bs-badge variant="light" tone="bordered" pill>Light</bs-badge>
+      <bs-badge variant="dark" tone="bordered" pill>Dark</bs-badge>
     </div>
     <div class="b-example-divider"></div>
     <div class="d-flex gap-2 justify-content-center py-5" data-compare-key="row-with-image">
-      <span class="badge d-flex align-items-center p-1 pe-2 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-pill">
+      <bs-badge variant="primary" tone="bordered" pill class="d-flex align-items-center p-1 pe-2">
         <span class="rounded-circle me-1 d-inline-block bg-primary" style="width:24px;height:24px"></span>Primary
-      </span>
+      </bs-badge>
     </div>
     <div class="b-example-divider"></div>
     <div class="d-flex gap-2 justify-content-center py-5" data-compare-key="row-removable">
