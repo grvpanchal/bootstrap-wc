@@ -1,7 +1,9 @@
 ---
-// `<bs-*>` port of ./reference.astro for the Navbars Offcanvas example
-// template. Hero CTA → `<bs-button>`. Navbars stay as native markup
-// (offcanvas plugin is not available as a wc yet).
+// `<bs-*>` port of ./reference.astro for the Navbars Offcanvas example.
+// Three <bs-navbar>s, each with a <bs-offcanvas> drawer (the third uses
+// `responsive="lg"` so it folds inline at lg+ rather than opening as a
+// drawer). Light-DOM `<button>`s wired with a small inline script call
+// the offcanvas's show() method.
 ---
 
 <!doctype html>
@@ -22,114 +24,32 @@
           sans-serif;
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script>
       import('@bootstrap-wc/components');
     </script>
   </head>
   <body data-compare-key="root">
     <main>
-      <nav class="navbar navbar-dark bg-dark" aria-label="Dark offcanvas navbar" data-compare-key="oc-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="oc-dark-brand">Dark offcanvas navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#oc-dark-offcanvas" aria-controls="oc-dark-offcanvas" aria-label="Toggle navigation" data-compare-key="oc-dark-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="oc-dark-offcanvas" aria-labelledby="oc-dark-offcanvas-label" data-compare-key="oc-dark-offcanvas">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="oc-dark-offcanvas-label">Offcanvas</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-              <form class="d-flex mt-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                <bs-button variant="success" button-style="outline" type="submit">Search</bs-button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="never" theme="dark" background="dark" aria-label="Dark offcanvas navbar" data-compare-key="oc-dark">
+        <span slot="brand">Dark offcanvas navbar</span>
+      </bs-navbar>
 
-      <nav class="navbar bg-body-tertiary" aria-label="Light offcanvas navbar" data-compare-key="oc-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="oc-light-brand">Light offcanvas navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#oc-light-offcanvas" aria-controls="oc-light-offcanvas" aria-label="Toggle navigation" data-compare-key="oc-light-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="oc-light-offcanvas" aria-labelledby="oc-light-offcanvas-label" data-compare-key="oc-light-offcanvas">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="oc-light-offcanvas-label">Offcanvas</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-              <form class="d-flex mt-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                <bs-button variant="success" button-style="outline" type="submit">Search</bs-button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="never" background="body-tertiary" aria-label="Light offcanvas navbar" data-compare-key="oc-light">
+        <span slot="brand">Light offcanvas navbar</span>
+      </bs-navbar>
 
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Offcanvas navbar large" data-compare-key="oc-responsive">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#" data-compare-key="oc-responsive-brand">Responsive offcanvas navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#oc-responsive-offcanvas" aria-controls="oc-responsive-offcanvas" aria-label="Toggle navigation" data-compare-key="oc-responsive-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="oc-responsive-offcanvas" aria-labelledby="oc-responsive-offcanvas-label" data-compare-key="oc-responsive-offcanvas">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="oc-responsive-offcanvas-label">Offcanvas</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body" data-compare-key="oc-responsive-body">
-              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" data-compare-key="oc-responsive-nav">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
-              </ul>
-              <form class="d-flex mt-3 mt-lg-0" role="search" data-compare-key="oc-responsive-form">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                <bs-button variant="success" button-style="outline" type="submit" data-compare-key="oc-responsive-submit">Search</bs-button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <bs-navbar expand="lg" theme="dark" background="dark" aria-label="Offcanvas navbar large" data-compare-key="oc-responsive">
+        <span slot="brand">Responsive offcanvas navbar</span>
+        <bs-nav class="justify-content-end flex-grow-1 pe-3" data-compare-key="oc-responsive-nav">
+          <bs-nav-item href="#" active>Home</bs-nav-item>
+          <bs-nav-item href="#">Link</bs-nav-item>
+          <bs-nav-item href="#">Dropdown</bs-nav-item>
+        </bs-nav>
+        <form slot="end" class="d-flex mt-3 mt-lg-0" role="search" data-compare-key="oc-responsive-form">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <bs-button variant="success" button-style="outline" type="submit" data-compare-key="oc-responsive-submit">Search</bs-button>
+        </form>
+      </bs-navbar>
 
       <div class="container my-5" data-compare-key="hero-wrap">
         <div class="bg-body-tertiary p-5 rounded" data-compare-key="hero">
