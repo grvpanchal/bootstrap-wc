@@ -136,6 +136,14 @@ export class BsNavbar extends BootstrapElement {
     if (this.expand === 'always') parts.push('navbar-expand');
     else if (this.expand !== 'never') parts.push(`navbar-expand-${this.expand}`);
     if (this.background) parts.push(`bg-${this.background}`);
+    // Use the legacy `.navbar-dark` / `.navbar-light` classes for theme. Both
+    // resolve to the same CSS variables as `.navbar[data-bs-theme="..."]` in
+    // Bootstrap 5.3 but stay scoped to the navbar element — they don't cascade
+    // theme to slotted children like a `data-bs-theme` attribute would, which
+    // matters for form-control inputs that should keep light backgrounds even
+    // inside a dark navbar (matching upstream behavior).
+    if (this.theme === 'dark') parts.push('navbar-dark');
+    else if (this.theme === 'light') parts.push('navbar-light');
     const placement = this._resolvedPlacement();
     if (placement !== 'static') parts.push(placement);
     return parts.join(' ');
@@ -143,10 +151,6 @@ export class BsNavbar extends BootstrapElement {
 
   override updated(changed: Map<string, unknown>) {
     super.updated(changed);
-    if (changed.has('theme')) {
-      if (this.theme === 'auto') this.removeAttribute('data-bs-theme');
-      else this.setAttribute('data-bs-theme', this.theme);
-    }
   }
 
   private _toggle = () => {

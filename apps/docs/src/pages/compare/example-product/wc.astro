@@ -83,31 +83,24 @@ const bands = [
     </svg>
 
     <div class="d-flex flex-column min-vh-100" data-compare-key="root">
-      <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark" data-compare-key="navbar">
-        <div class="container">
-          <a class="navbar-brand d-md-none" href="#" data-compare-key="navbar-brand-mobile">
+      <bs-navbar expand="md" theme="dark" background="dark" placement="sticky-top" container="default" class="border-bottom">
+        <a slot="brand" class="d-md-none" href="#">
+          <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
+          Aperture
+        </a>
+        <bs-nav class="flex-grow-1 justify-content-between">
+          <bs-nav-item href="#" aria-label="Aperture">
             <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
-            Aperture
-          </a>
-          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="navbar-toggler">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" data-compare-key="navbar-collapse">
-            <ul class="navbar-nav flex-grow-1 justify-content-between" data-compare-key="navbar-nav">
-              <li class="nav-item"><a class="nav-link" href="#" aria-label="Aperture">
-                <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
-              </a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Tour</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Product</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Enterprise</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
-              <li class="nav-item"><a class="nav-link" href="#" aria-label="Cart">Cart</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+          </bs-nav-item>
+          <bs-nav-item href="#">Tour</bs-nav-item>
+          <bs-nav-item href="#">Product</bs-nav-item>
+          <bs-nav-item href="#">Features</bs-nav-item>
+          <bs-nav-item href="#">Enterprise</bs-nav-item>
+          <bs-nav-item href="#">Support</bs-nav-item>
+          <bs-nav-item href="#">Pricing</bs-nav-item>
+          <bs-nav-item href="#" aria-label="Cart">Cart</bs-nav-item>
+        </bs-nav>
+      </bs-navbar>
 
       <main>
         <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary" data-compare-key="hero">
