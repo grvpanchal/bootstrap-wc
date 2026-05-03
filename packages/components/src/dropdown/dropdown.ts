@@ -283,6 +283,11 @@ export class BsDropdownItem extends BootstrapElement {
 
 defineElement('bs-dropdown-item', BsDropdownItem);
 
+// Re-export the menu shell so consumers importing the dropdown module pick
+// up the sibling component too.
+export { BsDropdownMenu } from './dropdown-menu.js';
+import './dropdown-menu.js';
+
 declare global {
   interface HTMLElementTagNameMap {
     'bs-dropdown': BsDropdown;

@@ -18,6 +18,15 @@ export class BsListGroup extends BootstrapElement {
   @property({ type: Boolean }) flush = false;
   @property({ type: Boolean }) numbered = false;
   @property({ type: String }) horizontal?: ListGroupHorizontalBreakpoint | boolean;
+  /**
+   * Underlying list semantics. `"ul"` (default) keeps the existing
+   * `<ul>` / `<li>` shape — items announce as list items. `"div"` switches
+   * to the `<div>` / `<a>` shape Bootstrap shows for rich link lists; child
+   * `<bs-list-group-item>` hosts pick this up via property inheritance and
+   * adapt their semantics (role="link", focusable). The visual `.list-group`
+   * styling is identical in either mode.
+   */
+  @property({ type: String }) as: 'ul' | 'div' = 'ul';
 
   protected override hostClasses(): string {
     const parts = ['list-group'];

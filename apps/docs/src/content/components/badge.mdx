@@ -114,13 +114,64 @@ Use the `pill` attribute to make badges more rounded with a larger
 <bs-badge variant="light" pill>Light</bs-badge>
 <bs-badge variant="dark" pill>Dark</bs-badge>`} />
 
+## Subtle badges
+
+Set `tone="subtle"` for the lower-contrast `bg-{variant}-subtle` background
+with `text-{variant}-emphasis` text color.
+
+<Example code={`<bs-badge variant="primary" tone="subtle" pill>Primary</bs-badge>
+<bs-badge variant="success" tone="subtle" pill>Success</bs-badge>
+<bs-badge variant="danger" tone="subtle" pill>Danger</bs-badge>
+<bs-badge variant="warning" tone="subtle" pill>Warning</bs-badge>
+<bs-badge variant="info" tone="subtle" pill>Info</bs-badge>`} />
+
+## Bordered subtle badges
+
+Set `tone="bordered"` to add a matching subtle border on top of the subtle
+background and emphasis text.
+
+<Example code={`<bs-badge variant="primary" tone="bordered" pill>Primary</bs-badge>
+<bs-badge variant="success" tone="bordered" pill>Success</bs-badge>
+<bs-badge variant="danger" tone="bordered" pill>Danger</bs-badge>
+<bs-badge variant="warning" tone="bordered" pill>Warning</bs-badge>
+<bs-badge variant="info" tone="bordered" pill>Info</bs-badge>`} />
+
+## With image
+
+Slot rich content (icons / avatars) directly into a badge — combine with flex
+utility classes for alignment.
+
+<Example code={`<bs-badge variant="primary" tone="bordered" pill class="d-flex align-items-center p-1 pe-2">
+  <span class="rounded-circle me-1 d-inline-block bg-primary" style="width:24px;height:24px"></span>
+  Primary
+</bs-badge>`} />
+
+## Dismissible
+
+Set `dismissible` to render an inline close button. Activating it dispatches
+`bs-dismiss` and removes the host from the DOM (cancelable — call
+`event.preventDefault()` to keep the badge mounted).
+
+<Example code={`<bs-badge variant="primary" tone="subtle" pill dismissible>Tag 1</bs-badge>
+<bs-badge variant="success" tone="subtle" pill dismissible>Tag 2</bs-badge>
+<bs-badge variant="info" tone="subtle" pill dismissible>Tag 3</bs-badge>`} />
+
 ## API
 
 ### Attributes / properties
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| `variant` | Bootstrap variant | `secondary` | Applies `text-bg-{variant}` color. |
+| `variant` | Bootstrap variant | `secondary` | Color variant; pairs with `tone`. |
+| `tone` | `"solid" \| "subtle" \| "bordered"` | `"solid"` | Solid: `text-bg-{variant}`. Subtle: `bg-{variant}-subtle text-{variant}-emphasis`. Bordered: subtle + matching `border-{variant}-subtle`. |
 | `pill` | `boolean` | `false` | Renders a rounded-pill badge. |
+| `dismissible` | `boolean` | `false` | Render an inline close button on the right. |
+| `dismiss-label` | `string` | `"Close"` | aria-label for the close button. |
+
+### Events
+
+| Event | Detail | Description |
+|---|---|---|
+| `bs-dismiss` | — | Fired when a `dismissible` badge is closed; `preventDefault()` to keep it. |
 
 See `packages/components/src/badge/` in the source for the complete property / event list.

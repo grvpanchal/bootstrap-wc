@@ -1,0 +1,112 @@
+---
+// Standalone port of https://getbootstrap.com/docs/5.3/examples/buttons/
+// to bootstrap-wc components. Comparator pair lives at
+// apps/docs/src/pages/compare/example-buttons/.
+
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buttons example · bootstrap-wc</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      .b-example-divider {
+        width: 100%;
+        height: 3rem;
+        background-color: rgba(0, 0, 0, 0.1);
+        border: solid rgba(0, 0, 0, 0.15);
+        border-width: 1px 0;
+        box-shadow:
+          inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
+          inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script>
+      import('@bootstrap-wc/components');
+    </script>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="arrow-right-short" viewBox="0 0 16 16">
+        <path d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+      </symbol>
+      <symbol id="x-lg" viewBox="0 0 16 16">
+        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+      </symbol>
+    </svg>
+
+    <div class="d-flex gap-2 justify-content-center py-5">
+      <bs-button variant="primary" class="rounded-pill px-3">Primary</bs-button>
+      <bs-button variant="secondary" class="rounded-pill px-3">Secondary</bs-button>
+      <bs-button variant="success" class="rounded-pill px-3">Success</bs-button>
+      <bs-button variant="danger" class="rounded-pill px-3">Danger</bs-button>
+      <bs-button variant="warning" class="rounded-pill px-3">Warning</bs-button>
+      <bs-button variant="info" class="rounded-pill px-3">Info</bs-button>
+      <bs-button variant="light" class="rounded-pill px-3">Light</bs-button>
+      <bs-button variant="dark" class="rounded-pill px-3">Dark</bs-button>
+      <bs-button variant="link" class="rounded-pill px-3">Link</bs-button>
+    </div>
+    <div class="b-example-divider"></div>
+
+    <div class="col-lg-6 col-xxl-4 my-5 mx-auto">
+      <div class="d-grid gap-2">
+        <bs-button variant="secondary" button-style="outline">Secondary action</bs-button>
+        <bs-button variant="primary">Primary action</bs-button>
+      </div>
+    </div>
+    <div class="b-example-divider"></div>
+
+    <div class="d-flex gap-2 justify-content-center py-5">
+      <bs-button variant="primary" class="d-inline-flex align-items-center">
+        Primary icon <svg class="bi ms-1" width="20" height="20" aria-hidden="true"><use xlink:href="#arrow-right-short" /></svg>
+      </bs-button>
+      <bs-button variant="secondary" button-style="outline" class="d-inline-flex align-items-center">
+        Secondary icon <svg class="bi ms-1" width="20" height="20" aria-hidden="true"><use xlink:href="#arrow-right-short" /></svg>
+      </bs-button>
+    </div>
+    <div class="b-example-divider"></div>
+
+    <div class="d-flex gap-2 justify-content-center py-5">
+      <bs-button variant="primary" disabled>
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span class="visually-hidden" role="status">Loading...</span>
+      </bs-button>
+      <bs-button variant="primary" disabled>
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span role="status">Loading...</span>
+      </bs-button>
+    </div>
+    <div class="b-example-divider"></div>
+
+    <div class="d-flex gap-2 justify-content-center pt-5 pb-4">
+      <bs-button variant="primary" class="rounded-circle p-2 lh-1">
+        <svg class="bi" width="16" height="16" aria-hidden="true"><use xlink:href="#x-lg" /></svg><span class="visually-hidden">Dismiss</span>
+      </bs-button>
+      <bs-button variant="primary" button-style="outline" class="rounded-circle p-2 lh-1">
+        <svg class="bi" width="16" height="16" aria-hidden="true"><use xlink:href="#x-lg" /></svg><span class="visually-hidden">Dismiss</span>
+      </bs-button>
+    </div>
+    <div class="d-flex gap-2 justify-content-center pb-5">
+      <bs-button variant="primary" class="rounded-circle p-3 lh-1">
+        <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#x-lg" /></svg><span class="visually-hidden">Dismiss</span>
+      </bs-button>
+      <bs-button variant="primary" button-style="outline" class="rounded-circle p-3 lh-1">
+        <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#x-lg" /></svg><span class="visually-hidden">Dismiss</span>
+      </bs-button>
+    </div>
+    <div class="b-example-divider"></div>
+  </body>
+</html>

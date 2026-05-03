@@ -57,6 +57,22 @@ You can also remove the divider entirely by setting `divider=""` (or
   <bs-breadcrumb-item active>Library</bs-breadcrumb-item>
 </bs-breadcrumb>`} />
 
+## Wrap in &lt;nav&gt;
+
+By default `<bs-breadcrumb>`'s host IS the `.breadcrumb` container and gets
+`role="navigation"` plus `aria-label` automatically. Set `wrap-in-nav` if you
+need an outer `<nav>` landmark (rendered in shadow) with a separate inner
+`<ol class="breadcrumb">` — useful when the surrounding page CSS expects the
+crumb element type to be `<ol>` rather than the custom-element host. Use
+`list-class` to add modifier classes (e.g. background / padding utilities) to
+the inner `<ol>`.
+
+<Example code={`<bs-breadcrumb wrap-in-nav list-class="p-3 bg-body-tertiary rounded-3">
+  <bs-breadcrumb-item href="#">Home</bs-breadcrumb-item>
+  <bs-breadcrumb-item href="#">Library</bs-breadcrumb-item>
+  <bs-breadcrumb-item active>Data</bs-breadcrumb-item>
+</bs-breadcrumb>`} />
+
 ## Accessibility
 
 Since breadcrumbs provide a navigation, it's a good idea to add a meaningful
@@ -96,9 +112,11 @@ import '@bootstrap-wc/components/breadcrumb';
 
 | Attribute | Type   | Default      | Notes                                                                                       |
 | --------- | ------ | ------------ | ------------------------------------------------------------------------------------------- |
-| `label`   | string | `breadcrumb` | Mirrored to `aria-label` on the host.                                                       |
-| `divider` | string | —            | Value for `--bs-breadcrumb-divider`. Literal chars are quoted; `url(...)` passes through.   |
-| `items`   | array  | `[]`         | Data-driven crumbs: `{ label, href?, active? }[]`. When set, overrides slotted children.    |
+| `label`        | string  | `breadcrumb` | Mirrored to `aria-label` on the host.                                                                                  |
+| `divider`      | string  | —            | Value for `--bs-breadcrumb-divider`. Literal chars are quoted; `url(...)` passes through.                              |
+| `items`        | array   | `[]`         | Data-driven crumbs: `{ label, href?, active? }[]`. When set, overrides slotted children.                               |
+| `wrap-in-nav`  | boolean | `false`      | Render an inner `<nav>` + `<ol class="breadcrumb">` shadow chrome instead of using the host as the `.breadcrumb`.      |
+| `list-class`   | string  | —            | Extra classes for the inner `<ol class="breadcrumb">` when `wrap-in-nav` is set (e.g. `breadcrumb-chevron`, padding).  |
 
 ### `bs-breadcrumb-item`
 

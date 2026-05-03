@@ -62,6 +62,22 @@ export class BsModal extends BootstrapElement {
    * show/hide lifecycle.
    */
   @property({ type: Boolean, attribute: 'static-preview' }) staticPreview = false;
+  /**
+   * Alias for `static-preview`. Both `static-display` and `static-preview`
+   * map to the same internal state — the static, no-backdrop, no-focus-trap
+   * render mode.
+   */
+  @property({ type: Boolean, attribute: 'static-display' }) staticDisplay = false;
+  /** Extra classes for the outer `.modal` element (e.g. `modal-sheet bg-body-secondary p-4`). */
+  @property({ type: String, attribute: 'modal-class' }) modalClass = '';
+  /** Extra classes for the `.modal-content` wrapper (e.g. `rounded-4 shadow`). */
+  @property({ type: String, attribute: 'content-class' }) contentClass = '';
+  /** Extra classes for the `.modal-header` (e.g. `border-bottom-0`). */
+  @property({ type: String, attribute: 'header-class' }) headerClass = '';
+  /** Extra classes for the `.modal-body` (e.g. `py-0 p-4 text-center`). */
+  @property({ type: String, attribute: 'body-class' }) bodyClass = '';
+  /** Extra classes for the `.modal-footer` (e.g. `flex-column gap-2 border-top-0`). */
+  @property({ type: String, attribute: 'footer-class' }) footerClass = '';
 
   @state() private _animating = false;
 
@@ -76,6 +92,13 @@ export class BsModal extends BootstrapElement {
   override connectedCallback() {
     super.connectedCallback();
     document.addEventListener('keydown', this._onKeydown);
+    if (this.staticPreview) this._applyStaticAttrs();
+  }
+
+  private _applyStaticAttrs(): void {
+    if (!this.hasAttribute('role')) this.setAttribute('role', 'dialog');
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '-1');
+    this.setAttribute('aria-modal', 'false');
   }
 
   override disconnectedCallback() {
@@ -119,7 +142,19 @@ export class BsModal extends BootstrapElement {
     this._teleporting = false;
   }
 
+  override willUpdate(changed: Map<string, unknown>) {
+    super.willUpdate(changed);
+    // Mirror the static-display alias onto staticPreview (and vice versa)
+    // so authors can use either attribute interchangeably.
+    if (changed.has('staticDisplay') && this.staticDisplay !== this.staticPreview) {
+      this.staticPreview = this.staticDisplay;
+    } else if (changed.has('staticPreview') && this.staticPreview !== this.staticDisplay) {
+      this.staticDisplay = this.staticPreview;
+    }
+  }
+
   override updated(changed: Map<string, unknown>) {
+    super.updated(changed);
     if (changed.has('open')) {
       if (this.open) void this._onOpen();
       else void this._onClose();
@@ -174,6 +209,26 @@ export class BsModal extends BootstrapElement {
     if (ev.key === 'Escape') this.hide();
   };
 
+  /** Convert a `"foo bar"` string into a `{foo: true, bar: true}` map. */
+  private _extraClasses(s: string): Record<string, boolean> {
+    const out: Record<string, boolean> = {};
+    if (!s) return out;
+    for (const c of s.split(/\s+/)) if (c) out[c] = true;
+    return out;
+  }
+
+  /**
+   * In `static-display` mode the host IS the visible `.modal` chrome — mirror
+   * `.modal.show.position-static.d-block` (plus any `modal-class` extras)
+   * onto the host so layout rules in the page can target it.
+   */
+  protected override hostClasses(): string {
+    if (!this.staticPreview) return '';
+    const parts = ['modal', 'show', 'position-static', 'd-block'];
+    if (this.modalClass) parts.push(this.modalClass);
+    return parts.join(' ');
+  }
+
   private _onBackdropClick = (ev: MouseEvent) => {
     if (this.staticPreview) return;
     if (ev.target === this._modal && !this.staticBackdrop) this.hide();
@@ -200,6 +255,7 @@ export class BsModal extends BootstrapElement {
       show: isShown,
       'position-static': this.staticPreview,
       'd-block': this.staticPreview,
+      ...this._extraClasses(this.modalClass),
     });
     const hasHeader = !!this.heading || this.querySelector('[slot="title"]') !== null || !this.noCloseButton;
     const hasFooter = this.querySelector('[slot="footer"]') !== null;
@@ -209,6 +265,42 @@ export class BsModal extends BootstrapElement {
     // leave it to Bootstrap's default (`.modal { display: none; }`) so closed
     // modals don't render an invisible full-viewport overlay.
     const modalStyle = isShown || this._animating ? 'display: block' : 'display: none';
+    // Inline shadow stylesheet that replays Bootstrap's `.modal-footer > *`
+    // gap rule for slotted children — Bootstrap's selector targets direct
+    // children of the shadow `.modal-footer` and so only sees the `<slot>`,
+    // not the light-DOM buttons projected through it.
+    const slottedFooterMargin = html`<style>
+      .modal-footer > slot::slotted(*) {
+        margin: calc(var(--bs-modal-footer-gap, 0.5rem) * 0.5);
+      }
+    </style>`;
+    const dialogTree = html`${slottedFooterMargin}<div part="dialog" class=${dialogClasses} role="document">
+      <div part="content" class=${classMap({ 'modal-content': true, ...this._extraClasses(this.contentClass) })}>
+        ${hasHeader
+          ? html`<div part="header" class=${classMap({ 'modal-header': true, ...this._extraClasses(this.headerClass) })}>
+              <h1 class="modal-title fs-5">${this.heading ?? html`<slot name="title"></slot>`}</h1>
+              ${this.noCloseButton
+                ? nothing
+                : html`<button
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    @click=${() => this.hide()}
+                  ></button>`}
+            </div>`
+          : nothing}
+        <div part="body" class=${classMap({ 'modal-body': true, ...this._extraClasses(this.bodyClass) })}><slot></slot></div>
+        ${hasFooter
+          ? html`<div part="footer" class=${classMap({ 'modal-footer': true, ...this._extraClasses(this.footerClass) })}><slot name="footer"></slot></div>`
+          : nothing}
+      </div>
+    </div>`;
+    if (this.staticPreview) {
+      // Host already carries `.modal.show.position-static.d-block` (+ modalClass)
+      // via hostClasses() — render only the inner dialog tree to avoid a
+      // duplicated `.modal` wrapper in shadow.
+      return dialogTree;
+    }
     return html`
       ${showBackdrop
         ? html`<div part="backdrop" class="modal-backdrop fade ${this.open && !this._animating ? 'show' : ''}"></div>`
@@ -223,27 +315,7 @@ export class BsModal extends BootstrapElement {
         style=${modalStyle}
         @click=${this._onBackdropClick}
       >
-        <div part="dialog" class=${dialogClasses} role="document">
-          <div part="content" class="modal-content">
-            ${hasHeader
-              ? html`<div part="header" class="modal-header">
-                  <h1 class="modal-title fs-5">${this.heading ?? html`<slot name="title"></slot>`}</h1>
-                  ${this.noCloseButton
-                    ? nothing
-                    : html`<button
-                        type="button"
-                        class="btn-close"
-                        aria-label="Close"
-                        @click=${() => this.hide()}
-                      ></button>`}
-                </div>`
-              : nothing}
-            <div part="body" class="modal-body"><slot></slot></div>
-            ${hasFooter
-              ? html`<div part="footer" class="modal-footer"><slot name="footer"></slot></div>`
-              : nothing}
-          </div>
-        </div>
+        ${dialogTree}
       </div>
     `;
   }
