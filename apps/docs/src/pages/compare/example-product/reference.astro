@@ -1,0 +1,191 @@
+---
+// Plain Bootstrap reference for the Product example template.
+// Mirrors https://getbootstrap.com/docs/5.3/examples/product/ structurally.
+
+const bands = [
+  // each row defines two cards (left, right)
+  [
+    { bg: 'text-bg-dark', innerBg: 'bg-body-tertiary', textPad: 'my-3 py-3' },
+    { bg: 'bg-body-tertiary', innerBg: 'bg-dark', textPad: 'my-3 p-3' },
+  ],
+  [
+    { bg: 'bg-body-tertiary', innerBg: 'bg-dark', textPad: 'my-3 p-3' },
+    { bg: 'text-bg-primary', innerBg: 'bg-body-tertiary', textPad: 'my-3 py-3' },
+  ],
+  [
+    { bg: 'bg-body-tertiary', innerBg: 'bg-body', textPad: 'my-3 p-3' },
+    { bg: 'bg-body-tertiary', innerBg: 'bg-body', textPad: 'my-3 py-3' },
+  ],
+  [
+    { bg: 'bg-body-tertiary', innerBg: 'bg-body', textPad: 'my-3 p-3' },
+    { bg: 'bg-body-tertiary', innerBg: 'bg-body', textPad: 'my-3 py-3' },
+  ],
+];
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product reference</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      .product-device {
+        position: absolute;
+        right: 10%;
+        bottom: -30%;
+        width: 300px;
+        height: 540px;
+        background-color: #333;
+        border-radius: 21px;
+        transform: rotate(30deg);
+      }
+      .product-device::before {
+        position: absolute;
+        top: 10%;
+        right: 10px;
+        bottom: 10%;
+        left: 10px;
+        content: '';
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+      }
+      .product-device-2 {
+        top: -25%;
+        right: auto;
+        bottom: 0;
+        left: 5%;
+        background-color: #e5e5e5;
+      }
+    </style>
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="aperture" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path>
+      </symbol>
+      <symbol id="chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
+      </symbol>
+    </svg>
+
+    <div class="d-flex flex-column min-vh-100" data-compare-key="root">
+      <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark" data-compare-key="navbar">
+        <div class="container">
+          <a class="navbar-brand d-md-none" href="#" data-compare-key="navbar-brand-mobile">
+            <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
+            Aperture
+          </a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="navbar-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="navbar-collapse">
+            <ul class="navbar-nav flex-grow-1 justify-content-between" data-compare-key="navbar-nav">
+              <li class="nav-item"><a class="nav-link" href="#" aria-label="Aperture">
+                <svg class="bi" width="24" height="24" aria-hidden="true"><use xlink:href="#aperture"/></svg>
+              </a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Tour</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Product</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Enterprise</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" aria-label="Cart">Cart</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-body-tertiary" data-compare-key="hero">
+          <div class="col-md-6 p-lg-5 mx-auto my-5" data-compare-key="hero-inner">
+            <h1 class="display-3 fw-bold" data-compare-key="hero-title">Designed for engineers</h1>
+            <h3 class="fw-normal text-muted mb-3" data-compare-key="hero-subhead">Build anything you want with Aperture</h3>
+            <div class="d-flex gap-3 justify-content-center lead fw-normal" data-compare-key="hero-actions">
+              <a class="icon-link" href="#" data-compare-key="hero-cta-learn">Learn more
+                <svg class="bi" width="16" height="16" aria-hidden="true"><use xlink:href="#chevron-right"/></svg>
+              </a>
+              <a class="icon-link" href="#" data-compare-key="hero-cta-buy">Buy
+                <svg class="bi" width="16" height="16" aria-hidden="true"><use xlink:href="#chevron-right"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="product-device shadow-sm d-none d-md-block" data-compare-key="hero-device-1"></div>
+          <div class="product-device product-device-2 shadow-sm d-none d-md-block" data-compare-key="hero-device-2"></div>
+        </div>
+
+        {bands.map((row, i) => (
+          <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3" data-compare-key={`band-${i + 1}`}>
+            {row.map((cell, j) => (
+              <div class={`${cell.bg} me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden`} data-compare-key={`band-${i + 1}-card-${j + 1}`}>
+                <div class={cell.textPad} data-compare-key={`band-${i + 1}-card-${j + 1}-text`}>
+                  <h2 class="display-5">Another headline</h2>
+                  <p class="lead">And an even wittier subheading.</p>
+                </div>
+                <div class={`${cell.innerBg} shadow-sm mx-auto`} style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;" data-compare-key={`band-${i + 1}-card-${j + 1}-img`}></div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </main>
+
+      <footer class="container py-5" data-compare-key="footer">
+        <div class="row" data-compare-key="footer-row">
+          <div class="col-12 col-md" data-compare-key="footer-brand">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mb-2" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path></svg>
+            <small class="d-block mb-3 text-body-secondary">&copy; 2017–2025</small>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-1">
+            <h5>Features</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Cool stuff</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Random feature</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Team feature</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Stuff for developers</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Another one</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Last time</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-2">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-3">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Business</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Education</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Government</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Gaming</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md" data-compare-key="footer-col-4">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="link-secondary text-decoration-none" href="#">Team</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Locations</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Privacy</a></li>
+              <li><a class="link-secondary text-decoration-none" href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

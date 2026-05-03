@@ -1,0 +1,84 @@
+---
+// Plain Bootstrap reference for the Navbars Offcanvas example template.
+// Mirrors https://getbootstrap.com/docs/5.3/examples/navbars-offcanvas/.
+// Three navbars with offcanvas togglers, plus a hero section.
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Navbars offcanvas reference</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+    </style>
+  </head>
+  <body data-compare-key="root">
+    <main>
+      <nav class="navbar navbar-dark bg-dark" aria-label="Dark offcanvas navbar" data-compare-key="oc-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="oc-dark-brand">Dark offcanvas navbar</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="oc-dark-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+
+      <nav class="navbar bg-body-tertiary" aria-label="Light offcanvas navbar" data-compare-key="oc-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="oc-light-brand">Light offcanvas navbar</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="oc-light-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Offcanvas navbar large" data-compare-key="oc-responsive">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="oc-responsive-brand">Responsive offcanvas navbar</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="oc-responsive-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark show d-lg-flex" tabindex="-1" data-compare-key="oc-responsive-offcanvas" style="position: static; visibility: visible; transform: none; background: transparent !important; color: inherit; box-shadow: none;">
+            <div class="offcanvas-body" data-compare-key="oc-responsive-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" data-compare-key="oc-responsive-nav">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" aria-expanded="false">Dropdown</a>
+                </li>
+              </ul>
+              <form class="d-flex mt-3 mt-lg-0" role="search" data-compare-key="oc-responsive-form">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit" data-compare-key="oc-responsive-submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container my-5" data-compare-key="hero-wrap">
+        <div class="bg-body-tertiary p-5 rounded" data-compare-key="hero">
+          <div class="col-sm-8 py-5 mx-auto">
+            <h1 class="display-5 fw-normal" data-compare-key="hero-title">Navbar with offcanvas examples</h1>
+            <p class="fs-5" data-compare-key="hero-lead">This example shows how responsive offcanvas menus work within the navbar. For positioning of navbars, checkout the <a href="#">top</a> and <a href="#">fixed top</a> examples.</p>
+            <p class="fs-5" data-compare-key="hero-lead-2">From the top down, you'll see a dark navbar, light navbar and a responsive navbar—each with offcanvases built in. Resize your browser window to the large breakpoint to see the toggle for the offcanvas.</p>
+            <p data-compare-key="hero-actions">
+              <a class="btn btn-primary" href="#" role="button" data-compare-key="hero-cta">Learn more about offcanvas navbars &raquo;</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

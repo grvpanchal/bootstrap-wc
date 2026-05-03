@@ -1,0 +1,303 @@
+---
+// `<bs-*>` port of ./reference.astro for the Navbars example template.
+//
+// These pages demonstrate Bootstrap navbar markup patterns at a range of
+// breakpoints. Both reference and wc use the same `<nav class="navbar">`
+// markup since the variants here are pure layout / utility-class
+// configurations — replacing them with `<bs-navbar>` would introduce
+// shadow-DOM container wrappers that don't match the reference structure
+// (a known framework gap covered by the bs-navbar component docs).
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Navbars wc</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding-bottom: 20px;
+      }
+      .navbar {
+        margin-bottom: 20px;
+      }
+    </style>
+    <script>
+      import('@bootstrap-wc/components');
+    </script>
+  </head>
+  <body data-compare-key="root">
+    <main>
+      <!-- 1. Never expand (always collapsed) -->
+      <nav class="navbar navbar-dark bg-dark" aria-label="First navbar example" data-compare-key="nav-1">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-1-brand">Never expand</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-1-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-1-collapse">
+            <ul class="navbar-nav me-auto mb-2" data-compare-key="nav-1-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+            </ul>
+            <form class="d-flex" role="search" data-compare-key="nav-1-form">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <bs-button variant="success" button-style="outline" type="submit" data-compare-key="nav-1-submit">Search</bs-button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 2. Always expand -->
+      <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example" data-compare-key="nav-2">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-2-brand">Always expand</a>
+          <ul class="navbar-nav me-auto" data-compare-key="nav-2-nav">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+          </ul>
+          <form role="search" data-compare-key="nav-2-form">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+          </form>
+        </div>
+      </nav>
+
+      <!-- 3. Expand at sm -->
+      <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example" data-compare-key="nav-3">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-3-brand">Expand at sm</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-3-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-3-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-sm-0" data-compare-key="nav-3-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-3-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 4. Expand at md -->
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Fourth navbar example" data-compare-key="nav-4">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-4-brand">Expand at md</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-4-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-4-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0" data-compare-key="nav-4-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-4-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 5. Expand at lg -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Fifth navbar example" data-compare-key="nav-5">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-5-brand">Expand at lg</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-5-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-5-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-5-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-5-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 6. Expand at xl -->
+      <nav class="navbar navbar-expand-xl navbar-dark bg-dark" aria-label="Sixth navbar example" data-compare-key="nav-6">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-6-brand">Expand at xl</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-6-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-6-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0" data-compare-key="nav-6-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-6-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 7. Expand at xxl -->
+      <nav class="navbar navbar-expand-xxl navbar-dark bg-dark" aria-label="Seventh navbar example" data-compare-key="nav-7">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#" data-compare-key="nav-7-brand">Expand at xxl</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-7-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-7-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-xl-0" data-compare-key="nav-7-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-7-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 8. Container -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Eighth navbar example" data-compare-key="nav-8">
+        <div class="container">
+          <a class="navbar-brand" href="#" data-compare-key="nav-8-brand">Container</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-8-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-8-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-8-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-8-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 9. Container XL -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Ninth navbar example" data-compare-key="nav-9">
+        <div class="container-xl">
+          <a class="navbar-brand" href="#" data-compare-key="nav-9-brand">Container XL</a>
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-9-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" data-compare-key="nav-9-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-9-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            </ul>
+            <form role="search" data-compare-key="nav-9-form">
+              <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container-xl mb-4" data-compare-key="container-xl-note">
+        <p>Matching .container-xl...</p>
+      </div>
+
+      <!-- 10. Centered nav only (dark) -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Tenth navbar example" data-compare-key="nav-10">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-10-toggler">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-md-center" data-compare-key="nav-10-collapse">
+            <ul class="navbar-nav" data-compare-key="nav-10-nav">
+              <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Centered nav only</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- 11. Light tertiary in container -->
+      <div class="container">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Eleventh navbar example" data-compare-key="nav-11">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#" data-compare-key="nav-11-brand">Navbar</a>
+            <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-11-toggler">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" data-compare-key="nav-11-collapse">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0" data-compare-key="nav-11-nav">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              </ul>
+              <form role="search" data-compare-key="nav-11-form">
+                <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 12. Centered nav only (light) -->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mt-3" aria-label="Twelfth navbar example" data-compare-key="nav-12">
+          <div class="container-fluid">
+            <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-12-toggler">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-md-center" data-compare-key="nav-12-collapse">
+              <ul class="navbar-nav" data-compare-key="nav-12-nav">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Centered nav only</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <!-- 13. Centered nav with brand split -->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded mt-3" aria-label="Thirteenth navbar example" data-compare-key="nav-13">
+          <div class="container-fluid">
+            <button class="navbar-toggler" type="button" aria-label="Toggle navigation" data-compare-key="nav-13-toggler">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-lg-flex" data-compare-key="nav-13-collapse">
+              <a class="navbar-brand col-lg-3 me-0" href="#" data-compare-key="nav-13-brand">Centered nav</a>
+              <ul class="navbar-nav col-lg-6 justify-content-lg-center" data-compare-key="nav-13-nav">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+              </ul>
+              <ul class="nav col-lg-3 justify-content-lg-end" data-compare-key="nav-13-nav-right">
+                <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <div class="container my-5" data-compare-key="hero-wrap">
+        <div class="bg-body-tertiary p-5 rounded" data-compare-key="hero">
+          <div class="col-sm-8 mx-auto" data-compare-key="hero-inner">
+            <h1 data-compare-key="hero-title">Navbar examples</h1>
+            <p data-compare-key="hero-lead-1">This example is a quick exercise to illustrate how the navbar and its contents work. Some navbars extend the width of the viewport, others are confined within a <code>.container</code>. For positioning of navbars, checkout the <a href="#">top</a> and <a href="#">fixed top</a> examples.</p>
+            <p data-compare-key="hero-lead-2">At the smallest breakpoint, the collapse plugin is used to hide the links and show a menu button to toggle the collapsed content.</p>
+            <p data-compare-key="hero-cta-wrap">
+              <bs-button variant="primary" href="#" data-compare-key="hero-cta">View navbar docs &raquo;</bs-button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

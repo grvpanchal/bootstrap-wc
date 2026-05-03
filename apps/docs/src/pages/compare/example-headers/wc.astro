@@ -195,6 +195,66 @@
       </header>
 
       <div class="b-example-divider"></div>
+
+      <!-- 7. Grid layout: brand "dropdown" + search + avatar + content panels -->
+      <header class="py-3 mb-3 border-bottom" data-compare-key="h7-header">
+        <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;" data-compare-key="h7-row">
+          <div data-compare-key="h7-brand-col">
+            <a href="#" class="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-body-emphasis text-decoration-none" aria-label="Bootstrap menu" data-compare-key="h7-brand">
+              <svg class="bi me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap"/></svg>
+            </a>
+          </div>
+          <div class="d-flex align-items-center" data-compare-key="h7-actions">
+            <form class="w-100 me-3" role="search" data-compare-key="h7-search">
+              <input type="search" class="form-control" placeholder="Search..." aria-label="Search" data-compare-key="h7-search-input" />
+            </form>
+            <div class="flex-shrink-0" data-compare-key="h7-avatar">
+              <span class="d-block rounded-circle" style="width: 32px; height: 32px; background: #6c757d;"></span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container-fluid pb-3" data-compare-key="h7-content-wrap">
+        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;" data-compare-key="h7-content-grid">
+          <div class="bg-body-tertiary border rounded-3" data-compare-key="h7-panel-1" style="min-height: 220px;"></div>
+          <div class="bg-body-tertiary border rounded-3" data-compare-key="h7-panel-2" style="min-height: 220px;"></div>
+        </div>
+      </div>
+
+      <div class="b-example-divider"></div>
+
+      <!-- 8. Multi-row dark header with icons -->
+      <header data-compare-key="h8-header">
+        <div class="px-3 py-2 text-bg-dark border-bottom" data-compare-key="h8-row-top">
+          <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" data-compare-key="h8-row-top-inner">
+              <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none" data-compare-key="h8-brand">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>
+              </a>
+              <bs-nav class="col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" data-compare-key="h8-nav">
+                <li data-compare-key="h8-nav-home"><a href="#" class="nav-link text-secondary">Home</a></li>
+                <li data-compare-key="h8-nav-dashboard"><a href="#" class="nav-link text-white">Dashboard</a></li>
+                <li data-compare-key="h8-nav-orders"><a href="#" class="nav-link text-white">Orders</a></li>
+                <li data-compare-key="h8-nav-products"><a href="#" class="nav-link text-white">Products</a></li>
+                <li data-compare-key="h8-nav-customers"><a href="#" class="nav-link text-white">Customers</a></li>
+              </bs-nav>
+            </div>
+          </div>
+        </div>
+        <div class="px-3 py-2 border-bottom mb-3" data-compare-key="h8-row-bottom">
+          <div class="container d-flex flex-wrap justify-content-center" data-compare-key="h8-row-bottom-inner">
+            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search" data-compare-key="h8-search">
+              <input type="search" class="form-control" placeholder="Search..." aria-label="Search" data-compare-key="h8-search-input" />
+            </form>
+            <div class="text-end" data-compare-key="h8-actions">
+              <bs-button variant="light" class="text-dark me-2" data-compare-key="h8-btn-login">Login</bs-button>
+              <bs-button variant="primary" data-compare-key="h8-btn-signup">Sign-up</bs-button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="b-example-divider"></div>
     </main>
   </body>
 </html>
