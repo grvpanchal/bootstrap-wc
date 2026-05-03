@@ -21,6 +21,7 @@ const SLUGS = [
   ['navbars-offcanvas', 'Offcanvas navbar'],
   ['navbar-static', 'Navbar static'],
   ['navbar-fixed', 'Navbar fixed'],
+  ['cover', 'Cover'],
 ];
 
 for (const [slug, title] of SLUGS) {
