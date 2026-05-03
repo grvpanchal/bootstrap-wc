@@ -55,6 +55,37 @@ hover / focus treatment without a URL. Both variants receive the
   <bs-list-group-item action disabled>A disabled button item</bs-list-group-item>
 </bs-list-group>`} />
 
+## Rich link list (as="div")
+
+For rich content lists where every row should behave as a link, set
+`as="div"` on the parent. Child items adapt: each host announces as a
+link, becomes focusable, and gets the `.list-group-item-action` hover /
+focus treatment automatically. Combine with `aria-current="true"` on the
+current item.
+
+<Example code={`<bs-list-group as="div">
+  <bs-list-group-item href="#" class="d-flex gap-3 py-3" aria-current="true">
+    <span class="rounded-circle flex-shrink-0 bg-primary" style="width:32px;height:32px"></span>
+    <div class="d-flex gap-2 w-100 justify-content-between">
+      <div>
+        <h6 class="mb-0">Active item heading</h6>
+        <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+      </div>
+      <small class="opacity-50 text-nowrap">now</small>
+    </div>
+  </bs-list-group-item>
+  <bs-list-group-item href="#" class="d-flex gap-3 py-3">
+    <span class="rounded-circle flex-shrink-0 bg-primary" style="width:32px;height:32px"></span>
+    <div class="d-flex gap-2 w-100 justify-content-between">
+      <div>
+        <h6 class="mb-0">Another title</h6>
+        <p class="mb-0 opacity-75">Some placeholder content.</p>
+      </div>
+      <small class="opacity-50 text-nowrap">3d</small>
+    </div>
+  </bs-list-group-item>
+</bs-list-group>`} />
+
 ## Flush
 
 Add `flush` to remove outer borders and rounded corners so the list sits
@@ -326,6 +357,7 @@ handler).
 | `flush` | `boolean` | `false` | Removes outer borders and rounded corners. |
 | `numbered` | `boolean` | `false` | Renders numeric counters via `::before` on each item. |
 | `horizontal` | `boolean` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` | — | Lay items in a row. Pass a breakpoint to only go horizontal above it. |
+| `as` | `"ul"` \| `"div"` | `"ul"` | Underlying list semantics. `"div"` switches child items to the `<a class="list-group-item">` rich-link shape (host announces as a link, focusable). |
 
 ### `<bs-list-group-item>` attributes / properties
 
