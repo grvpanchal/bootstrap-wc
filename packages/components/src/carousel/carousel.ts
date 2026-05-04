@@ -30,6 +30,15 @@ export class BsCarousel extends BootstrapElement {
   @property({ type: Boolean }) controls = true;
   /** Render the indicator dots row. */
   @property({ type: Boolean }) indicators = true;
+  /**
+   * Hide the previous/next chrome buttons. `controls` is presence-based
+   * (a non-empty `controls="false"` still resolves truthy on a Lit Boolean
+   * attribute), so this opt-out boolean is the way to hide them in
+   * declarative HTML.
+   */
+  @property({ type: Boolean, attribute: 'no-controls' }) noControls = false;
+  /** Opt-out counterpart for `indicators` (see `no-controls`). */
+  @property({ type: Boolean, attribute: 'no-indicators' }) noIndicators = false;
   /** Use `.carousel-fade` instead of slide animation. */
   @property({ type: Boolean }) fade = false;
   /** Use `.carousel-dark` for dark variant chrome. (Bootstrap 5.3 deprecated; prefer data-bs-theme="dark".) */
@@ -261,7 +270,7 @@ export class BsCarousel extends BootstrapElement {
       <style>
         :host { display: block; }
       </style>
-      ${this.indicators && count > 0
+      ${this.indicators && !this.noIndicators && count > 0
         ? html`<div class="carousel-indicators" part="indicators">
             ${items.map(
               (_, i) => html`<button
@@ -277,7 +286,7 @@ export class BsCarousel extends BootstrapElement {
       <div class="carousel-inner" part="inner">
         <slot></slot>
       </div>
-      ${this.controls && count > 1
+      ${this.controls && !this.noControls && count > 1
         ? html`
             <button
               class="carousel-control-prev"

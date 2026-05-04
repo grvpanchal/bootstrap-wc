@@ -15,7 +15,7 @@ header + close button, backdrop, focus trap, ESC-to-close, and `show`/`shown`/`h
 A static rendering of the offcanvas panel (always open). Shows the same markup as
 Bootstrap's "Offcanvas components" example, just forced visible so the panel renders inline.
 
-<Example code={`<bs-offcanvas open heading="Offcanvas">
+<Example code={`<bs-offcanvas static-display heading="Offcanvas">
   Content for the offcanvas goes here. You can place just about any Bootstrap component or custom elements here.
 </bs-offcanvas>`} />
 
@@ -72,7 +72,7 @@ Add the `dark` attribute to apply `.text-bg-dark` on the panel and switch the cl
 button to `.btn-close-white`. (Bootstrap deprecated this class pairing in 5.3 in favor
 of the `[data-bs-theme="dark"]` attribute on a parent — either still works.)
 
-<Example code={`<bs-offcanvas open dark heading="Offcanvas">
+<Example code={`<bs-offcanvas static-display dark heading="Offcanvas">
   <p>Place offcanvas content here.</p>
 </bs-offcanvas>`} />
 
