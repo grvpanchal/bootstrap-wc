@@ -42,7 +42,7 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '..');
 const DOCS_DIR = path.join(repoRoot, 'apps/docs');
-const CONTENT_DIR = path.join(DOCS_DIR, 'src/content/docs');
+const CONTENT_DIR = path.join(DOCS_DIR, 'src/content');
 const MEM_PATH = path.join(repoRoot, '.audit/readability-memory.json');
 const REPORT_DIR = path.join(repoRoot, '.audit/readability');
 const PORT = process.env.PORT || '4321';
@@ -136,34 +136,52 @@ function collectDocs() {
       out.push({ slug, filePath, sha256 });
     }
   }
+  // Standalone top-level docs pages authored under `src/pages/` rather
+  // than the content collection (e.g. `examples.astro`, `index.astro`).
+  // Hashed against the .astro source so the memory file invalidates on edits.
+  const PAGES_DIR = path.join(DOCS_DIR, 'src/pages');
   // Home page
-  const indexPath = path.join(CONTENT_DIR, 'index.mdx');
-  if (fs.existsSync(indexPath)) {
-    const body = fs.readFileSync(indexPath, 'utf8');
+  const indexAstro = path.join(PAGES_DIR, 'index.astro');
+  if (fs.existsSync(indexAstro)) {
+    const body = fs.readFileSync(indexAstro, 'utf8');
     out.push({
       slug: 'index',
-      filePath: indexPath,
+      filePath: indexAstro,
       sha256: createHash('sha256').update(body).digest('hex').slice(0, 16),
     });
   }
-  // Standalone top-level docs pages authored under `src/pages/` rather
-  // than the content collection (e.g. `examples.astro`). Hashed against
-  // the .astro source so the memory file invalidates on edits.
-  const PAGES_DIR = path.join(DOCS_DIR, 'src/pages');
   const standalonePages = [
     'examples',
     'examples/album',
+    'examples/badges',
+    'examples/blog',
+    'examples/breadcrumbs',
+    'examples/buttons',
+    'examples/carousel',
     'examples/checkout',
+    'examples/cover',
+    'examples/dashboard',
+    'examples/dropdowns',
     'examples/features',
     'examples/footers',
     'examples/headers',
     'examples/heroes',
+    'examples/jumbotron',
+    'examples/jumbotrons',
+    'examples/list-groups',
+    'examples/modals',
+    'examples/navbar-bottom',
     'examples/navbar-fixed',
     'examples/navbar-static',
     'examples/navbars',
     'examples/navbars-offcanvas',
+    'examples/offcanvas-navbar',
     'examples/pricing',
     'examples/product',
+    'examples/sidebars',
+    'examples/sign-in',
+    'examples/sticky-footer',
+    'examples/sticky-footer-navbar',
   ];
   for (const slug of standalonePages) {
     const candidates = [
@@ -354,14 +372,27 @@ async function checkDoc(browser, doc) {
     return body;
   });
 
-  if (audit.h1Count !== 1) {
-    failures.push({
-      kind: 'heading-h1',
-      detail: `expected 1 <h1>, found ${audit.h1Count}`,
-    });
-  }
-  if (audit.skippedLevels.length) {
-    failures.push({ kind: 'heading-skip', detail: audit.skippedLevels });
+  // Heading hierarchy rules apply to documentation articles (the MDX
+  // collection under getting-started/ and components/). The
+  // `examples/*` standalone pages are 1:1 ports of Bootstrap's
+  // reference example templates (https://getbootstrap.com/docs/5.3/examples/),
+  // many of which intentionally have zero, multiple, or non-monotonic
+  // headings as part of the snippet design. Holding them to article
+  // outline rules would force us to diverge from the upstream templates
+  // and break the comparator pairs. The landing `index` page is similar:
+  // it's a hero/marketing layout, not an article.
+  const isArticlePage =
+    !doc.slug.startsWith('examples/') && doc.slug !== 'index';
+  if (isArticlePage) {
+    if (audit.h1Count !== 1) {
+      failures.push({
+        kind: 'heading-h1',
+        detail: `expected 1 <h1>, found ${audit.h1Count}`,
+      });
+    }
+    if (audit.skippedLevels.length) {
+      failures.push({ kind: 'heading-skip', detail: audit.skippedLevels });
+    }
   }
   if (audit.undefinedTags.length) {
     failures.push({ kind: 'undefined-element', detail: audit.undefinedTags });
