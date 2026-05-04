@@ -65,9 +65,12 @@ Use `fade` to swap the slide animation for a cross-fade:
 
 ### Without controls / indicators
 
-Set `controls="false"` and / or `indicators="false"` to hide chrome:
+Add the `no-controls` and / or `no-indicators` attributes to hide the chrome.
+(The `controls` / `indicators` attributes default to `true` and use Lit's
+presence-based boolean parsing, so `controls="false"` won't work in
+declarative HTML — use the `no-*` opt-outs instead.)
 
-<Example code={`<bs-carousel id="bareCarousel" interval="0" controls="false" indicators="false" style="height:200px">
+<Example code={`<bs-carousel id="bareCarousel" interval="0" no-controls no-indicators style="height:200px">
   <bs-carousel-item active>
     <svg class="d-block w-100" style="height:200px;background:#0d6efd"></svg>
   </bs-carousel-item>
@@ -84,7 +87,9 @@ Set `controls="false"` and / or `indicators="false"` to hide chrome:
 |---|---|---|---|
 | `interval` | `number` | `5000` | Auto-advance interval in ms. `0` disables auto-cycling. |
 | `controls` | `boolean` | `true` | Render previous / next chrome buttons. |
+| `no-controls` | `boolean` | `false` | Opt-out for `controls` — hides the chevrons declaratively. |
 | `indicators` | `boolean` | `true` | Render indicator dots. |
+| `no-indicators` | `boolean` | `false` | Opt-out for `indicators` — hides the dot row declaratively. |
 | `fade` | `boolean` | `false` | Use cross-fade instead of slide animation (`.carousel-fade`). |
 | `dark` | `boolean` | `false` | Dark variant chrome (`.carousel-dark`). Bootstrap 5.3 deprecated; prefer `data-bs-theme="dark"`. |
 | `pause-on-hover` | `boolean` | `true` | Pause auto-cycling while the user hovers. |
