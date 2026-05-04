@@ -26,6 +26,13 @@ export class BsOffcanvas extends BootstrapElement {
    * an inline column at/above it (Bootstrap "Responsive" variant).
    */
   @property({ type: String }) responsive?: OffcanvasResponsiveBreakpoint;
+  /**
+   * Render the panel inline (`position: static`) instead of as a fixed
+   * drawer. Suppresses the backdrop and the focus trap. Use for in-page
+   * documentation / reference rendering of the panel chrome — Bootstrap's
+   * "Offcanvas components" docs use the same pattern.
+   */
+  @property({ type: Boolean, attribute: 'static-display' }) staticDisplay = false;
 
   @query('[part="panel"]') private _panel!: HTMLElement;
   private _trap = new FocusTrapController(this);
@@ -87,9 +94,15 @@ export class BsOffcanvas extends BootstrapElement {
       [base]: true,
       [`offcanvas-${this.placement}`]: true,
       'text-bg-dark': this.dark,
-      show: this.open,
+      show: this.open || this.staticDisplay,
     });
-    const showBackdrop = !this.noBackdrop && !this.responsive && this.open;
+    const showBackdrop =
+      !this.noBackdrop && !this.responsive && !this.staticDisplay && this.open;
+    const panelStyle = this.staticDisplay
+      ? 'position: static; visibility: visible; transform: none;'
+      : this.open || this.responsive
+        ? 'visibility: visible'
+        : '';
     return html`
       ${showBackdrop
         ? html`<div part="backdrop" class="offcanvas-backdrop fade show" @click=${this._onBackdropClick}></div>`
@@ -99,8 +112,8 @@ export class BsOffcanvas extends BootstrapElement {
         class=${panelClasses}
         tabindex="-1"
         role="dialog"
-        aria-modal=${this.responsive ? 'false' : 'true'}
-        style=${this.open || this.responsive ? 'visibility: visible' : ''}
+        aria-modal=${this.responsive || this.staticDisplay ? 'false' : 'true'}
+        style=${panelStyle}
       >
         ${this.heading || !this.noCloseButton
           ? html`<div part="header" class="offcanvas-header">

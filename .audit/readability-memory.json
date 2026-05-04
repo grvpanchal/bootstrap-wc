@@ -1,307 +1,421 @@
 {
   "getting-started/cli": {
     "sha256": "144798c112b0fdd1",
-    "lastChecked": "2026-04-26T06:49:38.874Z",
+    "lastChecked": "2026-05-04T15:09:00.925Z",
     "status": "pass",
     "issues": []
   },
   "getting-started/frameworks": {
     "sha256": "b956c8863ad738d4",
-    "lastChecked": "2026-04-26T06:49:40.029Z",
+    "lastChecked": "2026-05-04T15:09:02.131Z",
     "status": "pass",
     "issues": []
   },
   "getting-started/installation": {
     "sha256": "ecc16b69d14d1bed",
-    "lastChecked": "2026-04-26T06:49:41.206Z",
+    "lastChecked": "2026-05-04T15:09:03.363Z",
     "status": "pass",
     "issues": []
   },
   "getting-started/introduction": {
     "sha256": "e5d8d921f4681153",
-    "lastChecked": "2026-04-26T06:49:42.355Z",
+    "lastChecked": "2026-05-04T15:09:04.577Z",
     "status": "pass",
     "issues": []
   },
   "getting-started/theming": {
     "sha256": "8a3ae69f37c7dc14",
-    "lastChecked": "2026-04-26T06:49:43.542Z",
+    "lastChecked": "2026-05-04T15:09:05.784Z",
     "status": "pass",
     "issues": []
   },
   "getting-started/typescript": {
     "sha256": "89b1b1df30e75450",
-    "lastChecked": "2026-04-26T06:49:44.702Z",
+    "lastChecked": "2026-05-04T15:09:07.001Z",
     "status": "pass",
     "issues": []
   },
   "components/accordion": {
-    "sha256": "77e723f3b2da9a96",
-    "lastChecked": "2026-04-26T06:49:45.881Z",
+    "sha256": "93c3ae3bfafe70b4",
+    "lastChecked": "2026-05-04T15:09:08.222Z",
     "status": "pass",
     "issues": []
   },
   "components/alert": {
-    "sha256": "fcf69cb36d97f9c0",
-    "lastChecked": "2026-04-26T06:49:47.037Z",
+    "sha256": "a1c0f72181e8098b",
+    "lastChecked": "2026-05-04T15:09:09.459Z",
     "status": "pass",
     "issues": []
   },
   "components/badge": {
-    "sha256": "0ae308e2881a92e6",
-    "lastChecked": "2026-04-26T06:49:48.220Z",
+    "sha256": "df6eb5f03d4c0ee7",
+    "lastChecked": "2026-05-04T15:09:10.678Z",
     "status": "pass",
     "issues": []
   },
   "components/breadcrumb": {
-    "sha256": "2a8edb81c91a611a",
-    "lastChecked": "2026-04-26T06:49:49.402Z",
+    "sha256": "56c4fa1c8faa1de9",
+    "lastChecked": "2026-05-04T15:09:11.875Z",
     "status": "pass",
     "issues": []
   },
   "components/button-group": {
-    "sha256": "5138b8e2b913a861",
-    "lastChecked": "2026-04-26T06:49:50.602Z",
+    "sha256": "78d3e3fe31e42c24",
+    "lastChecked": "2026-05-04T15:09:13.102Z",
     "status": "pass",
     "issues": []
   },
   "components/button": {
-    "sha256": "4fc087296a5dd65a",
-    "lastChecked": "2026-04-26T06:49:51.787Z",
+    "sha256": "cefc1f6a63846ea6",
+    "lastChecked": "2026-05-04T15:09:14.306Z",
     "status": "pass",
     "issues": []
   },
   "components/card": {
-    "sha256": "81dddfca3b8f883f",
-    "lastChecked": "2026-04-26T06:49:52.987Z",
+    "sha256": "57146aec3b1d384e",
+    "lastChecked": "2026-05-04T15:09:15.565Z",
     "status": "pass",
     "issues": []
   },
   "components/close-button": {
-    "sha256": "863cf4f57866d448",
-    "lastChecked": "2026-04-26T06:49:54.152Z",
+    "sha256": "075dd5048eacd222",
+    "lastChecked": "2026-05-04T15:09:17.964Z",
     "status": "pass",
     "issues": []
   },
   "components/collapse": {
-    "sha256": "a44b65bbd00b1042",
-    "lastChecked": "2026-04-26T06:49:55.309Z",
+    "sha256": "097b5b80a1dc48a9",
+    "lastChecked": "2026-05-04T15:09:19.170Z",
     "status": "pass",
     "issues": []
   },
   "components/dropdown": {
-    "sha256": "c7243208dc22029b",
-    "lastChecked": "2026-04-26T06:49:56.538Z",
+    "sha256": "f90dff02dfd0bc12",
+    "lastChecked": "2026-05-04T15:09:20.495Z",
     "status": "pass",
     "issues": []
   },
   "components/form-check": {
-    "sha256": "3aeb9355e7002857",
-    "lastChecked": "2026-04-26T06:49:57.726Z",
+    "sha256": "87a7335fc07a5fa1",
+    "lastChecked": "2026-05-04T15:09:21.695Z",
     "status": "pass",
     "issues": []
   },
   "components/form-label": {
-    "sha256": "d7772a576537b5c8",
-    "lastChecked": "2026-04-26T06:49:58.892Z",
+    "sha256": "88510afb0f3bb394",
+    "lastChecked": "2026-05-04T15:09:22.886Z",
     "status": "pass",
     "issues": []
   },
   "components/form-text": {
-    "sha256": "9cf87bb4a942270d",
-    "lastChecked": "2026-04-26T06:50:00.056Z",
+    "sha256": "065855f4dc479bfb",
+    "lastChecked": "2026-05-04T15:09:24.068Z",
     "status": "pass",
     "issues": []
   },
   "components/form": {
-    "sha256": "ec75d3682c413c03",
-    "lastChecked": "2026-04-26T06:50:01.248Z",
+    "sha256": "69251a9ddaca4ade",
+    "lastChecked": "2026-05-04T15:09:25.294Z",
     "status": "pass",
     "issues": []
   },
   "components/input-group": {
-    "sha256": "672bf75cef44ab76",
-    "lastChecked": "2026-04-26T06:50:02.430Z",
+    "sha256": "09931158967b175d",
+    "lastChecked": "2026-05-04T15:09:26.552Z",
     "status": "pass",
     "issues": []
   },
   "components/input": {
-    "sha256": "2fdcf2ffee6cfe7d",
-    "lastChecked": "2026-04-26T06:50:03.616Z",
+    "sha256": "40440ba6ad981ffc",
+    "lastChecked": "2026-05-04T15:09:27.751Z",
     "status": "pass",
     "issues": []
   },
   "components/list-group": {
-    "sha256": "91047bd692eee8b7",
-    "lastChecked": "2026-04-26T06:50:04.827Z",
+    "sha256": "a4fa6bb86d4907e0",
+    "lastChecked": "2026-05-04T15:09:28.976Z",
     "status": "pass",
     "issues": []
   },
   "components/modal": {
-    "sha256": "d462b70861d3f490",
-    "lastChecked": "2026-04-26T06:50:06.033Z",
+    "sha256": "ceee80b2b1c5b09f",
+    "lastChecked": "2026-05-04T15:09:30.211Z",
     "status": "pass",
     "issues": []
   },
   "components/nav": {
-    "sha256": "c55670aac5dc1556",
-    "lastChecked": "2026-04-26T06:50:07.209Z",
+    "sha256": "c722ea83a02243fc",
+    "lastChecked": "2026-05-04T15:09:31.428Z",
     "status": "pass",
     "issues": []
   },
   "components/navbar": {
-    "sha256": "64650ce4861f196a",
-    "lastChecked": "2026-04-26T06:50:08.979Z",
+    "sha256": "3df131c2b5ae7986",
+    "lastChecked": "2026-05-04T15:09:33.189Z",
     "status": "pass",
     "issues": []
   },
   "components/offcanvas": {
-    "sha256": "4ccfdade0bfe83ed",
-    "lastChecked": "2026-04-26T06:50:10.212Z",
+    "sha256": "78694b43179dabb6",
+    "lastChecked": "2026-05-04T15:09:34.392Z",
     "status": "pass",
     "issues": []
   },
   "components/pagination": {
-    "sha256": "54b8de564df0a60b",
-    "lastChecked": "2026-04-26T06:50:11.387Z",
+    "sha256": "460277210417698e",
+    "lastChecked": "2026-05-04T15:09:35.605Z",
     "status": "pass",
     "issues": []
   },
   "components/popover": {
-    "sha256": "0d5c00261ac64f7a",
-    "lastChecked": "2026-04-26T06:50:12.555Z",
+    "sha256": "267f125715ab0c0f",
+    "lastChecked": "2026-05-04T15:09:36.803Z",
     "status": "pass",
     "issues": []
   },
   "components/progress": {
-    "sha256": "9c4544d351392c10",
-    "lastChecked": "2026-04-26T06:50:13.729Z",
+    "sha256": "f4418c2c244151ed",
+    "lastChecked": "2026-05-04T15:09:37.999Z",
     "status": "pass",
     "issues": []
   },
   "components/range": {
-    "sha256": "5c2dffce31f9cf4d",
-    "lastChecked": "2026-04-26T06:50:14.896Z",
+    "sha256": "fe2cb0baf40da2a5",
+    "lastChecked": "2026-05-04T15:09:39.184Z",
     "status": "pass",
     "issues": []
   },
   "components/select": {
-    "sha256": "fc76732aeed4bad4",
-    "lastChecked": "2026-04-26T06:50:16.074Z",
+    "sha256": "f69e8a31561de50f",
+    "lastChecked": "2026-05-04T15:09:40.392Z",
     "status": "pass",
     "issues": []
   },
   "components/spinner": {
-    "sha256": "8117e136c9f1a4bb",
-    "lastChecked": "2026-04-26T06:50:17.235Z",
+    "sha256": "abee73f334dbd848",
+    "lastChecked": "2026-05-04T15:09:41.596Z",
     "status": "pass",
     "issues": []
   },
   "components/tabs": {
-    "sha256": "4213f23508c99ec0",
-    "lastChecked": "2026-04-26T06:50:18.429Z",
+    "sha256": "479413e413a14fe7",
+    "lastChecked": "2026-05-04T15:09:42.813Z",
     "status": "pass",
     "issues": []
   },
   "components/textarea": {
-    "sha256": "ab0930a5eee85944",
-    "lastChecked": "2026-04-26T06:50:19.604Z",
+    "sha256": "a928a6bac984d1c7",
+    "lastChecked": "2026-05-04T15:09:44.028Z",
     "status": "pass",
     "issues": []
   },
   "components/toast": {
-    "sha256": "fa08b9b0cc112a86",
-    "lastChecked": "2026-04-26T06:50:20.780Z",
+    "sha256": "5e8dfd6cbd9d3b0f",
+    "lastChecked": "2026-05-04T15:09:45.256Z",
     "status": "pass",
     "issues": []
   },
   "components/tooltip": {
-    "sha256": "8e803415f54cd821",
-    "lastChecked": "2026-04-26T06:50:21.948Z",
+    "sha256": "61219940bdfa3f0e",
+    "lastChecked": "2026-05-04T15:09:46.459Z",
     "status": "pass",
     "issues": []
   },
   "index": {
-    "sha256": "97277e4ebd04858f",
-    "lastChecked": "2026-04-26T06:50:23.078Z",
+    "sha256": "9e3b07df7b7b252e",
+    "lastChecked": "2026-05-04T15:09:47.650Z",
     "status": "pass",
     "issues": []
   },
   "examples": {
-    "sha256": "b26e3d3f74896672",
-    "lastChecked": "2026-05-03T02:03:04.444Z",
+    "sha256": "b53f6652e73ba2a6",
+    "lastChecked": "2026-05-04T15:09:49.055Z",
     "status": "pass",
     "issues": []
   },
   "examples/album": {
-    "sha256": "a63b42f2ac11eb2e",
-    "lastChecked": "2026-05-03T02:03:05.614Z",
+    "sha256": "a988c1cfe1a887b7",
+    "lastChecked": "2026-05-04T15:09:50.212Z",
     "status": "pass",
     "issues": []
   },
   "examples/headers": {
-    "sha256": "f3ece65afacefb0d",
-    "lastChecked": "2026-05-03T02:03:10.209Z",
+    "sha256": "40b62e7b29a10abd",
+    "lastChecked": "2026-05-04T15:10:04.081Z",
     "status": "pass",
     "issues": []
   },
   "examples/pricing": {
-    "sha256": "cd81ab2b7810745d",
-    "lastChecked": "2026-05-03T02:03:17.141Z",
+    "sha256": "3730126cb22af8fa",
+    "lastChecked": "2026-05-04T15:10:17.883Z",
     "status": "pass",
     "issues": []
   },
   "examples/checkout": {
-    "sha256": "c4d072d5c6305977",
-    "lastChecked": "2026-05-03T02:03:06.772Z",
+    "sha256": "1d0637b4008d7f75",
+    "lastChecked": "2026-05-04T15:09:57.146Z",
     "status": "pass",
     "issues": []
   },
   "examples/features": {
-    "sha256": "e4bec7b4aa4ce1fd",
-    "lastChecked": "2026-05-03T02:03:07.895Z",
+    "sha256": "f745d2def00ae5ff",
+    "lastChecked": "2026-05-04T15:10:01.795Z",
     "status": "pass",
     "issues": []
   },
   "examples/footers": {
-    "sha256": "0b50e19d8eda99ac",
-    "lastChecked": "2026-05-03T02:03:09.045Z",
+    "sha256": "a45203b07002e5ad",
+    "lastChecked": "2026-05-04T15:10:02.937Z",
     "status": "pass",
     "issues": []
   },
   "examples/heroes": {
-    "sha256": "397b9119ebc47a8a",
-    "lastChecked": "2026-05-03T02:03:11.335Z",
+    "sha256": "314306d3e510c778",
+    "lastChecked": "2026-05-04T15:10:05.213Z",
     "status": "pass",
     "issues": []
   },
   "examples/navbar-fixed": {
-    "sha256": "feb5c4b44a12e387",
-    "lastChecked": "2026-05-03T02:03:12.500Z",
+    "sha256": "9de21345f26ae95d",
+    "lastChecked": "2026-05-04T15:10:12.158Z",
     "status": "pass",
     "issues": []
   },
   "examples/navbar-static": {
-    "sha256": "912da6292aff12f1",
-    "lastChecked": "2026-05-03T02:03:13.632Z",
+    "sha256": "bf3938bcdde59e88",
+    "lastChecked": "2026-05-04T15:10:13.302Z",
     "status": "pass",
     "issues": []
   },
   "examples/navbars": {
-    "sha256": "e134b77b355acde9",
-    "lastChecked": "2026-05-03T02:03:14.807Z",
+    "sha256": "66d7bf6938df4e54",
+    "lastChecked": "2026-05-04T15:10:14.445Z",
     "status": "pass",
     "issues": []
   },
   "examples/navbars-offcanvas": {
-    "sha256": "c3907575c98b28cd",
-    "lastChecked": "2026-05-03T02:03:15.951Z",
+    "sha256": "cb2d09f988794b99",
+    "lastChecked": "2026-05-04T15:10:15.609Z",
     "status": "pass",
     "issues": []
   },
   "examples/product": {
-    "sha256": "556bb2f0a2e4b303",
-    "lastChecked": "2026-05-03T02:03:18.286Z",
+    "sha256": "1c0cc16bb4050597",
+    "lastChecked": "2026-05-04T15:10:19.063Z",
+    "status": "pass",
+    "issues": []
+  },
+  "components/carousel": {
+    "sha256": "c676d76b1096ce3b",
+    "lastChecked": "2026-05-04T15:09:16.778Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/badges": {
+    "sha256": "b10920daedb24563",
+    "lastChecked": "2026-05-04T15:09:51.373Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/blog": {
+    "sha256": "9869d697e0dd2104",
+    "lastChecked": "2026-05-04T15:09:52.553Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/breadcrumbs": {
+    "sha256": "a5065051f038fbed",
+    "lastChecked": "2026-05-04T15:09:53.697Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/buttons": {
+    "sha256": "2784a6da18fec28a",
+    "lastChecked": "2026-05-04T15:09:54.825Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/carousel": {
+    "sha256": "90ff941844ca55cc",
+    "lastChecked": "2026-05-04T15:09:56.003Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/cover": {
+    "sha256": "bb170c3a8a49809a",
+    "lastChecked": "2026-05-04T15:09:58.290Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/dashboard": {
+    "sha256": "8c9ca62d3da6e575",
+    "lastChecked": "2026-05-04T15:09:59.435Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/dropdowns": {
+    "sha256": "0ff52ad2377cee2b",
+    "lastChecked": "2026-05-04T15:10:00.661Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/jumbotron": {
+    "sha256": "48f2fbc0f2ef2eb2",
+    "lastChecked": "2026-05-04T15:10:06.373Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/jumbotrons": {
+    "sha256": "c1fed802e7310a3c",
+    "lastChecked": "2026-05-04T15:10:07.539Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/list-groups": {
+    "sha256": "a655f869c7d9608a",
+    "lastChecked": "2026-05-04T15:10:08.731Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/modals": {
+    "sha256": "cc299c24d03acf68",
+    "lastChecked": "2026-05-04T15:10:09.875Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/navbar-bottom": {
+    "sha256": "0adb219a67bebebd",
+    "lastChecked": "2026-05-04T15:10:11.011Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/offcanvas-navbar": {
+    "sha256": "37a49877a68a8afe",
+    "lastChecked": "2026-05-04T15:10:16.743Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/sidebars": {
+    "sha256": "e76c373b00548e4c",
+    "lastChecked": "2026-05-04T15:10:20.241Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/sign-in": {
+    "sha256": "f8c92946707693e5",
+    "lastChecked": "2026-05-04T15:10:21.389Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/sticky-footer": {
+    "sha256": "34262bf09ab862d4",
+    "lastChecked": "2026-05-04T15:10:22.543Z",
+    "status": "pass",
+    "issues": []
+  },
+  "examples/sticky-footer-navbar": {
+    "sha256": "98ab8b2a463b7aef",
+    "lastChecked": "2026-05-04T15:10:23.718Z",
     "status": "pass",
     "issues": []
   }
