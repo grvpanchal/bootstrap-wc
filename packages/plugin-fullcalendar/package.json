@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-fullcalendar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "FullCalendar 6 wrapper as a web component.",
   "type": "module",
   "main": "./dist/index.js",
@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -29,7 +33,9 @@
     "@fullcalendar/core": "^6.1.15"
   },
   "peerDependenciesMeta": {
-    "@fullcalendar/core": { "optional": true }
+    "@fullcalendar/core": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -40,5 +46,11 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-fullcalendar"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "fullcalendar"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "fullcalendar"
+  ]
 }

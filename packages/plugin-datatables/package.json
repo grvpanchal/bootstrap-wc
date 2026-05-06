@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-datatables",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DataTables wrapper as a web component.",
   "type": "module",
   "main": "./dist/index.js",
@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -26,11 +30,16 @@
   },
   "peerDependencies": {
     "@bootstrap-wc/components": "^0.5.0",
-    "datatables.net": "^1.13.11", "datatables.net-bs5": "^1.13.11"
+    "datatables.net": "^1.13.11",
+    "datatables.net-bs5": "^1.13.11"
   },
   "peerDependenciesMeta": {
-    "datatables.net": { "optional": true },
-    "datatables.net-bs5": { "optional": true }
+    "datatables.net": {
+      "optional": true
+    },
+    "datatables.net-bs5": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -41,5 +50,11 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-datatables"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "datatables"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "datatables"
+  ]
 }

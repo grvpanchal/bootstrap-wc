@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-i18next",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "i18next translation wrapper. Exposes <bs-i18n key=\"...\"/>.",
   "type": "module",
   "main": "./dist/index.js",
@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -29,7 +33,9 @@
     "i18next": "^23.15.1"
   },
   "peerDependenciesMeta": {
-    "i18next": { "optional": true }
+    "i18next": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -40,5 +46,11 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-i18next"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "i18next"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "i18next"
+  ]
 }
