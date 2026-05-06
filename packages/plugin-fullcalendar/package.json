@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -37,5 +41,16 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-fullcalendar"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "fullcalendar"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "fullcalendar"
+  ],
+  "peerDependenciesMeta": {
+    "@fullcalendar/core": {
+      "optional": true
+    }
+  }
 }

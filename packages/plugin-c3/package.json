@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -26,7 +30,7 @@
   },
   "peerDependencies": {
     "@bootstrap-wc/components": "^0.5.0",
-    "c3": "^0.7.20", "d3": "^5.16.0"
+    "c3": "^0.7.20"
   },
   "publishConfig": {
     "access": "public"
@@ -37,5 +41,16 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-c3"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "c3"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "c3"
+  ],
+  "peerDependenciesMeta": {
+    "c3": {
+      "optional": true
+    }
+  }
 }
