@@ -37,7 +37,18 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run build --workspace @bootstrap-wc/core
+      - name: Build core
+        run: npm run build --workspace @bootstrap-wc/core
+      - name: Build components
+        run: npm run build --workspace @bootstrap-wc/components
+      - name: Build plugin packages
+        # plugin smoke tests in packages/components/test/plugins.test.ts
+        # import @bootstrap-wc/plugin-*/define — those need dist/ built first.
+        run: |
+          for pkg in packages/plugin-*/; do
+            name=$(node -p "require('./$pkg/package.json').name")
+            npm run build --workspace "$name"
+          done
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
       - name: Run component tests
