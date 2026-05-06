@@ -134,6 +134,78 @@ between the slotted markup and the plugin's generated DOM. Mitigate with
 CSS that hides children until `bs:ready` fires, or by deferring the wrapper
 to a `client:visible` directive (Astro).
 
+### 7. CDN distribution: use `+esm` for jsDelivr
+
+`@bootstrap-wc/components`'s published `dist/define.js` ships unbundled bare
+imports (`import { html } from 'lit'`). Browsers can't resolve those without
+an importmap. When loading directly from a CDN in a `<script type="module">`,
+use jsDelivr's auto-bundled URL:
+
+```html
+<!-- WRONG — bare 'lit' specifier fails to resolve -->
+<script type="module"
+  src="https://cdn.jsdelivr.net/npm/@bootstrap-wc/components@latest/dist/define.js"></script>
+
+<!-- RIGHT — '/+esm' tells jsDelivr to inline-bundle dependencies -->
+<script type="module"
+  src="https://cdn.jsdelivr.net/npm/@bootstrap-wc/components@latest/define/+esm"></script>
+```
+
+`bootstrap-themes`'s `_layouts/wc-*.html` were updated to use this pattern.
+
+### 8. Web-component hosts default to `display:inline`
+
+`<bs-button>`, `<bs-dropdown>`, `<bs-select>`, `<bs-modal>`, etc. all extend
+`HTMLElement`, whose default `display` is `inline`. This collapses the host
+to a 0×0 bounding box — fine for layout (the shadow content has its own box),
+but breaks anything that probes the host directly (Playwright actionability
+checks, `el.click()` on the host, drag-and-drop, etc.).
+
+The `wc/assets/css/wc-shim.css` shim adds `display:inline-block` to hosts in
+the contexts where this matters (`.navbar`, `.btn-group`, `.navbar-nav`).
+Upstream fix would be a `:host { display: inline-block }` rule in each
+component's `static styles`.
+
+### 9. `<bs-modal>`, `<bs-offcanvas>` are property-driven, not attribute-driven
+
+Their `open` state is a JS property on the component, **not** an `open=""`
+HTML attribute. Tests / scripts must use `el.show()` / `el.hide()` (or
+`el.open = true/false`) rather than `el.setAttribute('open', '')`. The
+`bs-shown` / `bs-hidden` custom events fire after the transition.
+
+### 10. `<bs-navbar>` API: `placement` / `theme` / `background`, not `position` / `variant`
+
+The web component uses Bootstrap's full vocabulary directly:
+
+| Native attribute    | Maps to                                                |
+|---------------------|--------------------------------------------------------|
+| `placement="fixed-top"` | `.fixed-top` on host                              |
+| `theme="dark"`      | `.navbar-dark` on host                                 |
+| `background="dark"` | `.bg-dark` on host                                     |
+| `expand="lg"`       | `.navbar-expand-lg` on host                            |
+
+The `bs-navbar` element exposes a single default slot — there are no named
+`brand` / `nav-start` / `nav-end` slots. Layout-wise, mirror the BS5 navbar
+markup (`.navbar-brand`, `.navbar-toggler`, `.collapse.navbar-collapse`)
+inside `<bs-navbar>` and rely on the shared `bootstrap.bundle.min.js` for
+the toggler collapse behavior.
+
+### 11. wc-port migration tool quirks (`bootstrap-themes/tools/bs5_to_wc.js`)
+
+When porting v5 demo markup to wc:
+
+- The `data-bs-toggle="modal"` + `data-bs-target="#X"` pair must be preserved
+  on `<bs-button>` triggers if you want them to drive a `<bs-modal>`. The
+  default attribute allowlist in earlier revisions of the tool dropped these;
+  the current revision keeps them.
+- v5 demo markup uses `<ul class="nav nav-tabs"><li class="active"><a>…</a></li>`
+  (no `.nav-item` wrapper). Earlier revisions of the tool only iterated
+  `.nav-item`, leaving `<bs-tabs></bs-tabs>` empty after migration. The
+  current revision iterates child `<li>`s directly.
+- `.dropdown` selector excludes navbar dropdowns (`.navbar .dropdown` /
+  `.navbar-nav .dropdown`) so the wc navbar's hand-authored `<bs-dropdown>`
+  structure stays intact.
+
 ## Adding a new wrapper
 
 1. Add an entry to `bootstrap-themes/tools/scaffold_wc_plugins.js` and re-run
