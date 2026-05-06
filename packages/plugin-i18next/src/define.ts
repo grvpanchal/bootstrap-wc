@@ -1,5 +1,5 @@
-import { BSi18n } from './bs-i18n.js';
+import { BsI18n } from './bs-i18n.js';
 
 if (!customElements.get('bs-i18n')) {
-  customElements.define('bs-i18n', BSi18n);
+  customElements.define('bs-i18n', BsI18n);
 }

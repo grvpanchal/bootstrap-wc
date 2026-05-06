@@ -1,5 +1,5 @@
-import { BSfileUpload } from './bs-file-upload.js';
+import { BsFileUpload } from './bs-file-upload.js';
 
 if (!customElements.get('bs-file-upload')) {
-  customElements.define('bs-file-upload', BSfileUpload);
+  customElements.define('bs-file-upload', BsFileUpload);
 }

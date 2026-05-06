@@ -1,5 +1,4 @@
 import { LitElement, html } from 'lit';
-import { property } from 'lit/decorators.js';
 
 /**
  * <bs-datatable> — wraps the upstream `datatables` library inside a Lit element.
@@ -22,8 +21,8 @@ import { property } from 'lit/decorators.js';
  *   - `bs:change`    on data/state change.
  *   - `bs:destroy`   before disposal.
  */
-export class BSdatatable extends LitElement {
-  static properties = {
+export class BsDatatable extends LitElement {
+  static override properties = {
     options: { type: Object },
     auto: { type: Boolean, reflect: true },
   };
@@ -35,11 +34,11 @@ export class BSdatatable extends LitElement {
   protected target: HTMLElement | null = null;
 
   // Light DOM render — required so the upstream plugin's CSS selectors apply.
-  protected createRenderRoot() {
+  protected override createRenderRoot() {
     return this;
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     if (this.auto !== false) {
       // Defer one tick so slotted children are in the DOM.
@@ -47,7 +46,7 @@ export class BSdatatable extends LitElement {
     }
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     this.dispose();
   }
@@ -73,7 +72,7 @@ export class BSdatatable extends LitElement {
     this.dispatchEvent(new CustomEvent('bs:destroy', { bubbles: true }));
   }
 
-  render() {
+  override render() {
     // Slotted content — the wrapper instantiates the plugin against children.
     return html`<slot></slot>`;
   }

@@ -1,5 +1,5 @@
-import { BSsparkline } from './bs-sparkline.js';
+import { BsSparkline } from './bs-sparkline.js';
 
 if (!customElements.get('bs-sparkline')) {
-  customElements.define('bs-sparkline', BSsparkline);
+  customElements.define('bs-sparkline', BsSparkline);
 }

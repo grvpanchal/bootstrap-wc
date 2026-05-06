@@ -1,5 +1,5 @@
-import { BSmorrisChart } from './bs-morris-chart.js';
+import { BsMorrisChart } from './bs-morris-chart.js';
 
 if (!customElements.get('bs-morris-chart')) {
-  customElements.define('bs-morris-chart', BSmorrisChart);
+  customElements.define('bs-morris-chart', BsMorrisChart);
 }

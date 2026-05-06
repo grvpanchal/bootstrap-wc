@@ -1,5 +1,5 @@
-import { BSlightbox } from './bs-lightbox.js';
+import { BsLightbox } from './bs-lightbox.js';
 
 if (!customElements.get('bs-lightbox')) {
-  customElements.define('bs-lightbox', BSlightbox);
+  customElements.define('bs-lightbox', BsLightbox);
 }

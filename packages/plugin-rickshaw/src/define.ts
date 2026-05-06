@@ -1,5 +1,5 @@
-import { BSrickshawChart } from './bs-rickshaw-chart.js';
+import { BsRickshawChart } from './bs-rickshaw-chart.js';
 
 if (!customElements.get('bs-rickshaw-chart')) {
-  customElements.define('bs-rickshaw-chart', BSrickshawChart);
+  customElements.define('bs-rickshaw-chart', BsRickshawChart);
 }

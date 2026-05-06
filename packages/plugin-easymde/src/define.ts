@@ -1,5 +1,5 @@
-import { BSmarkdownEditor } from './bs-markdown-editor.js';
+import { BsMarkdownEditor } from './bs-markdown-editor.js';
 
 if (!customElements.get('bs-markdown-editor')) {
-  customElements.define('bs-markdown-editor', BSmarkdownEditor);
+  customElements.define('bs-markdown-editor', BsMarkdownEditor);
 }

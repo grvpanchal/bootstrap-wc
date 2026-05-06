@@ -23,7 +23,7 @@ import { property } from 'lit/decorators.js';
  * `globalThis.Chart` at instantiation time.
  */
 export class BsChart extends LitElement {
-  static properties = {
+  static override properties = {
     type:    { type: String, reflect: true },
     data:    { type: Object },
     options: { type: Object },
@@ -40,19 +40,19 @@ export class BsChart extends LitElement {
   private chart: { destroy: () => void; update: () => void; data: unknown; options: unknown } | null = null;
   private canvas: HTMLCanvasElement | null = null;
 
-  protected createRenderRoot() { return this; }
+  protected override createRenderRoot() { return this; }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     queueMicrotask(() => this.instantiate());
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     this.dispose();
   }
 
-  updated(changed: Map<string, unknown>) {
+  protected override updated(changed: Map<string, unknown>) {
     if (this.chart && (changed.has('data') || changed.has('options'))) {
       this.chart.data    = (this.data    ?? this.chart.data) as never;
       this.chart.options = (this.options ?? this.chart.options) as never;
@@ -61,7 +61,8 @@ export class BsChart extends LitElement {
   }
 
   private instantiate() {
-    const Chart = (globalThis as { Chart?: new (...args: unknown[]) => typeof this.chart }).Chart;
+    type ChartCtor = new (ctx: HTMLCanvasElement, cfg: unknown) => NonNullable<BsChart['chart']>;
+    const Chart = (globalThis as { Chart?: ChartCtor }).Chart;
     if (!Chart) {
       console.warn('[bs-chart] Chart.js global not found. Load Chart.js before bs-chart.');
       return;
@@ -71,7 +72,7 @@ export class BsChart extends LitElement {
     if (this.width)  this.canvas.setAttribute('width',  this.width);
     if (this.height) this.canvas.setAttribute('height', this.height);
 
-    this.chart = new (Chart as new (ctx: HTMLCanvasElement, cfg: unknown) => NonNullable<typeof this.chart>)(
+    this.chart = new Chart(
       this.canvas,
       { type: this.type || 'bar', data: this.data || {}, options: this.options || {} }
     );
@@ -89,5 +90,5 @@ export class BsChart extends LitElement {
     }
   }
 
-  render() { return html`<slot></slot>`; }
+  override render() { return html`<slot></slot>`; }
 }

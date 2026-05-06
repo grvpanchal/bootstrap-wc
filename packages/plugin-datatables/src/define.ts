@@ -1,5 +1,5 @@
-import { BSdatatable } from './bs-datatable.js';
+import { BsDatatable } from './bs-datatable.js';
 
 if (!customElements.get('bs-datatable')) {
-  customElements.define('bs-datatable', BSdatatable);
+  customElements.define('bs-datatable', BsDatatable);
 }

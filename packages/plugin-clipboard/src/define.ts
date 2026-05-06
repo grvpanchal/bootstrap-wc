@@ -1,5 +1,5 @@
-import { BSclipboard } from './bs-clipboard.js';
+import { BsClipboard } from './bs-clipboard.js';
 
 if (!customElements.get('bs-clipboard')) {
-  customElements.define('bs-clipboard', BSclipboard);
+  customElements.define('bs-clipboard', BsClipboard);
 }

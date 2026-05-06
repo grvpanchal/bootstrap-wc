@@ -1,5 +1,4 @@
 import { LitElement, html } from 'lit';
-import { property } from 'lit/decorators.js';
 
 /**
  * <bs-clipboard> — wraps the upstream `clipboard` library inside a Lit element.
@@ -22,8 +21,8 @@ import { property } from 'lit/decorators.js';
  *   - `bs:change`    on data/state change.
  *   - `bs:destroy`   before disposal.
  */
-export class BSclipboard extends LitElement {
-  static properties = {
+export class BsClipboard extends LitElement {
+  static override properties = {
     options: { type: Object },
     auto: { type: Boolean, reflect: true },
   };
@@ -35,11 +34,11 @@ export class BSclipboard extends LitElement {
   protected target: HTMLElement | null = null;
 
   // Light DOM render — required so the upstream plugin's CSS selectors apply.
-  protected createRenderRoot() {
+  protected override createRenderRoot() {
     return this;
   }
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     if (this.auto !== false) {
       // Defer one tick so slotted children are in the DOM.
@@ -47,7 +46,7 @@ export class BSclipboard extends LitElement {
     }
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     this.dispose();
   }
@@ -73,7 +72,7 @@ export class BSclipboard extends LitElement {
     this.dispatchEvent(new CustomEvent('bs:destroy', { bubbles: true }));
   }
 
-  render() {
+  override render() {
     // Slotted content — the wrapper instantiates the plugin against children.
     return html`<slot></slot>`;
   }
