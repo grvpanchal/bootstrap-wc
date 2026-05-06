@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-dropzone",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dropzone 6 file upload wrapper.",
   "type": "module",
   "main": "./dist/index.js",
@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -29,7 +33,9 @@
     "dropzone": "^6.0.0-beta.2"
   },
   "peerDependenciesMeta": {
-    "dropzone": { "optional": true }
+    "dropzone": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -40,5 +46,11 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-dropzone"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "dropzone"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "dropzone"
+  ]
 }

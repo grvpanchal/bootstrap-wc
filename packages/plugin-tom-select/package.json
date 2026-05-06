@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-tom-select",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tom Select rich select wrapper.",
   "type": "module",
   "main": "./dist/index.js",
@@ -16,7 +16,11 @@
       "import": "./dist/define.js"
     }
   },
-  "files": ["dist", "src", "README.md"],
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo"
@@ -29,7 +33,9 @@
     "tom-select": "^2.4.1"
   },
   "peerDependenciesMeta": {
-    "tom-select": { "optional": true }
+    "tom-select": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -40,5 +46,11 @@
     "url": "https://github.com/grvpanchal/bootstrap-wc.git",
     "directory": "packages/plugin-tom-select"
   },
-  "keywords": ["bootstrap", "web-components", "lit", "plugin", "tom-select"]
+  "keywords": [
+    "bootstrap",
+    "web-components",
+    "lit",
+    "plugin",
+    "tom-select"
+  ]
 }
