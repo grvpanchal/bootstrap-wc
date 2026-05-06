@@ -1,6 +1,6 @@
 # @bootstrap-wc/plugin-c3
 
-C3 chart wrapper (D3 dependent).
+C3 chart wrapper.
 
 `<bs-c3-chart>` is a Lit-based web-component wrapper for [c3].
 

@@ -28,6 +28,10 @@
     "@bootstrap-wc/components": "^0.5.0",
     "jquery": "^3.7.1", "jquery-validation": "^1.20.0"
   },
+  "peerDependenciesMeta": {
+    "jquery": { "optional": true },
+    "jquery-validation": { "optional": true }
+  },
   "publishConfig": {
     "access": "public"
   },

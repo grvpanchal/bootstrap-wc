@@ -28,6 +28,9 @@
     "@bootstrap-wc/components": "^0.5.0",
     "flatpickr": "^4.6.13"
   },
+  "peerDependenciesMeta": {
+    "flatpickr": { "optional": true }
+  },
   "publishConfig": {
     "access": "public"
   },

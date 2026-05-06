@@ -28,6 +28,9 @@
     "@bootstrap-wc/components": "^0.5.0",
     "tom-select": "^2.4.1"
   },
+  "peerDependenciesMeta": {
+    "tom-select": { "optional": true }
+  },
   "publishConfig": {
     "access": "public"
   },

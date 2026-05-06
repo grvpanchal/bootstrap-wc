@@ -1,6 +1,6 @@
 # @bootstrap-wc/plugin-morris
 
-Morris.js charts wrapper (Raphael dependent).
+Morris.js charts wrapper.
 
 `<bs-morris-chart>` is a Lit-based web-component wrapper for [morris.js].
 

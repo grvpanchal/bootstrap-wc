@@ -28,6 +28,9 @@
     "@bootstrap-wc/components": "^0.5.0",
     "smartwizard": "^6.0.6"
   },
+  "peerDependenciesMeta": {
+    "smartwizard": { "optional": true }
+  },
   "publishConfig": {
     "access": "public"
   },

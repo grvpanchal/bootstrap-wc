@@ -1,6 +1,6 @@
 # @bootstrap-wc/plugin-rickshaw
 
-Rickshaw chart wrapper (D3 dependent).
+Rickshaw chart wrapper.
 
 `<bs-rickshaw-chart>` is a Lit-based web-component wrapper for [rickshaw].
 

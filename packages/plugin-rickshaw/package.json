@@ -1,7 +1,7 @@
 {
   "name": "@bootstrap-wc/plugin-rickshaw",
   "version": "0.1.0",
-  "description": "Rickshaw chart wrapper (D3 dependent).",
+  "description": "Rickshaw chart wrapper.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -26,7 +26,10 @@
   },
   "peerDependencies": {
     "@bootstrap-wc/components": "^0.5.0",
-    "rickshaw": "^1.7.1", "d3": "^3.5.16"
+    "rickshaw": "^1.7.1"
+  },
+  "peerDependenciesMeta": {
+    "rickshaw": { "optional": true }
   },
   "publishConfig": {
     "access": "public"

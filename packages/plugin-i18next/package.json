@@ -28,6 +28,9 @@
     "@bootstrap-wc/components": "^0.5.0",
     "i18next": "^23.15.1"
   },
+  "peerDependenciesMeta": {
+    "i18next": { "optional": true }
+  },
   "publishConfig": {
     "access": "public"
   },
