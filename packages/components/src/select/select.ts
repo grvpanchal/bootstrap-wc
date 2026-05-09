@@ -63,6 +63,10 @@ export class BsSelect extends BootstrapElement {
     // light-DOM render replaces them.
     if (!this._initialSlotted.length) {
       this._initialSlotted = this._readUserOptions();
+      // Warn the author if they slotted children we don't recognise — most
+      // commonly a custom-tag `<bs-option>` typo. Without this warning the
+      // bad children would render as inert text via display:contents.
+      this._warnOnUnknownChildren();
       // Remove the user's option/optgroup/hr nodes; the render template
       // re-emits them inside the native <select>.
       for (const child of Array.from(this.children)) {
@@ -72,6 +76,25 @@ export class BsSelect extends BootstrapElement {
     }
     super.connectedCallback();
     this.style.display = this.style.display || 'contents';
+  }
+
+  private _warnOnUnknownChildren() {
+    const unknown: string[] = [];
+    for (const node of Array.from(this.children)) {
+      const tag = node.tagName;
+      if (tag === 'OPTION' || tag === 'OPTGROUP' || tag === 'HR') continue;
+      // Allow plain whitespace text nodes (filtered by `children` already)
+      // and anything else gets flagged.
+      unknown.push(`<${tag.toLowerCase()}>`);
+    }
+    if (unknown.length) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[bs-select] ignoring unrecognised child element(s): ${unknown.join(', ')}. ` +
+          `<bs-select> reads native <option> / <optgroup> / <hr> children to build its ` +
+          `internal <select>. Did you mean <option>?`,
+      );
+    }
   }
 
   override focus() {

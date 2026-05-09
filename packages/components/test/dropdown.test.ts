@@ -50,4 +50,32 @@ describe('bs-dropdown', () => {
     await new Promise((r) => setTimeout(r, 10));
     expect(el.open).to.equal(false);
   });
+
+  it('auto-defaults unattributed children to slot="menu"', async () => {
+    const el = await fixture<BsDropdown>(html`<bs-dropdown label="Menu">
+      <bs-dropdown-item>One</bs-dropdown-item>
+      <bs-dropdown-item>Two</bs-dropdown-item>
+      <bs-dropdown-item slot="menu">Three (already slotted)</bs-dropdown-item>
+      <span slot="label">Custom Label</span>
+    </bs-dropdown>`);
+    await el.updateComplete;
+    const items = Array.from(el.querySelectorAll('bs-dropdown-item'));
+    // All three items should now have slot="menu" — first two were defaulted,
+    // third was already slotted explicitly.
+    expect(items.map((i) => i.getAttribute('slot'))).to.deep.equal(['menu', 'menu', 'menu']);
+    // The explicitly-slotted custom label trigger keeps slot="label".
+    const label = el.querySelector('span[slot="label"]');
+    expect(label?.getAttribute('slot')).to.equal('label');
+  });
+
+  it('auto-slots children added after connect (MutationObserver)', async () => {
+    const el = await fixture<BsDropdown>(html`<bs-dropdown label="Menu"></bs-dropdown>`);
+    const item = document.createElement('bs-dropdown-item');
+    item.textContent = 'Late';
+    el.appendChild(item);
+    // MutationObserver fires asynchronously — yield once.
+    await new Promise((r) => queueMicrotask(() => r(null)));
+    await new Promise((r) => setTimeout(r, 0));
+    expect(item.getAttribute('slot')).to.equal('menu');
+  });
 });

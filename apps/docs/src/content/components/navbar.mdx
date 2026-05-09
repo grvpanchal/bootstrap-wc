@@ -108,6 +108,44 @@ selectors apply across the shadow boundary. When nested inside
   </bs-nav>
 </bs-navbar>`} />
 
+## Dropdown
+
+Drop `<bs-dropdown>` straight into a navbar — items can be plain
+`<bs-dropdown-item>` children. Since 0.6 they auto-default to
+`slot="menu"`, so the snippet below works without needing to spell out
+`slot="menu"` on every item.
+
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <bs-nav>
+    <bs-nav-item href="#" active>Home</bs-nav-item>
+    <bs-nav-item href="#">Link</bs-nav-item>
+  </bs-nav>
+  <bs-dropdown label="Dropdown" class="ms-auto">
+    <bs-dropdown-item href="#">Action</bs-dropdown-item>
+    <bs-dropdown-item href="#">Another action</bs-dropdown-item>
+    <bs-dropdown-item divider></bs-dropdown-item>
+    <bs-dropdown-item href="#">Something else</bs-dropdown-item>
+  </bs-dropdown>
+</bs-navbar>`} />
+
+Nested dropdowns ("submenu" pattern) compose the same way. Apply
+`class="dropdown-submenu"` to the inner `<bs-dropdown>` for the
+right-flyout layout (consumer CSS, since Bootstrap 5 dropped native
+submenu support).
+
+<Example code={`<bs-navbar background="body-tertiary" expand="always">
+  <bs-dropdown label="Apps" class="ms-auto">
+    <bs-dropdown-item href="#">Inbox</bs-dropdown-item>
+    <bs-dropdown class="dropdown-submenu" label="Project">
+      <bs-dropdown-item href="#">Contacts</bs-dropdown-item>
+      <bs-dropdown-item href="#">Calendar</bs-dropdown-item>
+      <bs-dropdown-item href="#">Files</bs-dropdown-item>
+    </bs-dropdown>
+    <bs-dropdown-item href="#">Reports</bs-dropdown-item>
+  </bs-dropdown>
+</bs-navbar>`} />
+
 ## Forms
 
 Drop a `<form>` into `<bs-navbar>` (typically inside the

@@ -69,6 +69,15 @@ export class BsDropdown extends BootstrapElement {
     super.connectedCallback();
     document.addEventListener('click', this._onDocClick, true);
     document.addEventListener('keydown', this._onKeydown);
+    // Auto-default unattributed children to slot="menu" so authors don't have
+    // to remember it. Items / nested dropdowns / dividers / headers all live
+    // in the menu surface, not the trigger position. Only children that the
+    // author explicitly slotted (e.g. slot="label" for a custom trigger
+    // label) are left alone.
+    this._autoSlotChildren();
+    this._slotObserver?.disconnect();
+    this._slotObserver = new MutationObserver(() => this._autoSlotChildren());
+    this._slotObserver.observe(this, { childList: true });
   }
 
   override disconnectedCallback() {
@@ -76,6 +85,23 @@ export class BsDropdown extends BootstrapElement {
     document.removeEventListener('click', this._onDocClick, true);
     document.removeEventListener('keydown', this._onKeydown);
     this._floating.stop();
+    this._slotObserver?.disconnect();
+    this._slotObserver = undefined;
+  }
+
+  private _slotObserver?: MutationObserver;
+
+  /**
+   * Walk our light-DOM children and fill in `slot="menu"` for any that don't
+   * already have a slot. Idempotent. Skips comment/text nodes and elements
+   * that already declare a slot (e.g. `slot="label"` for a custom trigger
+   * label).
+   */
+  private _autoSlotChildren() {
+    for (const child of Array.from(this.children)) {
+      if (child.hasAttribute('slot')) continue;
+      child.setAttribute('slot', 'menu');
+    }
   }
 
   override updated(changed: Map<string, unknown>) {
