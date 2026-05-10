@@ -5,10 +5,25 @@ sidebar:
   label: Chartist
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library loaded from CDN. The bs-chartist-chart */}
+{/* element is registered by Example.astro's bundled plugin defines. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.umd.js"></script>
+
 `<bs-chartist-chart>` wraps [Chartist 1](https://gionkunz.github.io/chartist-js/) so you can drop it into any
 HTML page like a regular custom element.
 
-Wraps [Chartist 1](https://gionkunz.github.io/chartist-js/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+Renders in **light DOM** so the upstream library's CSS reaches its slotted
+children. Re-dispatches the upstream lifecycle as standard `bs:*` custom
+events.
+
+## Live example
+
+<Example code={`<bs-chartist-chart options='{"type":"LineChart","data":{"labels":["Jan","Feb","Mar","Apr","May"],"series":[[1,5,3,4,2],[2,3,4,5,6]]},"chartOptions":{"height":"200px"}}'>
+  <div class="ct-chart"></div>
+</bs-chartist-chart>`} />
 
 ## Install
 
@@ -25,8 +40,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/chartist@1"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.css">
+<script src="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.umd.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-chartist-chart>) -->
 <script type="module"
@@ -38,14 +53,6 @@ Or via npm:
 ```ts
 import 'chartist';
 import '@bootstrap-wc/plugin-chartist/define';
-```
-
-## Example
-
-```html
-<bs-chartist-chart options='{"type":"Line","data":{"labels":["Jan","Feb","Mar"],"series":[[1,5,3]]}}'>
-  <div class="ct-chart"></div>
-</bs-chartist-chart>
 ```
 
 ## Listening for events
@@ -67,8 +74,7 @@ lifecycle yourself.
 const el = document.querySelector('bs-chartist-chart');
 el.setAttribute('auto', 'false');
 el.options = { /* … */ };
-el.instantiate();   // create the upstream instance
-el.dispose();       // destroy it
+el.connectedCallback();   // re-runs instantiate when auto is later flipped
 ```
 
 ## API
@@ -84,8 +90,7 @@ el.dispose();       // destroy it
 
 | Name | Detail | When |
 |---|---|---|
-| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
-| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:ready | `{ instance, target }` | Fired after the upstream library is initialized. |
 | bs:destroy | — | Fired before the upstream instance is torn down. |
 
 ### Slots
@@ -102,6 +107,3 @@ el.dispose();       // destroy it
   to the upstream library.
 - Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
   page root; scope to the wrapper instead.
-
-See `packages/PLUGINS.md` in the source for the full plugin compatibility
-matrix.

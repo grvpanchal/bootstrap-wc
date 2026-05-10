@@ -1,24 +1,19 @@
 import { LitElement, html } from 'lit';
 
 /**
- * <bs-sparkline> — wraps the upstream `sparkline` library inside a Lit element.
+ * <bs-sparkline> — wraps the upstream jQuery Sparklines library inside a Lit element.
  *
  * Renders in LIGHT DOM (no shadow root) so the plugin's stylesheet selectors
- * reach the rendered DOM. This is critical because most jQuery plugins were
- * written before web components and assume CSS in the page can target their
- * generated markup.
- *
- * Loading the plugin itself is left to the host page (e.g. via a CDN <script>
- * tag or an explicit `import 'plugin-name'`). This wrapper only orchestrates
- * its lifecycle.
+ * reach the rendered DOM. Loading the upstream library itself is left to the
+ * host page (e.g. via a CDN <script> tag); this wrapper reads
+ * `globalThis.jQuery.fn.sparkline` at instantiation time.
  *
  * Common attributes:
- *   - `options`  JSON-stringified options object.
- *   - `auto`     If present, instantiate on connectedCallback (default: true).
+ *   - `options`  JSON-stringified options object passed to the upstream library.
+ *   - `auto`     If false, suppresses automatic instantiation on connect.
  *
- * Common events emitted (re-dispatched from the underlying plugin):
- *   - `bs:ready`     after instantiation.
- *   - `bs:change`    on data/state change.
+ * Common events emitted:
+ *   - `bs:ready`     after instantiation (`detail.instance` is the upstream instance).
  *   - `bs:destroy`   before disposal.
  */
 export class BsSparkline extends LitElement {
@@ -52,18 +47,25 @@ export class BsSparkline extends LitElement {
   }
 
   /**
-   * Subclass hook: instantiate the plugin against `this.target` (the first
-   * element child by default) and store the instance on `this.instance`.
-   * The base class only emits `bs:ready`. Override per-plugin.
+   * Create the upstream jQuery Sparklines instance against the slotted target element
+   * and dispatch `bs:ready` with the instance.
    */
   protected instantiate() {
-    this.target = (this.firstElementChild as HTMLElement) || this;
-    this.dispatchEvent(new CustomEvent('bs:ready', { bubbles: true, detail: { instance: this.instance, target: this.target } }));
+    const $ = (globalThis as { jQuery?: ((sel: HTMLElement) => { sparkline: (data: unknown, opts: unknown) => unknown }) & { fn?: { sparkline?: unknown } } }).jQuery;
+    if (!$?.fn?.sparkline) return console.warn('[bs-sparkline] jQuery + Sparklines not found.');
+    this.target = (this.querySelector('span') as HTMLElement) ?? (this.firstElementChild as HTMLElement);
+    if (!this.target) return;
+    const opts = ((this.options as { values?: unknown } | undefined) ?? {}) as { values?: unknown } & Record<string, unknown>;
+    const { values, ...rest } = opts;
+    const data = values ?? (this.target.textContent ?? '').split(',').map(s => Number(s.trim()));
+    this.instance = $(this.target).sparkline(data, rest);
+    this.dispatchEvent(new CustomEvent('bs:ready', {
+      bubbles: true,
+      detail: { instance: this.instance, target: this.target },
+    }));
   }
 
-  /**
-   * Subclass hook: tear down the plugin instance.
-   */
+  /** Tear down the upstream instance. */
   protected dispose() {
     if (this.instance && typeof (this.instance as { destroy?: () => void }).destroy === 'function') {
       (this.instance as { destroy: () => void }).destroy();
@@ -73,7 +75,6 @@ export class BsSparkline extends LitElement {
   }
 
   override render() {
-    // Slotted content — the wrapper instantiates the plugin against children.
     return html`<slot></slot>`;
   }
 }

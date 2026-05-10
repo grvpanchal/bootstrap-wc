@@ -5,10 +5,26 @@ sidebar:
   label: C3
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library loaded from CDN. The bs-c3-chart */}
+{/* element is registered by Example.astro's bundled plugin defines. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.css" />
+<script is:inline src="https://d3js.org/d3.v5.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.js"></script>
+
 `<bs-c3-chart>` wraps [C3.js](https://c3js.org/) so you can drop it into any
 HTML page like a regular custom element.
 
-Wraps [C3.js](https://c3js.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+Renders in **light DOM** so the upstream library's CSS reaches its slotted
+children. Re-dispatches the upstream lifecycle as standard `bs:*` custom
+events.
+
+## Live example
+
+<Example code={`<bs-c3-chart options='{"data":{"columns":[["data1",30,200,100,400,150,250],["data2",50,20,10,40,15,25]]},"size":{"height":220}}'>
+  <div></div>
+</bs-c3-chart>`} />
 
 ## Install
 
@@ -25,8 +41,9 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/c3@0.7/c3.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.css">
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-c3-chart>) -->
 <script type="module"
@@ -38,14 +55,6 @@ Or via npm:
 ```ts
 import 'c3';
 import '@bootstrap-wc/plugin-c3/define';
-```
-
-## Example
-
-```html
-<bs-c3-chart options='{"data":{"columns":[["data1",30,200,100,400]]}}'>
-  <div></div>
-</bs-c3-chart>
 ```
 
 ## Listening for events
@@ -67,8 +76,7 @@ lifecycle yourself.
 const el = document.querySelector('bs-c3-chart');
 el.setAttribute('auto', 'false');
 el.options = { /* … */ };
-el.instantiate();   // create the upstream instance
-el.dispose();       // destroy it
+el.connectedCallback();   // re-runs instantiate when auto is later flipped
 ```
 
 ## API
@@ -84,8 +92,7 @@ el.dispose();       // destroy it
 
 | Name | Detail | When |
 |---|---|---|
-| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
-| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:ready | `{ instance, target }` | Fired after the upstream library is initialized. |
 | bs:destroy | — | Fired before the upstream instance is torn down. |
 
 ### Slots
@@ -102,6 +109,3 @@ el.dispose();       // destroy it
   to the upstream library.
 - Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
   page root; scope to the wrapper instead.
-
-See `packages/PLUGINS.md` in the source for the full plugin compatibility
-matrix.
