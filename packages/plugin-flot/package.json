@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-flot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Flot charting library wrapper (jQuery dependent).",
   "type": "module",
   "main": "./dist/index.js",

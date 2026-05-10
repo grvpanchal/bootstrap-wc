@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-summernote",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Summernote (BS5 build) WYSIWYG wrapper.",
   "type": "module",
   "main": "./dist/index.js",

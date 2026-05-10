@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-validate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "jQuery Validation hookup for <bs-form>.",
   "type": "module",
   "main": "./dist/index.js",
