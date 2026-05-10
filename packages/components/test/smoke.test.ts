@@ -5,6 +5,7 @@ const TAGS = [
   'bs-accordion',
   'bs-accordion-item',
   'bs-alert',
+  'bs-avatar',
   'bs-badge',
   'bs-breadcrumb',
   'bs-button',

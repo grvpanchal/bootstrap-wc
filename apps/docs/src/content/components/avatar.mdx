@@ -1,0 +1,127 @@
+---
+title: Avatar
+description: Display a user's profile picture, initials, or icon.
+---
+
+import Example from '../../components/Example.astro';
+
+`<bs-avatar>` renders a sized, optionally-rounded box containing an image
+(`src`), initials, or any slotted icon. The numeric size scale matches
+bootstrap-essentials (`16/24/32/48/64/96/128`), but any pixel size is allowed.
+
+## Example
+
+<Example code={`<bs-avatar size="48" src="https://i.pravatar.cc/96?img=1" alt="Jane Doe"></bs-avatar>
+<bs-avatar size="48">JD</bs-avatar>
+<bs-avatar size="48" variant="success">AB</bs-avatar>`} />
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add avatar
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/avatar';
+```
+
+```html
+<bs-avatar size="48" src="/img/jane.jpg" alt="Jane"></bs-avatar>
+```
+
+## Sizes
+
+The standard bootstrap-essentials size scale (`16/24/32/48/64/96/128`) is the
+default vocabulary, but `size` accepts any pixel value, or pass `width` /
+`height` directly for non-square boxes.
+
+<Example code={`<bs-avatar size="16">A</bs-avatar>
+<bs-avatar size="24">A</bs-avatar>
+<bs-avatar size="32">A</bs-avatar>
+<bs-avatar size="48">A</bs-avatar>
+<bs-avatar size="64">A</bs-avatar>
+<bs-avatar size="96">A</bs-avatar>
+<bs-avatar size="128">A</bs-avatar>`} />
+
+## Shapes
+
+Use `shape="circle"` (default), `shape="rounded"` for soft 4px corners, or
+`shape="square"` for no rounding.
+
+<Example code={`<bs-avatar size="64" shape="circle">JD</bs-avatar>
+<bs-avatar size="64" shape="rounded">JD</bs-avatar>
+<bs-avatar size="64" shape="square">JD</bs-avatar>`} />
+
+## Image source
+
+When `src` is set, an `<img loading="lazy">` is rendered with `object-fit: cover`
+and the supplied `alt` attribute.
+
+<Example code={`<bs-avatar size="64" src="https://i.pravatar.cc/128?img=5" alt="User 5"></bs-avatar>
+<bs-avatar size="64" src="https://i.pravatar.cc/128?img=12" alt="User 12" shape="rounded"></bs-avatar>
+<bs-avatar size="64" src="https://i.pravatar.cc/128?img=20" alt="User 20" shape="square"></bs-avatar>`} />
+
+## Initials & icons
+
+Without `src`, the default slot renders — typically two-letter initials or a
+`<bs-icon>`. Combine with `variant` for a tinted background.
+
+<Example code={`<bs-avatar size="48" variant="primary">JD</bs-avatar>
+<bs-avatar size="48" variant="success">AB</bs-avatar>
+<bs-avatar size="48" variant="warning">!</bs-avatar>
+<bs-avatar size="48" variant="danger">XX</bs-avatar>`} />
+
+## Status indicator
+
+Slot a small element (a `<bs-badge>`, a colored dot, anything) into the
+`status` slot to anchor it absolutely in the bottom-right of the avatar — useful
+for online/offline indicators.
+
+<Example code={`<bs-avatar size="64" src="https://i.pravatar.cc/128?img=8" alt="Online user">
+  <span slot="status" class="bg-success"></span>
+</bs-avatar>
+<bs-avatar size="64" variant="info">JD
+  <span slot="status" class="bg-warning"></span>
+</bs-avatar>`} />
+
+## Custom dimensions
+
+Use `width` / `height` for non-square boxes (any CSS length). They override the
+`size` attribute.
+
+<Example code={`<bs-avatar width="120px" height="40px" shape="rounded">Wide</bs-avatar>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| `size` | `number` | `32` | Size in pixels. Accepts the BSE numeric scale (16/24/32/48/64/96/128) or any number. |
+| `shape` | `"circle" \| "rounded" \| "square"` | `"circle"` | Border-radius preset. |
+| `src` | `string` | — | Image URL. When set, the `<img>` is rendered instead of the default slot. |
+| `alt` | `string` | `""` | Alt text for the image. Required when `src` is set. |
+| `variant` | Bootstrap variant | — | Tints the wrapper with `bg-{variant}-subtle` + `text-{variant}-emphasis`. |
+| `width` | CSS length | — | Override host width (any CSS length). Takes precedence over `size`. |
+| `height` | CSS length | — | Override host height (any CSS length). Takes precedence over `size`. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | Placeholder content (initials, icon) when no `src`. |
+| `status` | Status indicator (e.g. online dot) absolutely positioned in the bottom-right corner. |
+
+### CSS parts
+
+| Part | Description |
+|---|---|
+| `wrapper` | The inner box (background, alignment). |
+| `image` | The `<img>` element when `src` is set. |
+
+See `packages/components/src/avatar/` in the source for the complete property list.

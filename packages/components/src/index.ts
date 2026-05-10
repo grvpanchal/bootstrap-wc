@@ -4,6 +4,7 @@
 
 import './accordion/index.js';
 import './alert/index.js';
+import './avatar/index.js';
 import './badge/index.js';
 import './breadcrumb/index.js';
 import './button/index.js';
@@ -37,6 +38,7 @@ import './tooltip/index.js';
 
 export * from './accordion/index.js';
 export * from './alert/index.js';
+export * from './avatar/index.js';
 export * from './badge/index.js';
 export * from './breadcrumb/index.js';
 export * from './button/index.js';
