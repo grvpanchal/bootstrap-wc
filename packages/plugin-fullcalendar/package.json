@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-fullcalendar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "FullCalendar 6 wrapper as a web component.",
   "type": "module",
   "main": "./dist/index.js",

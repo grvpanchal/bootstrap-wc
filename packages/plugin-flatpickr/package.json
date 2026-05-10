@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-flatpickr",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Flatpickr date picker wrapper.",
   "type": "module",
   "main": "./dist/index.js",
