@@ -1,0 +1,109 @@
+---
+title: EasyMDE
+description: EasyMDE markdown editor with live preview.
+sidebar:
+  label: EasyMDE
+---
+
+`<bs-markdown-editor>` wraps [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) so you can drop it into any
+HTML page like a regular custom element.
+
+Wraps [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Install
+
+```sh
+npm install @bootstrap-wc/plugin-easymde easymde
+```
+
+The plugin lists the upstream library as a peer dependency
+(`easymde@^2.18.0`) — install it alongside the wrapper.
+
+## Loading
+
+Load the upstream library and the plugin's `define` entry. Order matters —
+the plugin reads `globalThis` for its dependencies on connect.
+
+```html
+<!-- Upstream library -->
+<script src="https://cdn.jsdelivr.net/npm/easymde@2/dist/easymde.min.js"></script>
+
+<!-- bootstrap-wc plugin (registers <bs-markdown-editor>) -->
+<script type="module"
+  src="https://esm.sh/@bootstrap-wc/plugin-easymde/define"></script>
+```
+
+Or via npm:
+
+```ts
+import 'easymde';
+import '@bootstrap-wc/plugin-easymde/define';
+```
+
+## Example
+
+```html
+<bs-markdown-editor options='{"spellChecker":false}'>
+  <textarea># Hello
+
+Markdown editor.</textarea>
+</bs-markdown-editor>
+```
+
+## Listening for events
+
+```js
+const el = document.querySelector('bs-markdown-editor');
+el.addEventListener('bs:ready', (e) => {
+  // e.detail.instance is the underlying EasyMDE instance
+  console.log('ready', e.detail.instance);
+});
+```
+
+## Manual control
+
+Set `auto="false"` to suppress automatic instantiation, then drive the
+lifecycle yourself.
+
+```js
+const el = document.querySelector('bs-markdown-editor');
+el.setAttribute('auto', 'false');
+el.options = { /* … */ };
+el.instantiate();   // create the upstream instance
+el.dispose();       // destroy it
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| options | `object` | `{}` | Plain object passed as upstream library config (also accepts JSON string attribute). |
+| auto | `boolean` | `true` | Auto-instantiate on connect. Set to `false` to opt into manual control. |
+
+### Events
+
+| Name | Detail | When |
+|---|---|---|
+| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
+| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:destroy | — | Fired before the upstream instance is torn down. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | Markup the upstream library operates on (canvas, table, input, etc.). |
+
+## Compatibility
+
+- Lives in **light DOM** so plugin CSS reaches the slotted children.
+- Place it inside other `<bs-*>` components only when those expose **named
+  slots** that participate in the light tree — shadow-root content is invisible
+  to the upstream library.
+- Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
+  page root; scope to the wrapper instead.
+
+See `packages/PLUGINS.md` in the source for the full plugin compatibility
+matrix.

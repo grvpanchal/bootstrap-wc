@@ -43,6 +43,13 @@ describe('bs-avatar', () => {
     expect(el.style.borderRadius).to.equal('0px');
   });
 
+  it('inner wrapper clips to the host shape (circle => 50% radius on wrapper)', async () => {
+    const el = await fixture<BsAvatar>(html`<bs-avatar shape="circle">JD</bs-avatar>`);
+    await tick();
+    const wrap = el.shadowRoot!.querySelector('[part="wrapper"]') as HTMLElement;
+    expect(getComputedStyle(wrap).borderTopLeftRadius).to.not.equal('0px');
+  });
+
   it('src renders an <img part="image"> with alt and lazy loading', async () => {
     const el = await fixture<BsAvatar>(
       html`<bs-avatar size="48" src="/img/u1.jpg" alt="Jane"></bs-avatar>`,

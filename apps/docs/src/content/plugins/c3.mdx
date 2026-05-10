@@ -1,0 +1,107 @@
+---
+title: C3
+description: D3-based charting with a simple declarative API.
+sidebar:
+  label: C3
+---
+
+`<bs-c3-chart>` wraps [C3.js](https://c3js.org/) so you can drop it into any
+HTML page like a regular custom element.
+
+Wraps [C3.js](https://c3js.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Install
+
+```sh
+npm install @bootstrap-wc/plugin-c3 c3
+```
+
+The plugin lists the upstream library as a peer dependency
+(`c3@^0.7.20`) — install it alongside the wrapper.
+
+## Loading
+
+Load the upstream library and the plugin's `define` entry. Order matters —
+the plugin reads `globalThis` for its dependencies on connect.
+
+```html
+<!-- Upstream library -->
+<script src="https://cdn.jsdelivr.net/npm/c3@0.7/c3.min.js"></script>
+
+<!-- bootstrap-wc plugin (registers <bs-c3-chart>) -->
+<script type="module"
+  src="https://esm.sh/@bootstrap-wc/plugin-c3/define"></script>
+```
+
+Or via npm:
+
+```ts
+import 'c3';
+import '@bootstrap-wc/plugin-c3/define';
+```
+
+## Example
+
+```html
+<bs-c3-chart options='{"data":{"columns":[["data1",30,200,100,400]]}}'>
+  <div></div>
+</bs-c3-chart>
+```
+
+## Listening for events
+
+```js
+const el = document.querySelector('bs-c3-chart');
+el.addEventListener('bs:ready', (e) => {
+  // e.detail.instance is the underlying C3.js instance
+  console.log('ready', e.detail.instance);
+});
+```
+
+## Manual control
+
+Set `auto="false"` to suppress automatic instantiation, then drive the
+lifecycle yourself.
+
+```js
+const el = document.querySelector('bs-c3-chart');
+el.setAttribute('auto', 'false');
+el.options = { /* … */ };
+el.instantiate();   // create the upstream instance
+el.dispose();       // destroy it
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| options | `object` | `{}` | Plain object passed as upstream library config (also accepts JSON string attribute). |
+| auto | `boolean` | `true` | Auto-instantiate on connect. Set to `false` to opt into manual control. |
+
+### Events
+
+| Name | Detail | When |
+|---|---|---|
+| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
+| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:destroy | — | Fired before the upstream instance is torn down. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | Markup the upstream library operates on (canvas, table, input, etc.). |
+
+## Compatibility
+
+- Lives in **light DOM** so plugin CSS reaches the slotted children.
+- Place it inside other `<bs-*>` components only when those expose **named
+  slots** that participate in the light tree — shadow-root content is invisible
+  to the upstream library.
+- Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
+  page root; scope to the wrapper instead.
+
+See `packages/PLUGINS.md` in the source for the full plugin compatibility
+matrix.
