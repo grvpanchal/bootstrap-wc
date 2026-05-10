@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-blueimp-gallery",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "blueimp-gallery lightbox wrapper.",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "lit": "^3.2.1"
   },
   "peerDependencies": {
-    "@bootstrap-wc/components": "^0.5.0",
+    "@bootstrap-wc/components": "^0.6.0",
     "blueimp-gallery": "^3.4.0"
   },
   "peerDependenciesMeta": {

@@ -1,5 +1,13 @@
 # @bootstrap-wc/plugin-codemirror
 
+## 1.0.0
+
+### Patch Changes
+
+- Updated dependencies [d77dceb]
+- Updated dependencies [3c9a64c]
+  - @bootstrap-wc/components@0.6.0
+
 ## 0.2.0
 
 ### Minor Changes
