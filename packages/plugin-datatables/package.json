@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-datatables",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "DataTables wrapper as a web component.",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "lit": "^3.2.1"
   },
   "peerDependencies": {
-    "@bootstrap-wc/components": "^0.5.0",
+    "@bootstrap-wc/components": "^0.6.0",
     "datatables.net": "^1.13.11",
     "datatables.net-bs5": "^1.13.11"
   },
