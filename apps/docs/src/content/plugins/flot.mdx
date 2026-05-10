@@ -1,0 +1,109 @@
+---
+title: Flot
+description: Flot charting library wrapper (jQuery-based).
+sidebar:
+  label: Flot
+---
+
+`<bs-flot-chart>` wraps [Flot](http://www.flotcharts.org/) so you can drop it into any
+HTML page like a regular custom element.
+
+Requires both jQuery and the Flot script loaded globally.
+
+Wraps [Flot](http://www.flotcharts.org/) and re-dispatches lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Install
+
+```sh
+npm install @bootstrap-wc/plugin-flot jquery-flot
+```
+
+The plugin lists the upstream library as a peer dependency
+(`jquery-flot@*`) — install it alongside the wrapper.
+
+## Loading
+
+Load the upstream library and the plugin's `define` entry. Order matters —
+the plugin reads `globalThis` for its dependencies on connect.
+
+```html
+<!-- Upstream library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3 + Flot from your bundle"></script>
+
+<!-- bootstrap-wc plugin (registers <bs-flot-chart>) -->
+<script type="module"
+  src="https://esm.sh/@bootstrap-wc/plugin-flot/define"></script>
+```
+
+Or via npm:
+
+```ts
+import 'jquery-flot';
+import '@bootstrap-wc/plugin-flot/define';
+```
+
+## Example
+
+```html
+<bs-flot-chart options='{"series":[{"data":[[0,1],[1,3],[2,2]]}]}'>
+  <div style="width:300px;height:200px"></div>
+</bs-flot-chart>
+```
+
+## Listening for events
+
+```js
+const el = document.querySelector('bs-flot-chart');
+el.addEventListener('bs:ready', (e) => {
+  // e.detail.instance is the underlying Flot instance
+  console.log('ready', e.detail.instance);
+});
+```
+
+## Manual control
+
+Set `auto="false"` to suppress automatic instantiation, then drive the
+lifecycle yourself.
+
+```js
+const el = document.querySelector('bs-flot-chart');
+el.setAttribute('auto', 'false');
+el.options = { /* … */ };
+el.instantiate();   // create the upstream instance
+el.dispose();       // destroy it
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| options | `object` | `{}` | Plain object passed as upstream library config (also accepts JSON string attribute). |
+| auto | `boolean` | `true` | Auto-instantiate on connect. Set to `false` to opt into manual control. |
+
+### Events
+
+| Name | Detail | When |
+|---|---|---|
+| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
+| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:destroy | — | Fired before the upstream instance is torn down. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | Markup the upstream library operates on (canvas, table, input, etc.). |
+
+## Compatibility
+
+- Lives in **light DOM** so plugin CSS reaches the slotted children.
+- Place it inside other `<bs-*>` components only when those expose **named
+  slots** that participate in the light tree — shadow-root content is invisible
+  to the upstream library.
+- Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
+  page root; scope to the wrapper instead.
+
+See `packages/PLUGINS.md` in the source for the full plugin compatibility
+matrix.

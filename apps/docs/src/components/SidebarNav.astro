@@ -29,6 +29,10 @@ const components = (await getCollection('components')).sort((a, b) =>
   a.slug.localeCompare(b.slug),
 );
 
+const plugins = (await getCollection('plugins')).sort((a, b) =>
+  a.slug.localeCompare(b.slug),
+);
+
 function labelFor(entry: { data: { title: string; sidebar?: { label?: string } } }) {
   return entry.data.sidebar?.label ?? entry.data.title;
 }
@@ -65,10 +69,28 @@ function labelFor(entry: { data: { title: string; sidebar?: { label?: string } }
   </bs-list-group>
 
   <h6 class="text-uppercase fw-semibold text-body-secondary small mb-2">Components</h6>
-  <bs-list-group flush class="list-group list-group-flush">
+  <bs-list-group flush class="list-group list-group-flush mb-4">
     {
       components.map((entry) => {
         const slug = `components/${entry.slug}`;
+        return (
+          <bs-list-group-item
+            href={`/${slug}/`}
+            active={activeSlug === slug || undefined}
+            class={`list-group-item list-group-item-action px-2 py-1 border-0 ${activeSlug === slug ? 'active' : ''}`}
+          >
+            {labelFor(entry)}
+          </bs-list-group-item>
+        );
+      })
+    }
+  </bs-list-group>
+
+  <h6 class="text-uppercase fw-semibold text-body-secondary small mb-2">Plugins</h6>
+  <bs-list-group flush class="list-group list-group-flush">
+    {
+      plugins.map((entry) => {
+        const slug = `plugins/${entry.slug}`;
         return (
           <bs-list-group-item
             href={`/${slug}/`}

@@ -25,4 +25,8 @@ export const collections = {
     type: 'content',
     schema: docFrontmatter,
   }),
+  plugins: defineCollection({
+    type: 'content',
+    schema: docFrontmatter,
+  }),
 };

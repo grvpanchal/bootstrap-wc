@@ -56,6 +56,7 @@ export class BsAvatar extends BootstrapElement {
       color: var(--bs-body-color, #212529);
       font-weight: 600;
       user-select: none;
+      border-radius: inherit;
     }
     [part='image'] {
       width: 100%;

@@ -1,0 +1,113 @@
+---
+title: Chart.js
+description: Chart.js 4 wrapper rendering canvas-based charts.
+sidebar:
+  label: Chart.js
+---
+
+`<bs-chart>` wraps [Chart.js](https://www.chartjs.org/) so you can drop it into any
+HTML page like a regular custom element.
+
+Renders a `<canvas>` in light DOM and constructs a `Chart` instance against it. Re-dispatches lifecycle as `bs:*` events.
+
+Wraps [Chart.js](https://www.chartjs.org/) and re-dispatches lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Install
+
+```sh
+npm install @bootstrap-wc/plugin-chartjs chart.js
+```
+
+The plugin lists the upstream library as a peer dependency
+(`chart.js@^4.4.4`) — install it alongside the wrapper.
+
+## Loading
+
+Load the upstream library and the plugin's `define` entry. Order matters —
+the plugin reads `globalThis` for its dependencies on connect.
+
+```html
+<!-- Upstream library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+<!-- bootstrap-wc plugin (registers <bs-chart>) -->
+<script type="module"
+  src="https://esm.sh/@bootstrap-wc/plugin-chartjs/define"></script>
+```
+
+Or via npm:
+
+```ts
+import 'chart.js';
+import '@bootstrap-wc/plugin-chartjs/define';
+```
+
+## Example
+
+```html
+<bs-chart
+  type="bar"
+  data='{"labels":["Mon","Tue","Wed"],"datasets":[{"label":"Sales","data":[12,19,3]}]}'
+  width="300" height="200">
+</bs-chart>
+```
+
+## Listening for events
+
+```js
+const el = document.querySelector('bs-chart');
+el.addEventListener('bs:ready', (e) => {
+  // e.detail.instance is the underlying Chart.js instance
+  console.log('ready', e.detail.instance);
+});
+```
+
+## Manual control
+
+Set `auto="false"` to suppress automatic instantiation, then drive the
+lifecycle yourself.
+
+```js
+const el = document.querySelector('bs-chart');
+el.setAttribute('auto', 'false');
+el.options = { /* … */ };
+el.instantiate();   // create the upstream instance
+el.dispose();       // destroy it
+```
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+|---|---|---|---|
+| type | `bar` | `line` | `pie` | `doughnut` | `radar` | `polarArea` | `scatter` | `bubble` | `bar` | Chart type. |
+| data | `object` | `{}` | Chart.js data object (datasets, labels). |
+| options | `object` | `{}` | Chart.js options object. |
+| width | CSS length | — | Canvas width passthrough. |
+| height | CSS length | — | Canvas height passthrough. |
+
+### Events
+
+| Name | Detail | When |
+|---|---|---|
+| bs:ready | `{ instance: Chart }` | After the `Chart` instance is created. |
+| bs:destroy | — | Before the chart is destroyed. |
+
+### Slots
+
+| Slot | Description |
+|---|---|
+| _(default)_ | Markup the upstream library operates on (canvas, table, input, etc.). |
+
+## Compatibility
+
+- Lives in **light DOM** so plugin CSS reaches the slotted children.
+- Place it inside other `<bs-*>` components only when those expose **named
+  slots** that participate in the light tree — shadow-root content is invisible
+  to the upstream library.
+- Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
+  page root; scope to the wrapper instead.
+
+See `packages/PLUGINS.md` in the source for the full plugin compatibility
+matrix.
