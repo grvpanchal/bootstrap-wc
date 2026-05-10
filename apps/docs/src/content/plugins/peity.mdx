@@ -5,10 +5,33 @@ sidebar:
   label: Peity
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/peity@3.3.0/jquery.peity.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-peity@1.0.0/define"></script>
+
 `<bs-peity-chart>` wraps [Peity](http://benpickles.github.io/peity/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Peity](http://benpickles.github.io/peity/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<p>Sales pipeline:
+  <bs-peity-chart options='{"type":"line","width":80,"height":24,"stroke":"#0d6efd"}'>
+    <span>5,3,9,6,5,9,7,3,5,2</span>
+  </bs-peity-chart>
+  / Conversions:
+  <bs-peity-chart options='{"type":"bar","width":80,"height":24,"fill":["#198754"]}'>
+    <span>5,3,9,6,5,9,7,3</span>
+  </bs-peity-chart>
+  / Mix:
+  <bs-peity-chart options='{"type":"pie","fill":["#0d6efd","#dee2e6"]}'>
+    <span>3/8</span>
+  </bs-peity-chart>
+</p>`} />
 
 ## Install
 
@@ -25,8 +48,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/peity@3"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/peity@3.3.0/jquery.peity.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-peity-chart>) -->
 <script type="module"
@@ -38,14 +61,6 @@ Or via npm:
 ```ts
 import 'peity';
 import '@bootstrap-wc/plugin-peity/define';
-```
-
-## Example
-
-```html
-<bs-peity-chart options='{"type":"line"}'>
-  <span>5,3,9,6,5,9,7,3,5,2</span>
-</bs-peity-chart>
 ```
 
 ## Listening for events

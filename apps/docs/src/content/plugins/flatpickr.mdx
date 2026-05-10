@@ -5,10 +5,23 @@ sidebar:
   label: Flatpickr
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-flatpickr@1.0.0/define"></script>
+
 `<bs-datepicker>` wraps [Flatpickr](https://flatpickr.js.org/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Flatpickr](https://flatpickr.js.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-datepicker options='{"dateFormat":"Y-m-d","defaultDate":"2026-05-15"}'>
+  <input type="text" class="form-control" placeholder="Pick a date">
+</bs-datepicker>`} />
 
 ## Install
 
@@ -25,8 +38,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-datepicker>) -->
 <script type="module"
@@ -38,14 +51,6 @@ Or via npm:
 ```ts
 import 'flatpickr';
 import '@bootstrap-wc/plugin-flatpickr/define';
-```
-
-## Example
-
-```html
-<bs-datepicker options='{"dateFormat":"Y-m-d"}'>
-  <input type="text" class="form-control" placeholder="Pick a date">
-</bs-datepicker>
 ```
 
 ## Listening for events

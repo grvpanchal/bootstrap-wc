@@ -5,10 +5,24 @@ sidebar:
   label: Clipboard
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-clipboard@1.0.0/define"></script>
+
 `<bs-clipboard>` wraps [clipboard.js](https://clipboardjs.com/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [clipboard.js](https://clipboardjs.com/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-clipboard>
+  <button class="btn btn-outline-primary" data-clipboard-text="Hello from bootstrap-wc!">
+    Copy text
+  </button>
+</bs-clipboard>`} />
 
 ## Install
 
@@ -25,8 +39,7 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-clipboard>) -->
 <script type="module"
@@ -38,14 +51,6 @@ Or via npm:
 ```ts
 import 'clipboard';
 import '@bootstrap-wc/plugin-clipboard/define';
-```
-
-## Example
-
-```html
-<bs-clipboard>
-  <button class="btn btn-outline-primary" data-clipboard-text="Copied!">Copy</button>
-</bs-clipboard>
 ```
 
 ## Listening for events

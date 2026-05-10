@@ -5,10 +5,25 @@ sidebar:
   label: Morris.js
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-morris@1.0.0/define"></script>
+
 `<bs-morris-chart>` wraps [Morris.js](https://morrisjs.github.io/morris.js/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Morris.js](https://morrisjs.github.io/morris.js/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-morris-chart options='{"data":[{"y":"2022","a":50,"b":90},{"y":"2023","a":75,"b":65},{"y":"2024","a":50,"b":40},{"y":"2025","a":75,"b":65},{"y":"2026","a":100,"b":50}],"xkey":"y","ykeys":["a","b"],"labels":["Series A","Series B"],"lineColors":["#0d6efd","#6610f2"]}'>
+  <div style="height:200px"></div>
+</bs-morris-chart>`} />
 
 ## Install
 
@@ -25,8 +40,10 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/morris.js06@0.6/morris.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-morris-chart>) -->
 <script type="module"
@@ -38,14 +55,6 @@ Or via npm:
 ```ts
 import 'morris.js';
 import '@bootstrap-wc/plugin-morris/define';
-```
-
-## Example
-
-```html
-<bs-morris-chart options='{"element":"morris-1","data":[{"y":"2024","a":50}],"xkey":"y","ykeys":["a"],"labels":["A"]}'>
-  <div id="morris-1" style="height:200px"></div>
-</bs-morris-chart>
 ```
 
 ## Listening for events

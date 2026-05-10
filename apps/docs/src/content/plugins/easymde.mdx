@@ -5,10 +5,25 @@ sidebar:
   label: EasyMDE
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-easymde@1.0.0/define"></script>
+
 `<bs-markdown-editor>` wraps [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [EasyMDE](https://github.com/Ionaru/easy-markdown-editor) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-markdown-editor options='{"spellChecker":false,"minHeight":"160px"}'>
+  <textarea># Hello
+
+Markdown editor with **live preview**.</textarea>
+</bs-markdown-editor>`} />
 
 ## Install
 
@@ -25,8 +40,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/easymde@2/dist/easymde.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-markdown-editor>) -->
 <script type="module"
@@ -38,16 +53,6 @@ Or via npm:
 ```ts
 import 'easymde';
 import '@bootstrap-wc/plugin-easymde/define';
-```
-
-## Example
-
-```html
-<bs-markdown-editor options='{"spellChecker":false}'>
-  <textarea># Hello
-
-Markdown editor.</textarea>
-</bs-markdown-editor>
 ```
 
 ## Listening for events

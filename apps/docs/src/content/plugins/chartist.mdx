@@ -5,10 +5,23 @@ sidebar:
   label: Chartist
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.umd.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-chartist@1.0.0/define"></script>
+
 `<bs-chartist-chart>` wraps [Chartist 1](https://gionkunz.github.io/chartist-js/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Chartist 1](https://gionkunz.github.io/chartist-js/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-chartist-chart options='{"type":"Line","data":{"labels":["Jan","Feb","Mar","Apr","May"],"series":[[1,5,3,4,2],[2,3,4,5,6]]},"chartOptions":{"height":"200px"}}'>
+  <div class="ct-chart"></div>
+</bs-chartist-chart>`} />
 
 ## Install
 
@@ -25,8 +38,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/chartist@1"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.css">
+<script src="https://cdn.jsdelivr.net/npm/chartist@1.3.0/dist/index.umd.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-chartist-chart>) -->
 <script type="module"
@@ -38,14 +51,6 @@ Or via npm:
 ```ts
 import 'chartist';
 import '@bootstrap-wc/plugin-chartist/define';
-```
-
-## Example
-
-```html
-<bs-chartist-chart options='{"type":"Line","data":{"labels":["Jan","Feb","Mar"],"series":[[1,5,3]]}}'>
-  <div class="ct-chart"></div>
-</bs-chartist-chart>
 ```
 
 ## Listening for events

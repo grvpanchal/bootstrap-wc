@@ -5,10 +5,28 @@ sidebar:
   label: CodeMirror
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-codemirror@1.0.0/define"></script>
+
 `<bs-code-editor>` wraps [CodeMirror 5](https://codemirror.net/5/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [CodeMirror 5](https://codemirror.net/5/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-code-editor options='{"mode":"javascript","lineNumbers":true,"theme":"default"}'>
+  <textarea>function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+
+console.log(greet('world'));</textarea>
+</bs-code-editor>`} />
 
 ## Install
 
@@ -25,8 +43,9 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.css">
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-code-editor>) -->
 <script type="module"
@@ -38,14 +57,6 @@ Or via npm:
 ```ts
 import 'codemirror';
 import '@bootstrap-wc/plugin-codemirror/define';
-```
-
-## Example
-
-```html
-<bs-code-editor options='{"mode":"javascript","lineNumbers":true}'>
-  <textarea>function hi() { return 42; }</textarea>
-</bs-code-editor>
 ```
 
 ## Listening for events

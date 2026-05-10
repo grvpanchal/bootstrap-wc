@@ -5,10 +5,24 @@ sidebar:
   label: C3
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.css" />
+<script is:inline src="https://d3js.org/d3.v5.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-c3@1.0.0/define"></script>
+
 `<bs-c3-chart>` wraps [C3.js](https://c3js.org/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [C3.js](https://c3js.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-c3-chart options='{"data":{"columns":[["data1",30,200,100,400,150,250],["data2",50,20,10,40,15,25]]},"size":{"height":220}}'>
+  <div></div>
+</bs-c3-chart>`} />
 
 ## Install
 
@@ -25,8 +39,9 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/c3@0.7/c3.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.css">
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/c3@0.7.20/c3.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-c3-chart>) -->
 <script type="module"
@@ -38,14 +53,6 @@ Or via npm:
 ```ts
 import 'c3';
 import '@bootstrap-wc/plugin-c3/define';
-```
-
-## Example
-
-```html
-<bs-c3-chart options='{"data":{"columns":[["data1",30,200,100,400]]}}'>
-  <div></div>
-</bs-c3-chart>
 ```
 
 ## Listening for events

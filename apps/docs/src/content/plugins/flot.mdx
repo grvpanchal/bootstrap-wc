@@ -5,12 +5,30 @@ sidebar:
   label: Flot
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-flot@1.0.0/define"></script>
+
 `<bs-flot-chart>` wraps [Flot](http://www.flotcharts.org/) so you can drop it into any
 HTML page like a regular custom element.
 
 Requires both jQuery and the Flot script loaded globally.
 
 Wraps [Flot](http://www.flotcharts.org/) and re-dispatches lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-flot-chart options='{"series":{"lines":{"show":true,"fill":true,"fillColor":"rgba(13,110,253,0.2)"},"points":{"show":true}},"colors":["#0d6efd"],"grid":{"borderColor":"#dee2e6"}}' data-points='[[1,12],[2,19],[3,3],[4,8],[5,15],[6,9]]'>
+  <div style="height:200px"></div>
+</bs-flot-chart>
+<script>
+  document.querySelectorAll('bs-flot-chart').forEach(el => {
+    if (el.dataset.points) el.options = { ...el.options, data: [JSON.parse(el.dataset.points)] };
+  });
+</script>`} />
 
 ## Install
 
@@ -27,8 +45,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3 + Flot from your bundle"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-flot-chart>) -->
 <script type="module"
@@ -40,14 +58,6 @@ Or via npm:
 ```ts
 import 'jquery-flot';
 import '@bootstrap-wc/plugin-flot/define';
-```
-
-## Example
-
-```html
-<bs-flot-chart options='{"series":[{"data":[[0,1],[1,3],[2,2]]}]}'>
-  <div style="width:300px;height:200px"></div>
-</bs-flot-chart>
 ```
 
 ## Listening for events

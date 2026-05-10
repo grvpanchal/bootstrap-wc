@@ -5,10 +5,29 @@ sidebar:
   label: Tom Select
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.bootstrap5.min.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-tom-select@1.0.0/define"></script>
+
 `<bs-search-select>` wraps [Tom Select](https://tom-select.js.org/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Tom Select](https://tom-select.js.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-search-select options='{"create":true,"plugins":["remove_button"]}'>
+  <select class="form-select" multiple placeholder="Pick languages">
+    <option value="ts">TypeScript</option>
+    <option value="js">JavaScript</option>
+    <option value="py">Python</option>
+    <option value="rs">Rust</option>
+    <option value="go">Go</option>
+  </select>
+</bs-search-select>`} />
 
 ## Install
 
@@ -25,8 +44,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2/dist/js/tom-select.complete.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.bootstrap5.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-search-select>) -->
 <script type="module"
@@ -38,16 +57,6 @@ Or via npm:
 ```ts
 import 'tom-select';
 import '@bootstrap-wc/plugin-tom-select/define';
-```
-
-## Example
-
-```html
-<bs-search-select options='{"create":true}'>
-  <select class="form-select" multiple>
-    <option>One</option><option>Two</option><option>Three</option>
-  </select>
-</bs-search-select>
 ```
 
 ## Listening for events

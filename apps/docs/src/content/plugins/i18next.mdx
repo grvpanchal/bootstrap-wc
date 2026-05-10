@@ -5,12 +5,39 @@ sidebar:
   label: i18next
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://cdn.jsdelivr.net/npm/i18next@23.15.1/i18next.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-i18next@1.0.0/define"></script>
+
 `<bs-i18n>` wraps [i18next](https://www.i18next.com/) so you can drop it into any
 HTML page like a regular custom element.
 
 Renders the translation for `key` after `i18next.init()` has resolved. Updates when the language changes.
 
 Wraps [i18next](https://www.i18next.com/) and re-dispatches lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<p>
+  <bs-i18n key="welcome.title"></bs-i18n><br>
+  <bs-i18n key="welcome.subtitle"></bs-i18n>
+</p>
+<button class="btn btn-sm btn-outline-secondary" onclick="i18next.changeLanguage(i18next.language === 'en' ? 'fr' : 'en')">
+  Toggle language
+</button>
+<script>
+  if (window.i18next && !window.i18next.isInitialized) {
+    window.i18next.init({
+      lng: 'en',
+      resources: {
+        en: { translation: { welcome: { title: 'Welcome!', subtitle: 'You are reading the docs.' } } },
+        fr: { translation: { welcome: { title: 'Bienvenue !', subtitle: 'Vous lisez la documentation.' } } },
+      },
+    });
+  }
+</script>`} />
 
 ## Install
 
@@ -27,8 +54,7 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/i18next@23"></script>
+<script src="https://cdn.jsdelivr.net/npm/i18next@23.15.1/i18next.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-i18n>) -->
 <script type="module"
@@ -40,12 +66,6 @@ Or via npm:
 ```ts
 import 'i18next';
 import '@bootstrap-wc/plugin-i18next/define';
-```
-
-## Example
-
-```html
-<bs-i18n key="welcome.message"></bs-i18n>
 ```
 
 ## Listening for events
@@ -78,7 +98,7 @@ el.dispose();       // destroy it
 | Name | Type | Default | Description |
 |---|---|---|---|
 | key | `string` | — | i18next translation key. |
-| options | `object` | `{}` | Per-instance interpolation options passed to `t()`. |
+| options | `object` | `{}` | Per-instance interpolation options passed to t(). |
 | auto | `boolean` | `true` | Auto-translate on connect / language change. |
 
 ### Events

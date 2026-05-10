@@ -5,10 +5,40 @@ sidebar:
   label: blueimp Gallery
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/blueimp-gallery@3.4.0/css/blueimp-gallery.min.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/blueimp-gallery@3.4.0/js/blueimp-gallery.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-blueimp-gallery@1.0.0/define"></script>
+
 `<bs-lightbox>` wraps [blueimp Gallery](https://blueimp.github.io/Gallery/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [blueimp Gallery](https://blueimp.github.io/Gallery/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-lightbox>
+  <div class="d-flex gap-2 flex-wrap">
+    <a href="https://picsum.photos/800/600?image=1" data-gallery>
+      <img src="https://picsum.photos/120/90?image=1" alt="" class="rounded">
+    </a>
+    <a href="https://picsum.photos/800/600?image=2" data-gallery>
+      <img src="https://picsum.photos/120/90?image=2" alt="" class="rounded">
+    </a>
+    <a href="https://picsum.photos/800/600?image=3" data-gallery>
+      <img src="https://picsum.photos/120/90?image=3" alt="" class="rounded">
+    </a>
+  </div>
+</bs-lightbox>
+<div id="blueimp-gallery" class="blueimp-gallery">
+  <div class="slides"></div>
+  <h3 class="title"></h3>
+  <a class="prev">‹</a>
+  <a class="next">›</a>
+  <a class="close">×</a>
+</div>`} />
 
 ## Install
 
@@ -25,8 +55,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/blueimp-gallery@3"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/blueimp-gallery@3.4.0/css/blueimp-gallery.min.css">
+<script src="https://cdn.jsdelivr.net/npm/blueimp-gallery@3.4.0/js/blueimp-gallery.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-lightbox>) -->
 <script type="module"
@@ -38,15 +68,6 @@ Or via npm:
 ```ts
 import 'blueimp-gallery';
 import '@bootstrap-wc/plugin-blueimp-gallery/define';
-```
-
-## Example
-
-```html
-<bs-lightbox>
-  <a href="/img/1-large.jpg" data-gallery><img src="/img/1.jpg" alt=""></a>
-  <a href="/img/2-large.jpg" data-gallery><img src="/img/2.jpg" alt=""></a>
-</bs-lightbox>
 ```
 
 ## Listening for events

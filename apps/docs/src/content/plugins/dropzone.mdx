@@ -5,10 +5,25 @@ sidebar:
   label: Dropzone
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@6.0.0-beta.2/dist/dropzone.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/dropzone@6.0.0-beta.2/dist/dropzone-min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-dropzone@1.0.0/define"></script>
+
 `<bs-file-upload>` wraps [Dropzone 6](https://www.dropzone.dev/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Dropzone 6](https://www.dropzone.dev/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-file-upload options='{"url":"https://httpbin.org/post","maxFiles":5,"acceptedFiles":"image/*"}'>
+  <form class="dropzone bg-body-tertiary border rounded p-4 text-center text-body-secondary">
+    Drop files here or click to upload.
+  </form>
+</bs-file-upload>`} />
 
 ## Install
 
@@ -25,7 +40,7 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@6.0.0-beta.2/dist/dropzone.css">
 <script src="https://cdn.jsdelivr.net/npm/dropzone@6.0.0-beta.2/dist/dropzone-min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-file-upload>) -->
@@ -38,14 +53,6 @@ Or via npm:
 ```ts
 import 'dropzone';
 import '@bootstrap-wc/plugin-dropzone/define';
-```
-
-## Example
-
-```html
-<bs-file-upload options='{"url":"/upload","maxFiles":5}'>
-  <form class="dropzone"></form>
-</bs-file-upload>
 ```
 
 ## Listening for events

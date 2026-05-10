@@ -5,10 +5,24 @@ sidebar:
   label: jsTree
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jstree@3.3.16/dist/themes/default/style.min.css" />
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/jstree@3.3.16/dist/jstree.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-jstree@1.0.0/define"></script>
+
 `<bs-tree>` wraps [jsTree](https://www.jstree.com/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [jsTree](https://www.jstree.com/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-tree options='{"core":{"data":[{"text":"Root","state":{"opened":true},"children":[{"text":"Child A"},{"text":"Child B","children":[{"text":"Grandchild"}]}]}]}}'>
+  <div></div>
+</bs-tree>`} />
 
 ## Install
 
@@ -25,8 +39,9 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/jstree@3"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jstree@3.3.16/dist/themes/default/style.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jstree@3.3.16/dist/jstree.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-tree>) -->
 <script type="module"
@@ -38,14 +53,6 @@ Or via npm:
 ```ts
 import 'jstree';
 import '@bootstrap-wc/plugin-jstree/define';
-```
-
-## Example
-
-```html
-<bs-tree options='{"core":{"data":[{"text":"Root","children":[{"text":"Child"}]}]}}'>
-  <div></div>
-</bs-tree>
 ```
 
 ## Listening for events

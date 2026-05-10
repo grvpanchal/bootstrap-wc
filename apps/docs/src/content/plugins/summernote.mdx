@@ -5,10 +5,24 @@ sidebar:
   label: Summernote
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css" />
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-summernote@1.0.0/define"></script>
+
 `<bs-rich-text>` wraps [Summernote](https://summernote.org/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Summernote](https://summernote.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-rich-text options='{"height":180,"placeholder":"Type rich text here..."}'>
+  <textarea>Hello <b>world</b>!</textarea>
+</bs-rich-text>`} />
 
 ## Install
 
@@ -25,8 +39,9 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.9/dist/summernote-bs5.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-rich-text>) -->
 <script type="module"
@@ -38,14 +53,6 @@ Or via npm:
 ```ts
 import 'summernote';
 import '@bootstrap-wc/plugin-summernote/define';
-```
-
-## Example
-
-```html
-<bs-rich-text options='{"height":200}'>
-  <textarea>Type here…</textarea>
-</bs-rich-text>
 ```
 
 ## Listening for events

@@ -5,10 +5,25 @@ sidebar:
   label: Shepherd (tour)
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@13.0.3/dist/css/shepherd.css" />
+<script is:inline src="https://cdn.jsdelivr.net/npm/shepherd.js@13.0.3/dist/js/shepherd.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-shepherd@1.0.0/define"></script>
+
 `<bs-tour>` wraps [Shepherd.js](https://shepherdjs.dev/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [Shepherd.js](https://shepherdjs.dev/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<bs-tour options='{"useModalOverlay":true,"steps":[{"id":"step-1","text":"This is the first step.","attachTo":{"element":"#tour-anchor","on":"bottom"},"buttons":[{"text":"OK","action":"complete"}]}]}'></bs-tour>
+
+<button id="tour-anchor" class="btn btn-outline-primary" onclick="document.querySelector('bs-tour').start()">
+  Start tour
+</button>`} />
 
 ## Install
 
@@ -25,8 +40,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/shepherd.js@13"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@13.0.3/dist/css/shepherd.css">
+<script src="https://cdn.jsdelivr.net/npm/shepherd.js@13.0.3/dist/js/shepherd.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-tour>) -->
 <script type="module"
@@ -38,14 +53,6 @@ Or via npm:
 ```ts
 import 'shepherd.js';
 import '@bootstrap-wc/plugin-shepherd/define';
-```
-
-## Example
-
-```html
-<bs-tour options='{"steps":[{"text":"Welcome!","attachTo":{"element":"#step-1","on":"bottom"}}]}'></bs-tour>
-
-<button id="step-1">Step 1 anchor</button>
 ```
 
 ## Listening for events

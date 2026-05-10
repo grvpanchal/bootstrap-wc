@@ -5,12 +5,24 @@ sidebar:
   label: Chart.js
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-chartjs@1.0.0/define"></script>
+
 `<bs-chart>` wraps [Chart.js](https://www.chartjs.org/) so you can drop it into any
 HTML page like a regular custom element.
 
-Renders a `<canvas>` in light DOM and constructs a `Chart` instance against it. Re-dispatches lifecycle as `bs:*` events.
+Wraps [Chart.js](https://www.chartjs.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
 
-Wraps [Chart.js](https://www.chartjs.org/) and re-dispatches lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+## Live example
+
+<Example code={`<bs-chart
+  type="bar"
+  data='{"labels":["Mon","Tue","Wed","Thu","Fri"],"datasets":[{"label":"Sales","data":[12,19,3,8,15],"backgroundColor":"#0d6efd"}]}'
+  options='{"responsive":true,"maintainAspectRatio":false}'
+  style="display:block;height:240px"></bs-chart>`} />
 
 ## Install
 
@@ -27,8 +39,7 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-chart>) -->
 <script type="module"
@@ -40,16 +51,6 @@ Or via npm:
 ```ts
 import 'chart.js';
 import '@bootstrap-wc/plugin-chartjs/define';
-```
-
-## Example
-
-```html
-<bs-chart
-  type="bar"
-  data='{"labels":["Mon","Tue","Wed"],"datasets":[{"label":"Sales","data":[12,19,3]}]}'
-  width="300" height="200">
-</bs-chart>
 ```
 
 ## Listening for events
@@ -81,7 +82,7 @@ el.dispose();       // destroy it
 
 | Name | Type | Default | Description |
 |---|---|---|---|
-| type | `bar` | `line` | `pie` | `doughnut` | `radar` | `polarArea` | `scatter` | `bubble` | `bar` | Chart type. |
+| type | `string` | `bar` | Chart type (bar, line, pie, doughnut, radar, polarArea, scatter, bubble). |
 | data | `object` | `{}` | Chart.js data object (datasets, labels). |
 | options | `object` | `{}` | Chart.js options object. |
 | width | CSS length | — | Canvas width passthrough. |
@@ -91,7 +92,7 @@ el.dispose();       // destroy it
 
 | Name | Detail | When |
 |---|---|---|
-| bs:ready | `{ instance: Chart }` | After the `Chart` instance is created. |
+| bs:ready | `{ instance: Chart }` | After the Chart instance is created. |
 | bs:destroy | — | Before the chart is destroyed. |
 
 ### Slots

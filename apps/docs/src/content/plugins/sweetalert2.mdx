@@ -5,10 +5,23 @@ sidebar:
   label: SweetAlert2
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.0/dist/sweetalert2.all.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-sweetalert2@1.0.0/define"></script>
+
 `<bs-swal>` wraps [SweetAlert2](https://sweetalert2.github.io/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [SweetAlert2](https://sweetalert2.github.io/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<button class="btn btn-primary" onclick="Swal.fire({ title: 'Saved!', text: 'Your changes have been saved.', icon: 'success' })">
+  Show alert
+</button>
+<bs-swal></bs-swal>`} />
 
 ## Install
 
@@ -25,8 +38,7 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.0/dist/sweetalert2.all.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-swal>) -->
 <script type="module"
@@ -38,14 +50,6 @@ Or via npm:
 ```ts
 import 'sweetalert2';
 import '@bootstrap-wc/plugin-sweetalert2/define';
-```
-
-## Example
-
-```html
-<bs-swal options='{"title":"Saved!","icon":"success"}'></bs-swal>
-
-<button onclick="document.querySelector('bs-swal').fire()">Show</button>
 ```
 
 ## Listening for events

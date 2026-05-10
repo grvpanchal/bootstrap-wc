@@ -5,10 +5,32 @@ sidebar:
   label: jQuery Validation
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library + plugin define from CDN. */}
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
+<script is:inline type="module" src="https://esm.sh/@bootstrap-wc/plugin-validate@1.0.0/define"></script>
+
 `<bs-form-validator>` wraps [jQuery Validation Plugin](https://jqueryvalidation.org/) so you can drop it into any
 HTML page like a regular custom element.
 
 Wraps [jQuery Validation Plugin](https://jqueryvalidation.org/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+
+## Live example
+
+<Example code={`<form id="demo-form" class="needs-validation">
+  <div class="mb-2">
+    <label class="form-label">Email</label>
+    <input name="email" type="email" required class="form-control">
+  </div>
+  <div class="mb-2">
+    <label class="form-label">Password (min 6)</label>
+    <input name="password" type="password" required minlength="6" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<bs-form-validator options='{"selector":"#demo-form","rules":{"email":{"required":true,"email":true},"password":{"required":true,"minlength":6}}}'></bs-form-validator>`} />
 
 ## Install
 
@@ -25,8 +47,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.20.0/dist/jquery.validate.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-form-validator>) -->
 <script type="module"
@@ -38,16 +60,6 @@ Or via npm:
 ```ts
 import 'jquery-validation';
 import '@bootstrap-wc/plugin-validate/define';
-```
-
-## Example
-
-```html
-<bs-form>
-  <input name="email" type="email" required class="form-control">
-  <button type="submit" class="btn btn-primary">Submit</button>
-</bs-form>
-<bs-form-validator options='{"rules":{"email":{"required":true,"email":true}}}'></bs-form-validator>
 ```
 
 ## Listening for events
