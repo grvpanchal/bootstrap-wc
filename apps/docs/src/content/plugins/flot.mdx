@@ -5,12 +5,25 @@ sidebar:
   label: Flot
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library loaded from CDN. The bs-flot-chart */}
+{/* element is registered by Example.astro's bundled plugin defines. */}
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
+
 `<bs-flot-chart>` wraps [Flot](http://www.flotcharts.org/) so you can drop it into any
 HTML page like a regular custom element.
 
-Requires both jQuery and the Flot script loaded globally.
+Renders in **light DOM** so the upstream library's CSS reaches its slotted
+children. Re-dispatches the upstream lifecycle as standard `bs:*` custom
+events.
 
-Wraps [Flot](http://www.flotcharts.org/) and re-dispatches lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+## Live example
+
+<Example code={`<bs-flot-chart options='{"data":[[[1,12],[2,19],[3,3],[4,8],[5,15],[6,9]]],"series":{"lines":{"show":true,"fill":true,"fillColor":"rgba(13,110,253,0.2)"},"points":{"show":true}},"colors":["#0d6efd"],"grid":{"borderColor":"#dee2e6"}}'>
+  <div style="height:200px"></div>
+</bs-flot-chart>`} />
 
 ## Install
 
@@ -27,8 +40,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3 + Flot from your bundle"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-flot-chart>) -->
 <script type="module"
@@ -40,14 +53,6 @@ Or via npm:
 ```ts
 import 'jquery-flot';
 import '@bootstrap-wc/plugin-flot/define';
-```
-
-## Example
-
-```html
-<bs-flot-chart options='{"series":[{"data":[[0,1],[1,3],[2,2]]}]}'>
-  <div style="width:300px;height:200px"></div>
-</bs-flot-chart>
 ```
 
 ## Listening for events
@@ -69,8 +74,7 @@ lifecycle yourself.
 const el = document.querySelector('bs-flot-chart');
 el.setAttribute('auto', 'false');
 el.options = { /* … */ };
-el.instantiate();   // create the upstream instance
-el.dispose();       // destroy it
+el.connectedCallback();   // re-runs instantiate when auto is later flipped
 ```
 
 ## API
@@ -86,8 +90,7 @@ el.dispose();       // destroy it
 
 | Name | Detail | When |
 |---|---|---|
-| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
-| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:ready | `{ instance, target }` | Fired after the upstream library is initialized. |
 | bs:destroy | — | Fired before the upstream instance is torn down. |
 
 ### Slots
@@ -104,6 +107,3 @@ el.dispose();       // destroy it
   to the upstream library.
 - Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
   page root; scope to the wrapper instead.
-
-See `packages/PLUGINS.md` in the source for the full plugin compatibility
-matrix.

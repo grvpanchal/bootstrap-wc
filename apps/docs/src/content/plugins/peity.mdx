@@ -5,10 +5,35 @@ sidebar:
   label: Peity
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library loaded from CDN. The bs-peity-chart */}
+{/* element is registered by Example.astro's bundled plugin defines. */}
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/peity@3.3.0/jquery.peity.min.js"></script>
+
 `<bs-peity-chart>` wraps [Peity](http://benpickles.github.io/peity/) so you can drop it into any
 HTML page like a regular custom element.
 
-Wraps [Peity](http://benpickles.github.io/peity/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+Renders in **light DOM** so the upstream library's CSS reaches its slotted
+children. Re-dispatches the upstream lifecycle as standard `bs:*` custom
+events.
+
+## Live example
+
+<Example code={`<p>Sales pipeline:
+  <bs-peity-chart options='{"type":"line","width":80,"height":24,"stroke":"#0d6efd"}'>
+    <span>5,3,9,6,5,9,7,3,5,2</span>
+  </bs-peity-chart>
+  / Conversions:
+  <bs-peity-chart options='{"type":"bar","width":80,"height":24,"fill":["#198754"]}'>
+    <span>5,3,9,6,5,9,7,3</span>
+  </bs-peity-chart>
+  / Mix:
+  <bs-peity-chart options='{"type":"pie","fill":["#0d6efd","#dee2e6"]}'>
+    <span>3/8</span>
+  </bs-peity-chart>
+</p>`} />
 
 ## Install
 
@@ -25,8 +50,8 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/peity@3"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/peity@3.3.0/jquery.peity.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-peity-chart>) -->
 <script type="module"
@@ -38,14 +63,6 @@ Or via npm:
 ```ts
 import 'peity';
 import '@bootstrap-wc/plugin-peity/define';
-```
-
-## Example
-
-```html
-<bs-peity-chart options='{"type":"line"}'>
-  <span>5,3,9,6,5,9,7,3,5,2</span>
-</bs-peity-chart>
 ```
 
 ## Listening for events
@@ -67,8 +84,7 @@ lifecycle yourself.
 const el = document.querySelector('bs-peity-chart');
 el.setAttribute('auto', 'false');
 el.options = { /* … */ };
-el.instantiate();   // create the upstream instance
-el.dispose();       // destroy it
+el.connectedCallback();   // re-runs instantiate when auto is later flipped
 ```
 
 ## API
@@ -84,8 +100,7 @@ el.dispose();       // destroy it
 
 | Name | Detail | When |
 |---|---|---|
-| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
-| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:ready | `{ instance, target }` | Fired after the upstream library is initialized. |
 | bs:destroy | — | Fired before the upstream instance is torn down. |
 
 ### Slots
@@ -102,6 +117,3 @@ el.dispose();       // destroy it
   to the upstream library.
 - Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
   page root; scope to the wrapper instead.
-
-See `packages/PLUGINS.md` in the source for the full plugin compatibility
-matrix.

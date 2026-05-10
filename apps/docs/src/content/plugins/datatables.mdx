@@ -5,10 +5,35 @@ sidebar:
   label: DataTables
 ---
 
+import Example from '../../components/Example.astro';
+
+{/* Live preview wiring: upstream library loaded from CDN. The bs-datatable */}
+{/* element is registered by Example.astro's bundled plugin defines. */}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/css/dataTables.bootstrap5.min.css" />
+<script is:inline src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/datatables.net@1.13.11/js/jquery.dataTables.min.js"></script>
+<script is:inline src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/js/dataTables.bootstrap5.min.js"></script>
+
 `<bs-datatable>` wraps [DataTables](https://datatables.net/) so you can drop it into any
 HTML page like a regular custom element.
 
-Wraps [DataTables](https://datatables.net/) as a Lit-based web component. Re-dispatches the upstream lifecycle as standard `bs:*` custom events. Renders in **light DOM** so the upstream library's CSS reaches its children.
+Renders in **light DOM** so the upstream library's CSS reaches its slotted
+children. Re-dispatches the upstream lifecycle as standard `bs:*` custom
+events.
+
+## Live example
+
+<Example code={`<bs-datatable options='{"paging":true,"searching":true,"info":false}'>
+  <table class="table table-striped">
+    <thead><tr><th>Name</th><th>Role</th><th>Joined</th></tr></thead>
+    <tbody>
+      <tr><td>Jane Doe</td><td>Designer</td><td>2024-01-15</td></tr>
+      <tr><td>John Smith</td><td>Engineer</td><td>2023-08-22</td></tr>
+      <tr><td>Ada Lovelace</td><td>Architect</td><td>2022-11-03</td></tr>
+      <tr><td>Linus T.</td><td>Maintainer</td><td>2021-04-19</td></tr>
+    </tbody>
+  </table>
+</bs-datatable>`} />
 
 ## Install
 
@@ -25,8 +50,10 @@ Load the upstream library and the plugin's `define` entry. Order matters —
 the plugin reads `globalThis` for its dependencies on connect.
 
 ```html
-<!-- Upstream library -->
-<script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/datatables.net@1.13.11/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.11/js/dataTables.bootstrap5.min.js"></script>
 
 <!-- bootstrap-wc plugin (registers <bs-datatable>) -->
 <script type="module"
@@ -38,20 +65,6 @@ Or via npm:
 ```ts
 import 'datatables.net';
 import '@bootstrap-wc/plugin-datatables/define';
-```
-
-## Example
-
-```html
-<bs-datatable options='{"paging": true, "searching": true}'>
-  <table class="table">
-    <thead><tr><th>Name</th><th>Role</th></tr></thead>
-    <tbody>
-      <tr><td>Jane</td><td>Designer</td></tr>
-      <tr><td>John</td><td>Engineer</td></tr>
-    </tbody>
-  </table>
-</bs-datatable>
 ```
 
 ## Listening for events
@@ -73,8 +86,7 @@ lifecycle yourself.
 const el = document.querySelector('bs-datatable');
 el.setAttribute('auto', 'false');
 el.options = { /* … */ };
-el.instantiate();   // create the upstream instance
-el.dispose();       // destroy it
+el.connectedCallback();   // re-runs instantiate when auto is later flipped
 ```
 
 ## API
@@ -90,8 +102,7 @@ el.dispose();       // destroy it
 
 | Name | Detail | When |
 |---|---|---|
-| bs:ready | `{ instance }` | Fired after the upstream library is initialized. |
-| bs:change | `{ instance, type, raw }` | Re-dispatched upstream events (e.g. `select`, `submit`). |
+| bs:ready | `{ instance, target }` | Fired after the upstream library is initialized. |
 | bs:destroy | — | Fired before the upstream instance is torn down. |
 
 ### Slots
@@ -108,6 +119,3 @@ el.dispose();       // destroy it
   to the upstream library.
 - Avoid `document`-wide jQuery selectors that assume the plugin DOM is at the
   page root; scope to the wrapper instead.
-
-See `packages/PLUGINS.md` in the source for the full plugin compatibility
-matrix.

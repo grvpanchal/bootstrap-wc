@@ -25,4 +25,33 @@ const { code, lang = 'html' } = Astro.props;
 <script>
   // Register every component so examples become interactive.
   import '@bootstrap-wc/components';
+
+  // Register every @bootstrap-wc/plugin-* so plugin doc pages render their
+  // <bs-*> wrappers when the upstream library is loaded via CDN. Each
+  // /define is a side-effect import; missing upstream globals just produce
+  // a console.warn from the plugin and the element stays inert.
+  import '@bootstrap-wc/plugin-blueimp-gallery/define';
+  import '@bootstrap-wc/plugin-c3/define';
+  import '@bootstrap-wc/plugin-chartist/define';
+  import '@bootstrap-wc/plugin-chartjs/define';
+  import '@bootstrap-wc/plugin-clipboard/define';
+  import '@bootstrap-wc/plugin-codemirror/define';
+  import '@bootstrap-wc/plugin-datatables/define';
+  import '@bootstrap-wc/plugin-dropzone/define';
+  import '@bootstrap-wc/plugin-easymde/define';
+  import '@bootstrap-wc/plugin-flatpickr/define';
+  import '@bootstrap-wc/plugin-flot/define';
+  import '@bootstrap-wc/plugin-fullcalendar/define';
+  import '@bootstrap-wc/plugin-i18next/define';
+  import '@bootstrap-wc/plugin-jstree/define';
+  import '@bootstrap-wc/plugin-morris/define';
+  import '@bootstrap-wc/plugin-peity/define';
+  import '@bootstrap-wc/plugin-rickshaw/define';
+  import '@bootstrap-wc/plugin-shepherd/define';
+  import '@bootstrap-wc/plugin-sparkline/define';
+  import '@bootstrap-wc/plugin-summernote/define';
+  import '@bootstrap-wc/plugin-sweetalert2/define';
+  import '@bootstrap-wc/plugin-tom-select/define';
+  import '@bootstrap-wc/plugin-validate/define';
+  import '@bootstrap-wc/plugin-wizard/define';
 </script>

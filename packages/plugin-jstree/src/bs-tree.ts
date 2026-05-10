@@ -1,24 +1,19 @@
 import { LitElement, html } from 'lit';
 
 /**
- * <bs-tree> — wraps the upstream `jstree` library inside a Lit element.
+ * <bs-tree> — wraps the upstream jsTree library inside a Lit element.
  *
  * Renders in LIGHT DOM (no shadow root) so the plugin's stylesheet selectors
- * reach the rendered DOM. This is critical because most jQuery plugins were
- * written before web components and assume CSS in the page can target their
- * generated markup.
- *
- * Loading the plugin itself is left to the host page (e.g. via a CDN <script>
- * tag or an explicit `import 'plugin-name'`). This wrapper only orchestrates
- * its lifecycle.
+ * reach the rendered DOM. Loading the upstream library itself is left to the
+ * host page (e.g. via a CDN <script> tag); this wrapper reads
+ * `globalThis.jQuery.fn.jstree` at instantiation time.
  *
  * Common attributes:
- *   - `options`  JSON-stringified options object.
- *   - `auto`     If present, instantiate on connectedCallback (default: true).
+ *   - `options`  JSON-stringified options object passed to the upstream library.
+ *   - `auto`     If false, suppresses automatic instantiation on connect.
  *
- * Common events emitted (re-dispatched from the underlying plugin):
- *   - `bs:ready`     after instantiation.
- *   - `bs:change`    on data/state change.
+ * Common events emitted:
+ *   - `bs:ready`     after instantiation (`detail.instance` is the upstream instance).
  *   - `bs:destroy`   before disposal.
  */
 export class BsTree extends LitElement {
@@ -52,18 +47,21 @@ export class BsTree extends LitElement {
   }
 
   /**
-   * Subclass hook: instantiate the plugin against `this.target` (the first
-   * element child by default) and store the instance on `this.instance`.
-   * The base class only emits `bs:ready`. Override per-plugin.
+   * Create the upstream jsTree instance against the slotted target element
+   * and dispatch `bs:ready` with the instance.
    */
   protected instantiate() {
-    this.target = (this.firstElementChild as HTMLElement) || this;
-    this.dispatchEvent(new CustomEvent('bs:ready', { bubbles: true, detail: { instance: this.instance, target: this.target } }));
+    const $ = (globalThis as { jQuery?: ((sel: HTMLElement) => { jstree: (opts: unknown) => unknown }) & { fn?: { jstree?: unknown } } }).jQuery;
+    if (!$?.fn?.jstree) return console.warn('[bs-tree] jQuery + jsTree not found.');
+    this.target = (this.firstElementChild as HTMLElement) ?? this;
+    this.instance = $(this.target).jstree(this.options ?? {});
+    this.dispatchEvent(new CustomEvent('bs:ready', {
+      bubbles: true,
+      detail: { instance: this.instance, target: this.target },
+    }));
   }
 
-  /**
-   * Subclass hook: tear down the plugin instance.
-   */
+  /** Tear down the upstream instance. */
   protected dispose() {
     if (this.instance && typeof (this.instance as { destroy?: () => void }).destroy === 'function') {
       (this.instance as { destroy: () => void }).destroy();
@@ -73,7 +71,6 @@ export class BsTree extends LitElement {
   }
 
   override render() {
-    // Slotted content — the wrapper instantiates the plugin against children.
     return html`<slot></slot>`;
   }
 }
