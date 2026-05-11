@@ -1,5 +1,12 @@
 # @bootstrap-wc/plugin-fullcalendar
 
+## 2.0.0
+
+### Patch Changes
+
+- Updated dependencies [3f2f89b]
+  - @bootstrap-wc/components@0.7.0
+
 ## 1.1.0
 
 ### Minor Changes
