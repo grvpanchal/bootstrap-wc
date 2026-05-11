@@ -36,6 +36,13 @@ export class BsDropdown extends BootstrapElement {
   @property({ type: Boolean, attribute: 'menu-end' }) menuEnd = false;
   @property({ type: Boolean, attribute: 'menu-dark' }) menuDark = false;
   @property({ type: String, attribute: 'toggle-tag' }) toggleTag: 'button' | 'a' = 'button';
+  /**
+   * Render the trigger as a flat `<a class="nav-link dropdown-toggle">` for use
+   * inside a `.navbar-nav`. Suppresses the `btn` / `btn-{variant}` classes —
+   * those are correct for stand-alone buttons but produce an out-of-place gray
+   * pill in a navbar. Implies `toggle-tag="a"`.
+   */
+  @property({ type: Boolean, reflect: true }) nav = false;
 
   @state() private _slottedTrigger = false;
 
@@ -183,13 +190,23 @@ export class BsDropdown extends BootstrapElement {
 
   override render() {
     const sizeClass = this.size ? `btn-${this.size}` : '';
-    const toggleClasses = classMap({
-      btn: true,
-      [`btn-${this.variant}`]: true,
-      [sizeClass]: !!sizeClass,
-      'dropdown-toggle': !this.noCaret || this.split,
-      'dropdown-toggle-split': this.split,
-    });
+    // `nav` mode swaps the button-pill classes for the flat nav-link styling
+    // expected inside `.navbar-nav` and forces an anchor trigger. `split` does
+    // not combine with `nav` (split-buttons aren't a navbar pattern), so we
+    // skip the swap when split is set.
+    const navTrigger = this.nav && !this.split;
+    const toggleClasses = navTrigger
+      ? classMap({
+          'nav-link': true,
+          'dropdown-toggle': !this.noCaret,
+        })
+      : classMap({
+          btn: true,
+          [`btn-${this.variant}`]: true,
+          [sizeClass]: !!sizeClass,
+          'dropdown-toggle': !this.noCaret || this.split,
+          'dropdown-toggle-split': this.split,
+        });
     const menuClasses = classMap({
       'dropdown-menu': true,
       'dropdown-menu-end': this.menuEnd,
@@ -200,7 +217,7 @@ export class BsDropdown extends BootstrapElement {
     const ariaExpanded = this.open ? 'true' : 'false';
 
     const renderToggle = () => {
-      if (this.toggleTag === 'a') {
+      if (navTrigger || this.toggleTag === 'a') {
         return html`<a
           part="toggle"
           role="button"
