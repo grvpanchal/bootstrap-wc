@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-tom-select",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Tom Select rich select wrapper.",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "lit": "^3.2.1"
   },
   "peerDependencies": {
-    "@bootstrap-wc/components": "^0.6.0",
+    "@bootstrap-wc/components": "^0.7.0",
     "tom-select": "^2.4.1"
   },
   "peerDependenciesMeta": {
