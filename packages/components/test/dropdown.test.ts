@@ -78,4 +78,25 @@ describe('bs-dropdown', () => {
     await new Promise((r) => setTimeout(r, 0));
     expect(item.getAttribute('slot')).to.equal('menu');
   });
+
+  it('nav: trigger renders as <a class="nav-link dropdown-toggle"> (no btn classes)', async () => {
+    const el = await fixture<BsDropdown>(html`<bs-dropdown nav label="Pages">
+      <bs-dropdown-item slot="menu" href="#">One</bs-dropdown-item>
+    </bs-dropdown>`);
+    await el.updateComplete;
+    const toggle = el.shadowRoot!.querySelector('[part="toggle"]') as HTMLElement;
+    expect(toggle.tagName).to.equal('A');
+    expect(toggle.classList.contains('nav-link')).to.equal(true);
+    expect(toggle.classList.contains('dropdown-toggle')).to.equal(true);
+    expect(toggle.classList.contains('btn')).to.equal(false);
+    expect(toggle.classList.contains('btn-secondary')).to.equal(false);
+  });
+
+  it('nav + split: split-button pattern wins, btn classes restored', async () => {
+    const el = await fixture<BsDropdown>(html`<bs-dropdown nav split label="Pages"></bs-dropdown>`);
+    await el.updateComplete;
+    const toggle = el.shadowRoot!.querySelector('[part="toggle"]') as HTMLElement;
+    expect(toggle.tagName).to.equal('BUTTON');
+    expect(toggle.classList.contains('btn')).to.equal(true);
+  });
 });
