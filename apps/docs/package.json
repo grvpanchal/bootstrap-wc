@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run build:registry && astro build",
+    "build": "npm run build:registry && astro build && npm run build:search",
     "build:registry": "npm run build --workspace @bootstrap-wc/registry",
+    "build:search": "pagefind --site dist --exclude-selectors \"nav, footer, .bwc-example, pre\"",
     "preview": "astro preview",
     "astro": "astro"
   },

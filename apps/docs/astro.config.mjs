@@ -62,5 +62,14 @@ export default defineConfig({
         ),
       },
     },
+    build: {
+      rollupOptions: {
+        // Pagefind generates `/pagefind/pagefind.js` post-build (see
+        // `build:search` script). DocsLayout dynamic-imports it from that
+        // URL at runtime; tell Rollup not to try to resolve it at build
+        // time.
+        external: [/^\/pagefind\//],
+      },
+    },
   },
 });
