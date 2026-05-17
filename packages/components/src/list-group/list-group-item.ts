@@ -75,8 +75,23 @@ export class BsListGroupItem extends BootstrapElement {
       ev.preventDefault();
       return;
     }
-    if (this.href && ev.target === this) window.location.href = this.href;
+    if (!this.href) return;
+    // Don't hijack the click if a nested interactive element (link, button,
+    // input, etc.) already handled it.
+    if (ev.defaultPrevented) return;
+    const t = ev.target as Element | null;
+    if (t && t !== this) {
+      const interactive = t.closest('a[href], button, input, select, textarea, [role="button"], [role="link"]');
+      if (interactive && interactive !== this) return;
+    }
+    this._navigate(this.href);
   };
+
+  // Indirection so tests can override navigation without trying to redefine
+  // the (non-configurable) `window.location.href` setter.
+  protected _navigate(href: string): void {
+    window.location.href = href;
+  }
 
   private _onKeydown = (ev: KeyboardEvent) => {
     if (this.disabled) return;

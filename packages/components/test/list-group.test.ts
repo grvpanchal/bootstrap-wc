@@ -64,4 +64,42 @@ describe('bs-list-group', () => {
     expect(item.getAttribute('aria-current')).to.equal('true');
     expect(item.classList.contains('active')).to.equal(false);
   });
+
+  it('href item navigates when a nested non-interactive element is clicked', async () => {
+    // Regression: previously the item only navigated when ev.target === host,
+    // so clicks on inner `<div>` content (e.g. search-result titles) were
+    // ignored.
+    const el = await fixture<BsListGroup>(html`<bs-list-group as="div">
+      <bs-list-group-item href="/some-page">
+        <div class="fw-semibold">Title</div>
+        <div class="small">Subtitle</div>
+      </bs-list-group-item>
+    </bs-list-group>`);
+    await tick();
+    const item = el.querySelector('bs-list-group-item') as BsListGroupItem;
+    let captured: string | null = null;
+    (item as unknown as { _navigate: (h: string) => void })._navigate = (h) => {
+      captured = h;
+    };
+    const inner = item.querySelector('.fw-semibold') as HTMLElement;
+    inner.click();
+    expect(captured).to.equal('/some-page');
+  });
+
+  it('href item does NOT navigate when a nested <a> handled the click', async () => {
+    const el = await fixture<BsListGroup>(html`<bs-list-group as="div">
+      <bs-list-group-item href="/outer">
+        <a id="inner" href="/inner">Inner link</a>
+      </bs-list-group-item>
+    </bs-list-group>`);
+    await tick();
+    const item = el.querySelector('bs-list-group-item') as BsListGroupItem;
+    let captured: string | null = null;
+    (item as unknown as { _navigate: (h: string) => void })._navigate = (h) => {
+      captured = h;
+    };
+    const inner = el.querySelector('#inner') as HTMLElement;
+    inner.click();
+    expect(captured).to.equal(null);
+  });
 });
