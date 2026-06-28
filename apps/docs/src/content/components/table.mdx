@@ -1,0 +1,308 @@
+---
+title: Table
+description: Bootstrap table styling wrapper with responsive support.
+---
+
+import Example from '../../components/Example.astro';
+
+`<bs-table>` styles an inner `<table>` with all of Bootstrap's table modifier
+classes, and (when `responsive` is set) wraps it in a horizontally-scrolling
+container so wide tables stay usable on narrow viewports.
+
+## Example
+
+<Example code={`<bs-table striped hover>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">1</th><td>Mark</td><td>Otto</td><td>@mdo</td></tr>
+      <tr><th scope="row">2</th><td>Jacob</td><td>Thornton</td><td>@fat</td></tr>
+      <tr><th scope="row">3</th><td colspan="2">Larry the Bird</td><td>@twitter</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Why an inner `<table>`?
+
+HTML's parser drops `<thead>`, `<tbody>`, `<tr>`, etc. when they appear
+outside a `<table>` ancestor — that's a hard rule in the HTML5 "in body"
+insertion mode. So the user-facing pattern is to nest a real `<table>` inside
+`<bs-table>`. The component applies `.table` plus every configured modifier
+class to that inner `<table>`, and gives the host the `.table-responsive`
+class (when requested) so the layout still wraps it correctly.
+
+```html
+<bs-table responsive striped>
+  <table>
+    <thead>...</thead>
+    <tbody>...</tbody>
+  </table>
+</bs-table>
+```
+
+## Install
+
+```sh
+# as an npm package
+npm install @bootstrap-wc/components
+# or copy the source
+npx bwc add table
+```
+
+## Usage
+
+```ts
+import '@bootstrap-wc/components/table';
+```
+
+## Variants
+
+Use `variant` to color the table with one of Bootstrap's contextual classes —
+`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `light`, or
+`dark`.
+
+<Example code={`<bs-table variant="dark">
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+<Example code={`<bs-table variant="success" striped>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Striped rows
+
+Add `striped` for zebra-striped table rows. Combine with `striped-columns`
+for column-major striping instead.
+
+<Example code={`<bs-table striped>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+      <tr><th>3</th><td>Larry</td><td>the Bird</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+<Example code={`<bs-table striped-columns>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Hoverable rows
+
+<Example code={`<bs-table hover>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Borders
+
+`bordered` draws borders on every cell. Pair with `border-variant` to color
+the border. `borderless` removes every border.
+
+<Example code={`<bs-table bordered>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+<Example code={`<bs-table bordered border-variant="primary">
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+<Example code={`<bs-table borderless>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Small / compact
+
+Add `size="sm"` to cut cell padding in half (`.table-sm`).
+
+<Example code={`<bs-table size="sm" striped>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+      <tr><th>3</th><td>Larry</td><td>the Bird</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Captions
+
+Drop a `<caption>` inside the table. By default Bootstrap renders the caption
+below the table; pass `caption-top` to flip it to the top.
+
+<Example code={`<bs-table caption-top>
+  <table>
+    <caption>List of users</caption>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Group divider
+
+Add `group-divider` to thicken the border between the `<thead>` and
+`<tbody>`. The component applies `.table-group-divider` to every `<tbody>`
+inside the table.
+
+<Example code={`<bs-table group-divider>
+  <table>
+    <thead><tr><th>#</th><th>First</th><th>Last</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Responsive
+
+Set `responsive` (presence only) to always wrap the table in a
+`.table-responsive` container that scrolls horizontally when the table
+overflows. Pass a breakpoint (`sm`, `md`, `lg`, `xl`, `xxl`) to scroll only
+below that breakpoint — above it the table just lays out inline.
+
+<Example code={`<bs-table responsive bordered>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Heading</th><th>Heading</th><th>Heading</th><th>Heading</th><th>Heading</th><th>Heading</th><th>Heading</th><th>Heading</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>1</th><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td></tr>
+      <tr><th>2</th><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td><td>Cell</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+```html
+<bs-table responsive="md">
+  <table>...</table>
+</bs-table>
+```
+
+| Value | Wrapper class | Behavior |
+| --- | --- | --- |
+| `responsive` (no value) | `.table-responsive` | Always horizontally scrolls when needed. |
+| `responsive="sm"` | `.table-responsive-sm` | Scrolls below `sm` (≥ 576px). |
+| `responsive="md"` | `.table-responsive-md` | Scrolls below `md` (≥ 768px). |
+| `responsive="lg"` | `.table-responsive-lg` | Scrolls below `lg` (≥ 992px). |
+| `responsive="xl"` | `.table-responsive-xl` | Scrolls below `xl` (≥ 1200px). |
+| `responsive="xxl"` | `.table-responsive-xxl` | Scrolls below `xxl` (≥ 1400px). |
+
+## Always-dark with `<thead>` accent
+
+Combine `variant` with a `.table-light`/`.table-dark` class on `<thead>` or
+individual rows to mix shading.
+
+<Example code={`<bs-table>
+  <table>
+    <thead class="table-dark">
+      <tr><th>#</th><th>First</th><th>Last</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td></tr>
+      <tr class="table-active"><th>3</th><td>Larry</td><td>the Bird</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## Combining options
+
+Mix any of the booleans freely. The component re-applies the class set
+after every property change and watches for inner-`<table>` mutations
+(e.g. dynamically inserted rows) so the class set stays consistent.
+
+<Example code={`<bs-table responsive="md" variant="dark" striped hover bordered border-variant="secondary" size="sm" group-divider>
+  <table>
+    <caption>Big mixed example</caption>
+    <thead>
+      <tr><th>#</th><th>First</th><th>Last</th><th>Handle</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>1</th><td>Mark</td><td>Otto</td><td>@mdo</td></tr>
+      <tr><th>2</th><td>Jacob</td><td>Thornton</td><td>@fat</td></tr>
+      <tr><th>3</th><td colspan="2">Larry the Bird</td><td>@twitter</td></tr>
+    </tbody>
+  </table>
+</bs-table>`} />
+
+## API
+
+### Attributes / properties
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `variant` | `primary` \| `secondary` \| `success` \| `danger` \| `warning` \| `info` \| `light` \| `dark` | — | Contextual color for the whole table. |
+| `striped` | `boolean` | `false` | `.table-striped` — zebra-striped rows. |
+| `striped-columns` | `boolean` | `false` | `.table-striped-columns` — striped columns. |
+| `bordered` | `boolean` | `false` | `.table-bordered` — borders on every cell. |
+| `border-variant` | same as `variant` | — | Color the border via `border-{variant}`. Pair with `bordered`. |
+| `borderless` | `boolean` | `false` | `.table-borderless` — strip every border. |
+| `hover` | `boolean` | `false` | `.table-hover` — highlight rows on hover. |
+| `size` | `sm` | — | `.table-sm` — compact cell padding. |
+| `caption-top` | `boolean` | `false` | `.caption-top` — move the caption above the table. |
+| `group-divider` | `boolean` | `false` | `.table-group-divider` on every `<tbody>`. |
+| `responsive` | (presence) \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` | — | Wrap in a `.table-responsive[-{bp}]` container on the host. |
+
+### Parts
+
+| Part | Description |
+| --- | --- |
+| `table` | The inner `<table>` after the component applies its classes. Style via `bs-table::part(table) { … }`. |
+
+See `packages/components/src/table/` in the source for the complete property
+list.

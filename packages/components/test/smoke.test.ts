@@ -39,6 +39,7 @@ const TAGS = [
   'bs-range',
   'bs-select',
   'bs-spinner',
+  'bs-table',
   'bs-tabs',
   'bs-tab-panel',
   'bs-textarea',
