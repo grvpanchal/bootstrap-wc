@@ -52,6 +52,7 @@ const MANIFESTS: Record<string, ComponentManifest> = {
   range: { category: 'forms', tagName: 'bs-range', description: 'Form-associated range slider.', registryDependencies: ['core'] },
   select: { category: 'forms', tagName: 'bs-select', description: 'Form-associated select.', registryDependencies: ['core'] },
   spinner: { category: 'feedback', tagName: 'bs-spinner', description: 'Loading spinner (border or grow).', registryDependencies: ['core'] },
+  table: { category: 'content', tagName: 'bs-table', description: 'Bootstrap table styling wrapper with responsive support.', registryDependencies: ['core'] },
   tabs: { category: 'navigation', tagName: 'bs-tabs', description: 'Tabbed interface with panels.', registryDependencies: ['core'] },
   textarea: { category: 'forms', tagName: 'bs-textarea', description: 'Form-associated multiline text input.', registryDependencies: ['core'] },
   toast: { category: 'feedback', tagName: 'bs-toast', description: 'Transient notification toast.', registryDependencies: ['core'] },
