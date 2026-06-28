@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-i18next",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "i18next translation wrapper. Exposes <bs-i18n key=\"...\"/>.",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "lit": "^3.2.1"
   },
   "peerDependencies": {
-    "@bootstrap-wc/components": "^0.7.0",
+    "@bootstrap-wc/components": "^0.8.0",
     "i18next": "^23.15.1"
   },
   "peerDependenciesMeta": {

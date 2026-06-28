@@ -1,6 +1,6 @@
 {
   "name": "@bootstrap-wc/plugin-validate",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "jQuery Validation hookup for <bs-form>.",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "lit": "^3.2.1"
   },
   "peerDependencies": {
-    "@bootstrap-wc/components": "^0.7.0",
+    "@bootstrap-wc/components": "^0.8.0",
     "jquery": "^3.7.1",
     "jquery-validation": "^1.20.0"
   },

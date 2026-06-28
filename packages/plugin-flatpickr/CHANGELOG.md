@@ -1,5 +1,13 @@
 # @bootstrap-wc/plugin-flatpickr
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [15d0263]
+- Updated dependencies [0fe3786]
+  - @bootstrap-wc/components@0.8.0
+
 ## 2.0.0
 
 ### Patch Changes
