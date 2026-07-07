@@ -99,7 +99,14 @@ describe('bs-list-group', () => {
       captured = h;
     };
     const inner = el.querySelector('#inner') as HTMLElement;
-    inner.click();
+    // Dispatch a synthetic click instead of `inner.click()`. Chromium's
+    // synthetic-click activation steps navigate real anchors, which races
+    // with web-test-runner's teardown page.goto("about:blank") and aborts
+    // the whole run under newer Chromium (v1217+). The outer handler only
+    // cares about `ev.target` closest-matching an interactive element —
+    // dispatching a bubbling MouseEvent from the inner anchor exercises
+    // the same guard without triggering navigation.
+    inner.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
     expect(captured).to.equal(null);
   });
 });
