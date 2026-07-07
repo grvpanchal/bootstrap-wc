@@ -200,6 +200,32 @@ body {
   border-radius: 0.25rem;
 }
 
+/* Desktop sidebar: sticky under the navbar with independent scroll.
+ *
+ * The nav lists (getting started + components + plugins) are much taller
+ * than the viewport, so without an explicit height cap the sticky
+ * container spills off the bottom and the bottom entries are unreachable
+ * while the article is scrolled near the top. Cap to the viewport minus
+ * the navbar + top offset (5rem) with a bit of bottom breathing room and
+ * enable independent scroll. Thin, unobtrusive scrollbar matching the
+ * table/`<pre>` treatment above so it doesn't fight the layout. */
+.docs-sidebar-sticky {
+  top: 5rem;
+  max-height: calc(100vh - 6rem);
+  scrollbar-width: thin;
+  scrollbar-color: var(--bs-border-color-translucent, rgba(0, 0, 0, 0.25)) transparent;
+  /* Room for a resting scrollbar so the last item's hover pill doesn't
+   * clash with a browser overlay bar. */
+  padding-right: 0.25rem;
+}
+.docs-sidebar-sticky::-webkit-scrollbar {
+  width: 6px;
+}
+.docs-sidebar-sticky::-webkit-scrollbar-thumb {
+  background-color: var(--bs-border-color-translucent, rgba(0, 0, 0, 0.25));
+  border-radius: 999px;
+}
+
 /* Sidebar nav: shadcn-style muted items with active pill. */
 aside nav .list-group-item,
 bs-offcanvas .list-group-item {

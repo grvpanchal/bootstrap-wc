@@ -122,9 +122,17 @@ const fullTitle = title === 'Bootstrap Web Components'
 
     <div class="container-fluid flex-grow-1">
       <div class="row flex-grow-1">
-        <!-- Desktop sidebar -->
+        <!--
+          Desktop sidebar. The inner `position-sticky` div is capped to
+          `100vh - <navbar-height + top-offset>` and set to
+          `overflow-y: auto` so long nav lists (Getting started + Resources
+          + ~30 components + ~24 plugins) can scroll independently of the
+          article. Without the cap the sticky container just spills off
+          the bottom of the viewport and the bottom entries become
+          unreachable while the article is scrolled to the top.
+        -->
         <aside class="col-lg-3 col-xl-2 d-none d-lg-block border-end pt-4">
-          <div class="position-sticky" style="top: 5rem">
+          <div class="docs-sidebar-sticky position-sticky overflow-y-auto">
             <SidebarNav activeSlug={activeSlug} />
           </div>
         </aside>
