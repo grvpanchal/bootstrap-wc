@@ -13,6 +13,25 @@ import {
 export type DropDirection = 'down' | 'up' | 'end' | 'start' | 'center' | 'up-center';
 
 /**
+ * A single entry in `<bs-dropdown>`'s data-driven `items` array. Mirrors
+ * `<bs-dropdown-item>`'s public API so callers can move between
+ * slot-driven and prop-driven authoring without changing anything else.
+ */
+export interface DropdownItemData {
+  /** Visible label. Ignored if `html` is provided. */
+  label?: string;
+  /** Escape hatch for rich label markup. Uses `.innerHTML` — trust your inputs. */
+  html?: string;
+  href?: string;
+  active?: boolean;
+  disabled?: boolean;
+  divider?: boolean;
+  header?: boolean;
+  /** Inline plain text (`.dropdown-item-text`). */
+  text?: boolean;
+}
+
+/**
  * `<bs-dropdown>` — Bootstrap dropdown menu with floating-ui positioning.
  *
  * Slot the trigger as a default child (e.g. `<bs-button>`) and menu items via
@@ -43,6 +62,18 @@ export class BsDropdown extends BootstrapElement {
    * pill in a navbar. Implies `toggle-tag="a"`.
    */
   @property({ type: Boolean, reflect: true }) nav = false;
+  /**
+   * Data-driven menu items. When set to a non-empty array,
+   * `<bs-dropdown-item>` children (or anything already `slot="menu"`) are
+   * ignored and the menu is generated from this array. Each entry can be
+   * one of:
+   *
+   *   * `{ label, href?, active?, disabled? }` — a link item.
+   *   * `{ divider: true }` — a divider (`<hr class="dropdown-divider">`).
+   *   * `{ header: true, label }` — a header (`<h6 class="dropdown-header">`).
+   *   * `{ text: true, label | html }` — inline text (`.dropdown-item-text`).
+   */
+  @property({ type: Array }) items: DropdownItemData[] = [];
 
   @state() private _slottedTrigger = false;
 
@@ -255,12 +286,52 @@ export class BsDropdown extends BootstrapElement {
       </button>
     `;
 
+    const dataDriven = this.items && this.items.length > 0;
     return html`
       <div part="wrapper" class=${wrapperClasses}>
         ${this.split ? renderSplitToggle() : renderToggle()}
         <ul part="menu" class=${menuClasses} role="menu">
-          <slot name="menu"></slot>
-          ${this._slottedTrigger ? nothing : html``}
+          ${dataDriven
+            ? this.items.map((item) => {
+                if (item.divider) {
+                  return html`<li><hr class="dropdown-divider" /></li>`;
+                }
+                if (item.header) {
+                  return item.html
+                    ? html`<li><h6 class="dropdown-header" .innerHTML=${item.html}></h6></li>`
+                    : html`<li><h6 class="dropdown-header">${item.label ?? ''}</h6></li>`;
+                }
+                if (item.text) {
+                  return item.html
+                    ? html`<li><span class="dropdown-item-text" .innerHTML=${item.html}></span></li>`
+                    : html`<li><span class="dropdown-item-text">${item.label ?? ''}</span></li>`;
+                }
+                const itemClasses = classMap({
+                  'dropdown-item': true,
+                  active: !!item.active,
+                  disabled: !!item.disabled,
+                });
+                const content = item.html
+                  ? html`<span .innerHTML=${item.html}></span>`
+                  : (item.label ?? '');
+                return html`<li>
+                  <a
+                    part="item"
+                    class=${itemClasses}
+                    href=${item.href ?? '#'}
+                    aria-current=${item.active ? 'true' : (nothing as unknown as string)}
+                    aria-disabled=${item.disabled ? 'true' : 'false'}
+                    @click=${(ev: MouseEvent) => {
+                      if (item.disabled) {
+                        ev.preventDefault();
+                        return;
+                      }
+                      if (this.autoClose) this.hide();
+                    }}
+                  >${content}</a>
+                </li>`;
+              })
+            : html`<slot name="menu"></slot>${this._slottedTrigger ? nothing : html``}`}
         </ul>
       </div>
     `;
