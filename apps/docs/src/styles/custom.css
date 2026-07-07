@@ -50,7 +50,6 @@ body {
   color: var(--bs-body-color);
   padding: 1rem;
   border-radius: 0.5rem;
-  overflow-x: auto;
   margin-bottom: 1rem;
 }
 .docs-content pre code {
@@ -70,13 +69,20 @@ body {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 0;
+  /* Keep narrow body cells from compressing below their natural width —
+   * combined with `.table-responsive`'s `overflow-x: auto`, this is what
+   * actually triggers the horizontal scroll on mobile. Without it, body
+   * cells would just wrap their text and the table never overflows the
+   * wrapper, so the scrollbar / fade-shadow affordance below never
+   * appears. The last column (typically "Description") is allowed to
+   * shrink — see the `td:last-child` rule below. */
+  min-width: max-content;
 }
 .docs-content th,
 .docs-content td {
   border: 1px solid var(--bs-border-color);
   padding: 0.5rem 0.75rem;
   text-align: left;
-  /* Keep cell contents from expanding the table beyond the viewport. */
   vertical-align: top;
 }
 .docs-content th {
@@ -89,6 +95,102 @@ body {
  * (the .table-responsive wrapper handles the scroll). */
 .docs-content td code {
   white-space: nowrap;
+}
+/* Allow the last column (almost always the prose "Description" column on
+ * the component API tables) to wrap and cap its width — without this,
+ * `min-width: max-content` on the table forces the description to one
+ * long line, making the horizontal scroll absurdly wide. */
+.docs-content td:last-child:not(:only-child),
+.docs-content th:last-child:not(:only-child) {
+  min-width: 14rem;
+  max-width: 28rem;
+  white-space: normal;
+}
+
+/* Mobile horizontal-scroll affordances.
+ *
+ * `.docs-content .table-responsive` and `.docs-content pre` both expose
+ * horizontally-scrollable content. On desktop the scrollbar appears as
+ * needed; on mobile / touch devices the bar is hidden until the user
+ * actively drags, so without an explicit affordance the right edge just
+ * looks clipped (e.g. "tone=\"subtl" trailing off mid-word with no hint
+ * there's more to scroll to). Two affordances together:
+ *
+ *   1. Force a thin always-visible scrollbar (`scrollbar-width: thin`
+ *      + a visible `scrollbar-color`). Webkit equivalents below.
+ *   2. Right-edge fade shadow that hides as the user scrolls right and
+ *      reappears as more content slides into view from the other side
+ *      — the classic Roman Komarov "scroll shadows" trick using two
+ *      stacked backgrounds with `background-attachment: local` (anchored
+ *      to the content, fades out when there's no more to scroll) and
+ *      `scroll` (anchored to the viewport, the actual shadow that hides
+ *      under it).
+ *
+ * Keep the affordances on `.docs-content pre` too — long lines of HTML
+ * in the `<Example>` source listings used to trail off the same way.
+ */
+.docs-content .table-responsive,
+.docs-content pre {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bs-border-color-translucent, rgba(0, 0, 0, 0.25)) transparent;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  background-position:
+    left center,
+    right center,
+    left center,
+    right center;
+  background-size:
+    14px 100%,
+    14px 100%,
+    14px 100%,
+    14px 100%;
+  background-image:
+    linear-gradient(to right, var(--bs-body-bg) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to left, var(--bs-body-bg) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0)),
+    linear-gradient(to left, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0));
+}
+/* Scroll-shadow tints adapt to dark mode — Bootstrap's --bs-body-bg
+ * already swaps under [data-bs-theme=dark]; we just need to swap the
+ * shadow tint from a dark hint to a light hint so it stays visible. */
+[data-bs-theme='dark'] .docs-content .table-responsive,
+[data-bs-theme='dark'] .docs-content pre {
+  background-image:
+    linear-gradient(to right, var(--bs-body-bg) 30%, rgba(0, 0, 0, 0)),
+    linear-gradient(to left, var(--bs-body-bg) 30%, rgba(0, 0, 0, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
+    linear-gradient(to left, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+}
+/* `<pre>` has its own dark tertiary background — make the fade mask
+ * match it so the gradient doesn't fight a tint mismatch. */
+.docs-content pre {
+  background-color: var(--bs-tertiary-bg);
+  background-image:
+    linear-gradient(to right, var(--bs-tertiary-bg) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to left, var(--bs-tertiary-bg) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0)),
+    linear-gradient(to left, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0));
+}
+[data-bs-theme='dark'] .docs-content pre {
+  background-image:
+    linear-gradient(to right, var(--bs-tertiary-bg) 30%, rgba(0, 0, 0, 0)),
+    linear-gradient(to left, var(--bs-tertiary-bg) 30%, rgba(0, 0, 0, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
+    linear-gradient(to left, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+}
+/* Webkit scrollbar — needed because `scrollbar-width: thin` isn't
+ * honored in Safari, and on iOS the native bar is invisible until the
+ * user scrolls. */
+.docs-content .table-responsive::-webkit-scrollbar,
+.docs-content pre::-webkit-scrollbar {
+  height: 6px;
+}
+.docs-content .table-responsive::-webkit-scrollbar-thumb,
+.docs-content pre::-webkit-scrollbar-thumb {
+  background-color: var(--bs-border-color-translucent, rgba(0, 0, 0, 0.25));
+  border-radius: 999px;
 }
 .docs-content blockquote {
   border-left: 4px solid var(--bs-primary);
