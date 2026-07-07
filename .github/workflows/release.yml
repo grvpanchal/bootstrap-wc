@@ -23,6 +23,52 @@ jobs:
           registry-url: https://registry.npmjs.org
       - run: npm ci
       - run: npm run build
+
+      # Auth sanity check before changesets/action. If the NPM_TOKEN secret
+      # is expired / revoked / has the wrong scope, `npm whoami` fails here
+      # with a clear error instead of dumping a wall of E404s from inside
+      # `changeset publish` across every package. Only runs when there's
+      # actually a pending changeset (i.e. an attempted publish) — when
+      # there's nothing to publish, the action just opens the "Version
+      # Packages" PR and doesn't touch npm auth.
+      - name: Verify NPM_TOKEN (only when a publish is queued)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          shopt -s nullglob
+          pending=()
+          for f in .changeset/*.md; do
+            base="$(basename "$f")"
+            [[ "$base" == "README.md" ]] && continue
+            pending+=("$f")
+          done
+          if (( ${#pending[@]} == 0 )); then
+            echo "No pending changesets — skipping npm auth check."
+            exit 0
+          fi
+          echo "Pending changesets (${#pending[@]}):"
+          printf '  %s\n' "${pending[@]}"
+          echo "Verifying npm auth…"
+          if ! who=$(npm whoami --registry https://registry.npmjs.org 2>&1); then
+            cat <<EOF
+          ::error title=NPM_TOKEN invalid::npm whoami failed: ${who}
+
+          The NPM_TOKEN GitHub Actions secret is missing, expired, or revoked.
+
+          Fix:
+            1. Generate a new automation token at
+               https://www.npmjs.com/settings/<your-username>/tokens
+               (Granular access token, "Read and write", scope: @bootstrap-wc).
+            2. Update the secret at
+               https://github.com/grvpanchal/bootstrap-wc/settings/secrets/actions
+            3. Re-run this workflow.
+
+          See docs/RELEASING.md for the full rotation playbook.
+          EOF
+            exit 1
+          fi
+          echo "Authenticated to npm as: ${who}"
+
       - name: Create Release PR or publish
         uses: changesets/action@v1
         with:
