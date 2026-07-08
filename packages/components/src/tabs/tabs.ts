@@ -4,8 +4,46 @@ import { classMap } from 'lit/directives/class-map.js';
 import { BootstrapElement, defineElement } from '@bootstrap-wc/core';
 
 /**
- * `<bs-tabs>` — Bootstrap tabbed interface. Expects `<bs-tab-panel>` children,
- * each with a `label` and `name`.
+ * A single tab entry in `<bs-tabs>`'s data-driven `tabs` array. Mirrors
+ * `<bs-tab-panel>`'s public API so callers can hop between prop-driven and
+ * slot-driven authoring without changing anything else.
+ */
+export interface TabData {
+  /** Unique panel id — matches the tab's `aria-controls`. */
+  name: string;
+  /** Text shown in the tab button. */
+  label: string;
+  /** Tab-panel HTML. Uses `.innerHTML` — trust your inputs. */
+  content?: string;
+  active?: boolean;
+  disabled?: boolean;
+}
+
+/**
+ * `<bs-tabs>` — Bootstrap tabbed interface.
+ *
+ * **Dual-nature content:** either author `<bs-tab-panel name="..." label="...">`
+ * children directly, OR set the `tabs` property (or an `tabs='[…]'` JSON
+ * attribute) to build the tablist AND the panels from data. When both are
+ * provided, `tabs` wins and the slot is ignored — makes it easy to swap
+ * between static markup and a zustand/redux store without touching the
+ * surrounding template.
+ *
+ * ```html
+ * <!-- Slot form -->
+ * <bs-tabs>
+ *   <bs-tab-panel name="home" label="Home">Home body</bs-tab-panel>
+ *   <bs-tab-panel name="profile" label="Profile">Profile body</bs-tab-panel>
+ * </bs-tabs>
+ *
+ * <!-- Data form -->
+ * <bs-tabs
+ *   tabs='[
+ *     {"name":"home","label":"Home","content":"Home body","active":true},
+ *     {"name":"profile","label":"Profile","content":"Profile body"}
+ *   ]'
+ * ></bs-tabs>
+ * ```
  *
  * @fires bs-tab-change - `{detail: {active}}` when active tab changes.
  */
@@ -16,6 +54,13 @@ export class BsTabs extends BootstrapElement {
   @property({ type: Boolean }) vertical = false;
   /** Opt out of the default `.fade` animation on tab panels. */
   @property({ type: Boolean, attribute: 'no-fade' }) noFade = false;
+  /**
+   * Data-driven tab list. When non-empty, both the tablist and the panel
+   * bodies are generated from this array and any `<bs-tab-panel>` children
+   * are ignored. Panel bodies come from `content` as raw HTML — sanitise on
+   * the store side if the data isn't fully trusted.
+   */
+  @property({ type: Array }) tabs: TabData[] = [];
 
   @state() private _panels: { name: string; label: string; disabled: boolean }[] = [];
 
@@ -26,6 +71,19 @@ export class BsTabs extends BootstrapElement {
   }
 
   private _sync = () => {
+    if (this.tabs && this.tabs.length) {
+      // Data-driven mode — panels come from the `tabs` array, not the DOM.
+      this._panels = this.tabs.map((t) => ({
+        name: t.name,
+        label: t.label,
+        disabled: !!t.disabled,
+      }));
+      if (!this.active) {
+        const first = this.tabs.find((t) => t.active) ?? this.tabs[0];
+        if (first) this.active = first.name;
+      }
+      return;
+    }
     const panels = Array.from(this.querySelectorAll<HTMLElement & { name?: string; label?: string; disabled?: boolean }>('bs-tab-panel'));
     this._panels = panels.map((p) => ({
       name: p.getAttribute('name') ?? '',
@@ -43,6 +101,7 @@ export class BsTabs extends BootstrapElement {
   };
 
   private _applyActive() {
+    if (this.tabs && this.tabs.length) return; // data-driven panels render themselves
     this.querySelectorAll<HTMLElement>('bs-tab-panel').forEach((p) => {
       const name = p.getAttribute('name');
       if (name === this.active) p.setAttribute('active', '');
@@ -52,6 +111,7 @@ export class BsTabs extends BootstrapElement {
 
   override updated(changed: Map<string, unknown>) {
     super.updated(changed);
+    if (changed.has('tabs')) this._sync();
     if (changed.has('noFade')) {
       this.querySelectorAll<HTMLElement>('bs-tab-panel').forEach((p) => {
         if (this.noFade) p.setAttribute('no-fade', '');
@@ -86,6 +146,7 @@ export class BsTabs extends BootstrapElement {
       'flex-column': this.vertical,
     });
     const wrapperClasses = classMap({ 'd-flex': this.vertical });
+    const dataDriven = !!(this.tabs && this.tabs.length);
     return html`
       <div part="wrapper" class=${wrapperClasses}>
         <ul
@@ -112,7 +173,26 @@ export class BsTabs extends BootstrapElement {
           )}
         </ul>
         <div part="content" class="tab-content flex-grow-1">
-          <slot></slot>
+          ${dataDriven
+            ? this.tabs.map((t) => {
+                const isActive = t.name === this.active;
+                const paneClasses = classMap({
+                  'tab-pane': true,
+                  fade: !this.noFade,
+                  show: isActive,
+                  active: isActive,
+                });
+                return html`<div
+                  part="panel"
+                  class=${paneClasses}
+                  role="tabpanel"
+                  id=${t.name}
+                  aria-labelledby=${`${t.name}-tab`}
+                  tabindex="0"
+                  .innerHTML=${t.content ?? ''}
+                ></div>`;
+              })
+            : html`<slot></slot>`}
         </div>
       </div>
     `;

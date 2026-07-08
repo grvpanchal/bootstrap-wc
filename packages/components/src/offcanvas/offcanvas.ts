@@ -7,7 +7,43 @@ export type OffcanvasPlacement = 'start' | 'end' | 'top' | 'bottom';
 export type OffcanvasResponsiveBreakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 /**
+ * `<bs-offcanvas>`'s data-driven config. When set, the component populates
+ * its header title, body, and footer from this object; slotted children
+ * are ignored. Set the object via JS (`el.config = …`) or via a JSON
+ * attribute (`config='{…}'`).
+ */
+export interface OffcanvasConfig {
+  /** Header title. Overrides `heading` attribute when both are set. */
+  title?: string;
+  /** Escape hatch for rich header markup. Uses `.innerHTML` — trust your inputs. */
+  titleHtml?: string;
+  /** Body plain text. Ignored when `bodyHtml` is set. */
+  body?: string;
+  /** Body HTML markup. Uses `.innerHTML` — trust your inputs. */
+  bodyHtml?: string;
+  /** Optional footer HTML block. Uses `.innerHTML` — trust your inputs. */
+  footerHtml?: string;
+}
+
+/**
  * `<bs-offcanvas>` — Bootstrap offcanvas (side drawer).
+ *
+ * **Dual-nature content:** author the drawer body / header / footer as
+ * children (slotted, with `slot="title"` for a custom title), OR set the
+ * `config` property to build the whole drawer from data. When both are
+ * provided, `config` wins.
+ *
+ * ```html
+ * <bs-offcanvas
+ *   id="drawer"
+ *   placement="end"
+ *   config='{
+ *     "title":"Cart",
+ *     "bodyHtml":"<p>Empty cart</p>",
+ *     "footerHtml":"<button class=\"btn btn-primary w-100\">Checkout</button>"
+ *   }'
+ * ></bs-offcanvas>
+ * ```
  *
  * @fires bs-show / bs-shown / bs-hide / bs-hidden
  */
@@ -20,6 +56,11 @@ export class BsOffcanvas extends BootstrapElement {
   @property({ type: Boolean, attribute: 'static-backdrop' }) staticBackdrop = false;
   @property({ type: Boolean, attribute: 'no-close-button' }) noCloseButton = false;
   @property({ type: Boolean }) dark = false;
+  /**
+   * Data-driven config object. When set, header title, body, and footer
+   * come from `config` and slotted children are ignored.
+   */
+  @property({ type: Object }) config?: OffcanvasConfig;
   /**
    * When set to one of `sm|md|lg|xl|xxl`, renders `.offcanvas-{bp}` so the
    * panel is hidden as an offcanvas only below that breakpoint and becomes
@@ -103,6 +144,16 @@ export class BsOffcanvas extends BootstrapElement {
       : this.open || this.responsive
         ? 'visibility: visible'
         : '';
+    const cfg = this.config;
+    const dataDriven = !!cfg;
+    // Title source precedence: config.titleHtml > config.title > heading attr > slot.
+    const configTitle = cfg?.title;
+    const configTitleHtml = cfg?.titleHtml;
+    const effectiveTitle = configTitle ?? this.heading;
+    const hasHeader =
+      dataDriven
+        ? !!(configTitle || configTitleHtml || !this.noCloseButton)
+        : !!(this.heading || !this.noCloseButton);
     return html`
       ${showBackdrop
         ? html`<div part="backdrop" class="offcanvas-backdrop fade show" @click=${this._onBackdropClick}></div>`
@@ -115,11 +166,13 @@ export class BsOffcanvas extends BootstrapElement {
         aria-modal=${this.responsive || this.staticDisplay ? 'false' : 'true'}
         style=${panelStyle}
       >
-        ${this.heading || !this.noCloseButton
+        ${hasHeader
           ? html`<div part="header" class="offcanvas-header">
-              ${this.heading
-                ? html`<h5 class="offcanvas-title">${this.heading}</h5>`
-                : html`<h5 class="offcanvas-title"><slot name="title"></slot></h5>`}
+              ${configTitleHtml
+                ? html`<h5 class="offcanvas-title" .innerHTML=${configTitleHtml}></h5>`
+                : effectiveTitle
+                  ? html`<h5 class="offcanvas-title">${effectiveTitle}</h5>`
+                  : html`<h5 class="offcanvas-title"><slot name="title"></slot></h5>`}
               ${this.noCloseButton
                 ? nothing
                 : html`<button
@@ -130,7 +183,16 @@ export class BsOffcanvas extends BootstrapElement {
                   ></button>`}
             </div>`
           : nothing}
-        <div part="body" class="offcanvas-body"><slot></slot></div>
+        ${dataDriven
+          ? html`<div
+              part="body"
+              class="offcanvas-body"
+              .innerHTML=${cfg!.bodyHtml ?? (cfg!.body != null ? String(cfg!.body) : '')}
+            ></div>`
+          : html`<div part="body" class="offcanvas-body"><slot></slot></div>`}
+        ${dataDriven && cfg!.footerHtml
+          ? html`<div part="footer" class="offcanvas-footer" .innerHTML=${cfg!.footerHtml}></div>`
+          : nothing}
       </div>
     `;
   }

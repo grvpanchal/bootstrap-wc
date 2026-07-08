@@ -12,6 +12,30 @@ export type TableSize = 'sm';
 export type TableResponsive = '' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 /**
+ * A column definition in `<bs-table>`'s data-driven `columns` array.
+ */
+export interface TableColumn {
+  /** Key looked up on each row. */
+  key: string;
+  /** Header cell label. */
+  label: string;
+  /** Text alignment shortcut — applied as a Bootstrap `text-{align}` class on both header and data cells. */
+  align?: 'start' | 'center' | 'end';
+  /** Extra class applied to every cell in this column. */
+  cellClass?: string;
+  /** Extra class applied to the header cell. */
+  headClass?: string;
+  /**
+   * Escape hatch: render the cell as HTML using `.innerHTML`. Trust your
+   * inputs. When absent, the value is inserted as text.
+   */
+  html?: boolean;
+}
+
+/** A row is a plain object keyed by `column.key`. */
+export type TableRow = Record<string, unknown>;
+
+/**
  * `<bs-table>` — Bootstrap table styling wrapper.
  *
  * Because the HTML parser drops `<thead>` / `<tbody>` / `<tr>` outside a
@@ -74,6 +98,22 @@ export class BsTable extends BootstrapElement {
    * for separating the head from the body.
    */
   @property({ type: Boolean, attribute: 'group-divider' }) groupDivider = false;
+  /**
+   * Data-driven columns. When set together with `rows`, `<bs-table>` renders
+   * a `<table>` + `<thead>` + `<tbody>` from data instead of applying
+   * classes to an author-provided `<table>`. When empty, the component
+   * falls back to its historical "manage an author-provided `<table>`"
+   * behaviour.
+   */
+  @property({ type: Array }) columns: TableColumn[] = [];
+  /**
+   * Data-driven rows. Only rendered when `columns` is also non-empty.
+   */
+  @property({ type: Array }) rows: TableRow[] = [];
+  /**
+   * Rendered when the data-driven table has zero rows.
+   */
+  @property({ type: String, attribute: 'empty-text' }) emptyText = 'No data';
 
   private _observer?: MutationObserver;
 
@@ -89,11 +129,16 @@ export class BsTable extends BootstrapElement {
     return `table-responsive-${this.responsive}`;
   }
 
+  private get _dataDriven(): boolean {
+    return this.columns.length > 0;
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     // Watch for inner `<table>` (or its `<tbody>`) appearing late — e.g.
     // server-rendered rows, dynamic row insertion — so the class set
-    // stays correct.
+    // stays correct. Skipped in data-driven mode: the render() output IS
+    // the table.
     this._observer = new MutationObserver(() => this._applyTableClasses());
     this._observer.observe(this, { childList: true, subtree: true });
   }
@@ -111,7 +156,10 @@ export class BsTable extends BootstrapElement {
 
   /** Resolve `.table` + modifier classes on the inner `<table>` and
    *  `.table-group-divider` on its `<tbody>`. Idempotent — safe to call
-   *  on every render and on every mutation. */
+   *  on every render and on every mutation.
+   *
+   *  In data-driven mode we still call through — `.table` etc. should end
+   *  up on our own emitted `<table>` too, and the same DOM query works. */
   private _applyTableClasses(): void {
     const table = this.querySelector(':scope > table') as HTMLTableElement | null;
     if (!table) return;
@@ -168,10 +216,47 @@ export class BsTable extends BootstrapElement {
   }
 
   override render() {
-    // Light DOM, no children-replacing template — the user's `<table>` is
-    // the actual visible content. Returning `nothing` is intentional;
-    // updated() handles class management.
-    return nothing;
+    if (!this._dataDriven) {
+      // Light DOM, no children-replacing template — the user's `<table>` is
+      // the actual visible content. Returning `nothing` is intentional;
+      // updated() handles class management.
+      return nothing;
+    }
+    // Data-driven mode — emit the `<table>` ourselves.
+    const alignClass = (a?: TableColumn['align']) =>
+      a ? `text-${a}` : '';
+    const headCellClass = (c: TableColumn) =>
+      [alignClass(c.align), c.headClass].filter(Boolean).join(' ');
+    const cellClass = (c: TableColumn) =>
+      [alignClass(c.align), c.cellClass].filter(Boolean).join(' ');
+    return html`<table>
+      <thead>
+        <tr>
+          ${this.columns.map(
+            (c) => html`<th scope="col" class=${headCellClass(c)}>${c.label}</th>`,
+          )}
+        </tr>
+      </thead>
+      <tbody>
+        ${this.rows.length
+          ? this.rows.map(
+              (row) => html`<tr>
+                ${this.columns.map((c) => {
+                  const raw = row[c.key];
+                  const s = raw == null ? '' : String(raw);
+                  return c.html
+                    ? html`<td class=${cellClass(c)} .innerHTML=${s}></td>`
+                    : html`<td class=${cellClass(c)}>${s}</td>`;
+                })}
+              </tr>`,
+            )
+          : html`<tr>
+              <td colspan=${this.columns.length} class="text-center text-body-secondary">
+                ${this.emptyText}
+              </td>
+            </tr>`}
+      </tbody>
+    </table>`;
   }
 }
 
