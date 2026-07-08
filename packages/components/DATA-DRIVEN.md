@@ -67,7 +67,9 @@ For every dual-nature component the rule is the same:
 | `<bs-dropdown>` | `items` | `{ label \| html, href?, divider?, header?, disabled?, active? }[]` | `slot="menu"` children |
 | `<bs-accordion>` | `items` | `{ heading, body \| html, open? }[]` | `<bs-accordion-item>` children |
 | `<bs-select>` | `options` | `{ value, label, disabled?, selected? }[]` | `<option>` / `<optgroup>` children |
-| `<bs-pagination>` | `total` + `current` + `window` | `number` (auto-computed) | (n/a — always numeric) |
+| `<bs-pagination>` | `total` + `current` + `window` OR explicit `items` | numeric (auto-computed) OR `{ label, href?, active?, disabled?, ellipsis?, ariaLabel? }[]` | (n/a) |
+| `<bs-button-group>` | `buttons` | `{ label \| html, variant?, buttonStyle?, size?, href?, target?, active?, disabled?, type? }[]` | `<bs-button>` children |
+| `<bs-offcanvas>` | `config` | `{ title?, titleHtml?, body?, bodyHtml?, footerHtml? }` | Header + body children (with `slot="title"` for a custom title) |
 | `<bs-table>` | `columns` + `rows` | `Column[]` + `Record<string, unknown>[]` | Author-provided `<table>` child |
 | `<bs-navbar>` | `config` | `{ brand?, links?, right?, collapseId? }` | Brand + toggler + collapse markup as children |
 

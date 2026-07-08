@@ -27,6 +27,11 @@ import '../src/accordion/accordion.js';
 import '../src/accordion/accordion-item.js';
 import '../src/table/table.js';
 import '../src/navbar/navbar.js';
+import '../src/breadcrumb/breadcrumb.js';
+import '../src/button-group/button-group.js';
+import '../src/button/button.js';
+import '../src/offcanvas/offcanvas.js';
+import '../src/pagination/pagination.js';
 
 import type { BsNav } from '../src/nav/nav.js';
 import type { BsTabs } from '../src/tabs/tabs.js';
@@ -35,6 +40,10 @@ import type { BsDropdown } from '../src/dropdown/dropdown.js';
 import type { BsAccordion } from '../src/accordion/accordion.js';
 import type { BsTable } from '../src/table/table.js';
 import type { BsNavbar } from '../src/navbar/navbar.js';
+import type { BsBreadcrumb } from '../src/breadcrumb/breadcrumb.js';
+import type { BsButtonGroup } from '../src/button-group/button-group.js';
+import type { BsOffcanvas } from '../src/offcanvas/offcanvas.js';
+import type { BsPagination } from '../src/pagination/pagination.js';
 
 const tick = () => new Promise((r) => requestAnimationFrame(r));
 
@@ -287,6 +296,152 @@ describe('data-driven (dual-nature) components', () => {
       expect(dd.getAttribute('label')).to.equal('Docs');
       expect(dd.hasAttribute('nav')).to.equal(true);
       expect(dd.items!.length).to.equal(2);
+    });
+  });
+
+  describe('bs-breadcrumb', () => {
+    it('renders <bs-breadcrumb-item> children from `items`', async () => {
+      const el = await fixture<BsBreadcrumb>(html`<bs-breadcrumb
+        .items=${[
+          { label: 'Home', href: '/' },
+          { label: 'Docs', href: '/docs' },
+          { label: 'API', active: true },
+        ]}
+      ></bs-breadcrumb>`);
+      await el.updateComplete;
+      const items = el.shadowRoot!.querySelectorAll('bs-breadcrumb-item');
+      expect(items.length).to.equal(3);
+      expect(items[0].getAttribute('href')).to.equal('/');
+      expect(items[2].hasAttribute('active')).to.equal(true);
+    });
+
+    it('items work with wrap-in-nav mode', async () => {
+      const el = await fixture<BsBreadcrumb>(html`<bs-breadcrumb
+        wrap-in-nav
+        list-class="breadcrumb-chevron"
+        .items=${[
+          { label: 'Home', href: '/' },
+          { label: 'End', active: true },
+        ]}
+      ></bs-breadcrumb>`);
+      await el.updateComplete;
+      const ol = el.shadowRoot!.querySelector('ol.breadcrumb');
+      expect(ol).to.exist;
+      expect(ol!.classList.contains('breadcrumb-chevron')).to.equal(true);
+      expect(el.shadowRoot!.querySelectorAll('bs-breadcrumb-item').length).to.equal(2);
+    });
+  });
+
+  describe('bs-button-group', () => {
+    it('renders <bs-button> children from `buttons`', async () => {
+      const el = await fixture<BsButtonGroup>(html`<bs-button-group
+        size="sm"
+        .buttons=${[
+          { label: 'Left', variant: 'secondary' as const },
+          { label: 'Middle', variant: 'primary' as const, active: true },
+          { label: 'Right', variant: 'secondary' as const, disabled: true },
+        ]}
+      ></bs-button-group>`);
+      await el.updateComplete;
+      const btns = el.shadowRoot!.querySelectorAll('bs-button');
+      expect(btns.length).to.equal(3);
+      expect(btns[0].getAttribute('variant')).to.equal('secondary');
+      expect(btns[1].hasAttribute('active')).to.equal(true);
+      expect(btns[2].hasAttribute('disabled')).to.equal(true);
+      // Group's size cascades into each button when the item doesn't override.
+      expect(btns[0].getAttribute('size')).to.equal('sm');
+    });
+  });
+
+  describe('bs-offcanvas', () => {
+    it('renders title + body + footer from `config`', async () => {
+      const el = await fixture<BsOffcanvas>(html`<bs-offcanvas
+        open
+        static-display
+        .config=${{
+          title: 'Cart',
+          bodyHtml: '<p>Empty cart</p>',
+          footerHtml: '<button class="btn btn-primary w-100">Checkout</button>',
+        }}
+      ></bs-offcanvas>`);
+      await el.updateComplete;
+      const shadow = el.shadowRoot!;
+      expect(shadow.querySelector('.offcanvas-title')?.textContent?.trim()).to.equal('Cart');
+      const body = shadow.querySelector('.offcanvas-body');
+      expect(body?.innerHTML.trim()).to.include('<p>Empty cart</p>');
+      const footer = shadow.querySelector('.offcanvas-footer');
+      expect(footer).to.exist;
+      expect(footer?.querySelector('button.btn-primary')).to.exist;
+    });
+
+    it('titleHtml wins over title and heading attribute', async () => {
+      const el = await fixture<BsOffcanvas>(html`<bs-offcanvas
+        open
+        static-display
+        heading="Ignored"
+        .config=${{ title: 'Also ignored', titleHtml: '<em>Rich</em> title' }}
+      ></bs-offcanvas>`);
+      await el.updateComplete;
+      const title = el.shadowRoot!.querySelector('.offcanvas-title');
+      expect(title?.innerHTML.trim()).to.equal('<em>Rich</em> title');
+    });
+  });
+
+  describe('bs-pagination', () => {
+    it('renders explicit page items from `items`, overriding total/current', async () => {
+      const el = await fixture<BsPagination>(html`<bs-pagination
+        total="99"
+        current="50"
+        .items=${[
+          { label: '« Prev', href: '#prev', disabled: true },
+          { label: '1', href: '#1' },
+          { label: '…', ellipsis: true },
+          { label: '5', href: '#5', active: true },
+          { label: 'Next »', href: '#next', ariaLabel: 'Next' },
+        ]}
+      ></bs-pagination>`);
+      await el.updateComplete;
+      const links = el.shadowRoot!.querySelectorAll('li.page-item');
+      expect(links.length).to.equal(5);
+      // Ellipsis renders as span, not anchor.
+      expect(links[2].querySelector('span.page-link')?.textContent?.trim()).to.equal('…');
+      // Active flag survives to the correct item.
+      expect(links[3].classList.contains('active')).to.equal(true);
+      // Disabled prev has .disabled on the <li>.
+      expect(links[0].classList.contains('disabled')).to.equal(true);
+      // aria-label carries through.
+      expect(links[4].querySelector('a')?.getAttribute('aria-label')).to.equal('Next');
+      // No prev/next arrow synthesised in items mode.
+      expect(links[0].querySelector('a')?.textContent?.trim()).to.equal('« Prev');
+    });
+
+    it('items mode fires bs-page-change with the index of the clicked item', async () => {
+      const el = await fixture<BsPagination>(html`<bs-pagination
+        .items=${[
+          { label: 'A', href: '#a' },
+          { label: 'B', href: '#b' },
+        ]}
+      ></bs-pagination>`);
+      await el.updateComplete;
+      let detail: { page?: number } = {};
+      el.addEventListener('bs-page-change', (e) => {
+        detail = (e as CustomEvent).detail;
+      });
+      const links = el.shadowRoot!.querySelectorAll('a.page-link');
+      (links[1] as HTMLElement).click();
+      await tick();
+      expect(detail.page).to.equal(1);
+    });
+
+    it('numeric mode still works when `items` is empty', async () => {
+      const el = await fixture<BsPagination>(html`<bs-pagination
+        total="5"
+        current="3"
+      ></bs-pagination>`);
+      await el.updateComplete;
+      // 5 numeric pages + prev + next = 7 <li>s.
+      const links = el.shadowRoot!.querySelectorAll('li.page-item');
+      expect(links.length).to.equal(7);
     });
   });
 });
